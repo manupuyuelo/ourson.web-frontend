@@ -30,6 +30,9 @@ function Footer() {
           <a href="/demo" className={styles.sectionLinks}>
             Démo Vidéo
           </a>
+          <a href="/confidentialite" className={styles.sectionLinks}>
+            Règles de confidentialité
+          </a>
         </div>
 
         <div className={styles.blogSection}>
