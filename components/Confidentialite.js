@@ -1,4 +1,5 @@
 import styles from "../styles/Article.module.css";
+import Link from "next/link";
 
 export default function Confidentialite() {
   return (
@@ -83,6 +84,16 @@ export default function Confidentialite() {
                 Vous avez le droit de consulter, modifier ou supprimer vos
                 données à tout moment. Pour toute demande, écrivez-nous à{" "}
                 <a href="mailto:contact@ourson.app">contact@ourson.app</a>.
+              </p>
+              <p>
+                Si vous souhaitez supprimer votre compte et l'ensemble des
+                données associées, vous pouvez le faire directement depuis
+                l'application ou en suivant la procédure décrite sur cette page
+                :{" "}
+                <Link href="/suppression-compte">
+                  <a className={styles.link}>Suppression de compte</a>
+                </Link>
+                .
               </p>
 
               <p>
