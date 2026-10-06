@@ -821,11 +821,37 @@
     align-self: center;
     zoom: 1.25;
   }
+  /* Oursons : comme en desktop, posés sur le coin du visuel plutôt que coupés par le bord de l'écran
+     (sur une tablette, l'ourson « coupé » flotterait seul dans le coin de la section). La marge au-dessus
+     du visuel leur fait de la place, à droite du texte (32ch au plus). */
   .sec .ours {
-    width: 170px;
+    display: none;
+  }
+  .oursIn {
+    display: block;
   }
   .h2Ours,
   .eveil .h2 {
-    padding-right: 140px;
+    padding-right: 0;
+  }
+  .repas > .vis,
+  .sommeil > .vis {
+    margin-top: 110px;
+  }
+  .repas .oursIn {
+    top: -170px;
+    width: 180px;
+  }
+  .sommeil .oursIn {
+    top: -160px;
+    width: 180px;
+  }
+  /* 16 h 30 : les cubes occupent toute la largeur au-dessus du visuel, l'ourson se loge en dessous. */
+  .eveil > .vis {
+    margin-top: 140px;
+  }
+  .eveil .oursIn {
+    top: -130px;
+    width: 190px;
   }
 }
