@@ -22,14 +22,17 @@
   padding: 60px var(--g);
 }
 
+/* Hauteur commune, pas largeur : l'ourson d'Éveil est carré (bras levé), les autres sont en hauteur.
+   À largeur égale (handoff : 180 px), il paraissait bien plus petit. */
 .ours {
-  width: 180px;
-  height: auto;
+  /* Téléphone : 240 px, moins sur un écran bas (iPhone 15 : 659 px visibles) pour que tout tienne. */
+  height: clamp(150px, calc(100svh - 430px), 240px);
+  width: auto;
   filter: drop-shadow(0 16px 20px rgba(42, 32, 28, 0.18));
 }
 
 .accueil .ours {
-  width: 200px;
+  height: clamp(150px, calc(100svh - 480px), 260px);
 }
 
 .logo {
@@ -76,9 +79,22 @@
 }
 
 @media (min-width: 900px) {
+  /* Dernier écran : le bloc et le pied de page (64 px) remplissent exactement la hauteur visible sous
+     l'en-tête (59 px). Ni bande de la section précédente au-dessus, ni ourson caché sous l'en-tête. */
   .fin {
-    min-height: min(760px, calc(100svh - 72px));
-    padding: 96px var(--g);
+    min-height: calc(100svh - 123px);
+    padding: clamp(16px, 4svh, 72px) var(--g);
+  }
+  /* L'ourson prend la hauteur qui reste (en-tête, titre, QR, liens, pied de page : ~650 px, ~700 px avec
+     le logo de l'Accueil) : 200 px dès 850 px de haut, plus petit sur un 1280 × 800. */
+  .ours {
+    height: clamp(110px, calc(100svh - 650px), 200px);
+  }
+  .accueil .ours {
+    height: clamp(100px, calc(100svh - 700px), 220px);
+  }
+  .accueil .logo {
+    font-size: clamp(36px, 5svh, 56px);
   }
   .titre {
     font-size: 48px;

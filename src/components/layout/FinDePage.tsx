@@ -12,7 +12,7 @@ export function FinDePage({ page }: Props) {
   const autres = (["repas", "sommeil", "eveil"] as const satisfies Pilier[]).filter((p) => p !== page);
   return (
     <section className={page === "accueil" ? `${s.fin} ${s.accueil}` : s.fin} aria-labelledby="fin-titre">
-      <Image src={OURS[page]} alt="" className={s.ours} sizes={page === "accueil" ? "200px" : "180px"} />
+      <Image src={OURS[page]} alt="" className={s.ours} sizes={page === "eveil" ? "240px" : "200px"} />
       {page === "accueil" && <div className={s.logo}>ourson</div>}
       <h2 id="fin-titre" className={s.titre}>
         Besoin d’un coup de patte&#8239;?
