@@ -82,7 +82,7 @@ export default function Cgu() {
                   Contact&nbsp;: <Mail />
                 </>,
                 "Directeur de la publication : Manu Puyuelo, président d’AddedSugar",
-                "Hébergement du site : Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis",
+                "Hébergement du site : Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis (siège de l’hébergeur). Les fonctions du site s’exécutent à Paris, dans l’Union européenne ; les pages sont diffusées par le réseau de Vercel depuis le point le plus proche du visiteur.",
                 "Hébergement du back-office et de la base de données : Hetzner Online GmbH, Industriestr. 25, 91710 Gunzenhausen, Allemagne (serveurs situés à Nuremberg, dans l’Union européenne)",
               ]}
             />
