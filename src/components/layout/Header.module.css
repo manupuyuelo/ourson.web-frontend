@@ -7,10 +7,19 @@
   justify-content: space-between;
   gap: 12px;
   padding: 12px var(--g);
-  background: rgba(255, 248, 241, 0.85);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  /* Presque opaque : le flou garde la profondeur sans laisser lire le contenu qui défile dessous
+     (le handoff était à .85, trop transparent pour la lisibilité du menu). */
+  background: rgba(255, 248, 241, 0.95);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
   border-bottom: 1px solid var(--line);
+}
+
+/* Sans flou d'arrière-plan, fond plein. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .header {
+    background: var(--bg);
+  }
 }
 
 .logo {

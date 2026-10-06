@@ -40,4 +40,8 @@
   .qr {
     display: block;
   }
+  /* Le cartel desktop s'efface en bas de page (fin et pied de page) : pas de place à lui réserver. */
+  .espace {
+    display: none;
+  }
 }

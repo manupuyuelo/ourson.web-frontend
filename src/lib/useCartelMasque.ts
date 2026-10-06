@@ -15,6 +15,8 @@ export function useCartelMasque(): boolean {
     const cibles = [
       ...(fin ? [fin.closest("section") ?? fin] : []),
       ...document.querySelectorAll("[data-dl-hero]"),
+      // Le pied de page : le cartel ne doit pas le recouvrir (il est masqué en mobile sur les pages de vente).
+      ...document.querySelectorAll("footer"),
     ];
     const vu = new Map<Element, boolean>();
     const obs = new IntersectionObserver(

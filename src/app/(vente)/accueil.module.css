@@ -711,11 +711,13 @@
     display: flex;
   }
   /* 12 h 15 : l'ourson plus petit et plus haut laisse respirer le sélecteur d'âge. */
+  /* Le handoff le place à -125 px : seule la tête dépassait de la carte. Remonté pour montrer la
+     bouche et la cuillère, la carte descend d'autant pour qu'il reste dans la section. */
   .repas > .vis {
-    margin-top: 70px;
+    margin-top: 130px;
   }
   .repas .oursIn {
-    top: -125px;
+    top: -185px;
     width: 200px;
   }
   .carteNuits {
