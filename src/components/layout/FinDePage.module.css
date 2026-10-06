@@ -79,19 +79,20 @@
 }
 
 @media (min-width: 900px) {
-  /* Dernier écran : le bloc et le pied de page (64 px) remplissent exactement la hauteur visible sous
-     l'en-tête (59 px). Ni bande de la section précédente au-dessus, ni ourson caché sous l'en-tête. */
+  /* Dernier écran : le bloc et le pied de page (64 px) remplissent la hauteur visible sous l'en-tête
+     (57 à 59 px). Quelques pixels de marge passent sous l'en-tête : jamais de liseré de la section
+     précédente au-dessus, ni d'ourson caché dessous. */
   .fin {
-    min-height: calc(100svh - 123px);
+    min-height: calc(100svh - 118px);
     padding: clamp(16px, 4svh, 72px) var(--g);
   }
-  /* L'ourson prend la hauteur qui reste (en-tête, titre, QR, liens, pied de page : ~650 px, ~700 px avec
+  /* L'ourson prend la hauteur qui reste (en-tête, titre, QR, liens, pied de page : ~650 px, ~740 px avec
      le logo de l'Accueil) : 200 px dès 850 px de haut, plus petit sur un 1280 × 800. */
   .ours {
     height: clamp(110px, calc(100svh - 650px), 200px);
   }
   .accueil .ours {
-    height: clamp(100px, calc(100svh - 700px), 220px);
+    height: clamp(100px, calc(100svh - 740px), 220px);
   }
   .accueil .logo {
     font-size: clamp(36px, 5svh, 56px);
