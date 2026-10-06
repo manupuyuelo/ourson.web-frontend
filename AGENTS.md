@@ -18,7 +18,7 @@ Next.js 16 (App Router, Turbopack, React Compiler), React 19, TypeScript 7, CSS 
 | `yarn test:e2e`                                                                                               | Playwright sur le build (`E2E_SKIP_BUILD=1` si le build est déjà fait)                                                                                 |
 | `VISUEL=1 yarn test:e2e visuel`                                                                               | non-régression au pixel près (iPhone 15, 16 Pro Max, 1280, 1440). Références locales : `--update-snapshots` **avant** de modifier, puis comparer après |
 | `ECRANS=1 yarn test:e2e ecrans` (+ `CAPTURES=1` et `node scripts/planche-ecrans.ts <page>` pour les captures) | audit sur 24 formats (téléphones, foldables, tablettes, paysage, ordinateurs) et planche de relecture                                                  |
-| `npx @lhci/cli@0.15.1 autorun`                                                                                | budget Lighthouse (9 pages)                                                                                                                            |
+| `yarn lighthouse`                                                                                             | budget Lighthouse (9 pages)                                                                                                                            |
 | `yarn images` / `yarn og`                                                                                     | régénère les images depuis le handoff / les images de partage 1200 × 630                                                                               |
 
 ## Organisation

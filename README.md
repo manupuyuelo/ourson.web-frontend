@@ -22,7 +22,7 @@ yarn dev           # http://localhost:3000
 | `VISUEL=1 yarn test:e2e visuel [--update-snapshots]`                                                                | non-régression au pixel près (iPhone 15, 16 Pro Max, 1280 et 1440 px). Références locales, à générer avant une modification      |
 | `ECRANS=1 yarn test:e2e ecrans` (avec `CAPTURES=1`, puis `node scripts/planche-ecrans.ts <page>` pour les captures) | audit sur 24 formats (téléphones, foldables, tablettes, paysage, ordinateurs) et planche de relecture dans `.captures/planches/` |
 | `CAPTURES=1 HANDOFF_URL=http://localhost:3200 yarn test:e2e captures`                                               | captures v2 / handoff côte à côte (puis `node scripts/compare-captures.ts`)                                                      |
-| `npx @lhci/cli@0.15.1 autorun`                                                                                      | budget Lighthouse local (rapports dans `.lighthouseci/`)                                                                         |
+| `yarn lighthouse`                                                                                                   | budget Lighthouse local (rapports dans `.lighthouseci/`)                                                                         |
 | `yarn images [dossier-handoff]`                                                                                     | régénère les images sources depuis le handoff (seulement celles importées dans `src/`)                                           |
 | `yarn og [dossier-handoff]`                                                                                         | régénère les images de partage 1200 × 630 dans `public/og/`                                                                      |
 
@@ -35,8 +35,8 @@ yarn dev           # http://localhost:3000
   - types, lint, format ;
   - tests unitaires ;
   - build (échoue si une route devient dynamique) ;
-  - Playwright (rendu des pages, bandeau, cartels, redirections ; l’audit multi-formats se lance à la main, `ECRANS=1`) ;
-  - budget Lighthouse sur 9 pages (`lighthouserc.json`). Seuils bloquants : SEO 100, accessibilité et bonnes pratiques ≥ 95, CLS ≤ 0,05, TBT ≤ 300 ms. Avertissements : performance < 90, LCP > 3 s.
+  - Playwright (rendu des pages, bandeau, cartels, redirections ; l’audit multi-formats se lance à la main, `ECRANS=1`).
+- **Lighthouse** (`yarn lighthouse`, 9 pages, `lighthouserc.json`) : en local, avant une mise en production, et non en CI (les machines partagées de GitHub faussent les mesures de performance). Seuils : SEO 100, accessibilité et bonnes pratiques ≥ 95, CLS ≤ 0,05, TBT ≤ 300 ms ; avertissements : performance < 90, LCP > 3 s.
 
 ## Pages
 

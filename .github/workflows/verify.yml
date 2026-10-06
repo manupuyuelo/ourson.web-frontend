@@ -76,17 +76,8 @@ jobs:
         env:
           E2E_SKIP_BUILD: "1"
 
-      - name: budget Lighthouse
-        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
-        run: npx --yes @lhci/cli@0.15.1 autorun
-
-      - name: rapports Lighthouse
-        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: lighthouse
-          path: .lighthouseci/rapports/
-          retention-days: 14
+      # Lighthouse ne tourne pas ici : sur les machines partagées de GitHub (2 cœurs), ses mesures de
+      # performance varient trop pour servir de porte. À lancer en local : yarn lighthouse.
 
       - name: rapport Playwright
         if: ${{ failure() }}
