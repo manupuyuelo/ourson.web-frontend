@@ -328,7 +328,8 @@
   .grille {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+  /* Dans le handoff, le max-width:16ch en ligne l'emporte sur le 14ch des H2 desktop. */
   .nutrition .foyerH2 {
-    max-width: 14ch;
+    max-width: 16ch;
   }
 }

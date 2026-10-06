@@ -7,7 +7,7 @@ import s from "./FinDePage.module.css";
 
 type Props = { page: "accueil" | Pilier };
 
-/** Fin des pages de vente : ourson, « Besoin d'un coup de patte ? », téléchargement, autres piliers. */
+/** Fin des pages de vente : ourson, « Besoin d’un coup de patte ? », téléchargement, autres piliers. */
 export function FinDePage({ page }: Props) {
   const autres = (["repas", "sommeil", "eveil"] as const satisfies Pilier[]).filter((p) => p !== page);
   return (
@@ -15,7 +15,7 @@ export function FinDePage({ page }: Props) {
       <Image src={OURS[page]} alt="" className={s.ours} sizes={page === "accueil" ? "200px" : "180px"} />
       {page === "accueil" && <div className={s.logo}>ourson</div>}
       <h2 id="fin-titre" className={s.titre}>
-        Besoin d&apos;un coup de patte ?
+        Besoin d’un coup de patte&#8239;?
       </h2>
       <div id="telecharger" className={s.telecharger}>
         <Telecharger />

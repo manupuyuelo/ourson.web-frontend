@@ -61,6 +61,8 @@
 @media (min-width: 900px) {
   .feuille {
     max-width: 600px;
+    /* Le voile du handoff a 40 px de marge : la fenêtre ne touche jamais les bords. */
+    max-height: min(90svh, calc(100svh - 80px));
     margin: auto;
     border-radius: 28px;
   }
@@ -88,5 +90,18 @@
   }
   to {
     opacity: 1;
+  }
+}
+
+/* Mouvement réduit : fondu court, sans translation. */
+@media (prefers-reduced-motion: reduce) {
+  .feuille[open] {
+    animation: oFadeCourt 0.2s ease-out both !important;
+  }
+}
+
+@keyframes oFadeCourt {
+  from {
+    opacity: 0;
   }
 }

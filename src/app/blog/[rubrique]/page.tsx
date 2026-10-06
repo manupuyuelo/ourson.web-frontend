@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { BlogListe } from "@/components/blog/BlogListe";
 import { TEXTES } from "@/components/blog/rubrique";
-import { RUBRIQUES, RUBRIQUE_KEYS, isRubrique } from "@/lib/blog";
-import { JsonLd, filAriane, og } from "@/lib/seo";
+import { RUBRIQUES, RUBRIQUE_KEYS, getArticles, isRubrique } from "@/lib/blog";
+import { JsonLd, couverturePartage, filAriane, meta } from "@/lib/seo";
 
 export const dynamicParams = false;
 
@@ -15,12 +15,17 @@ export async function generateMetadata({ params }: PageProps<"/blog/[rubrique]">
   const { rubrique } = await params;
   if (!isRubrique(rubrique)) return {};
   const { label } = RUBRIQUES[rubrique];
-  return {
-    title: `${label} · Le blog`,
-    description: `Les articles du blog d'Ourson sur ${TEXTES[rubrique].sujet} des 0-3 ans.`,
-    alternates: { canonical: `/blog/${rubrique}` },
-    openGraph: og(`/blog/${rubrique}`),
-  };
+  // Image de partage : la couverture du dernier article de la rubrique.
+  const dernier = (await getArticles()).find((a) => a.rubrique === rubrique);
+  return meta({
+    url: `/blog/${rubrique}`,
+    titre: `${label} · Le blog d’Ourson`,
+    description: `Les articles du blog d’Ourson sur ${TEXTES[rubrique].sujet} des 0-3\u00a0ans.`,
+    image: {
+      url: dernier ? couverturePartage(dernier.image) : "/og/ourson.jpg",
+      alt: dernier?.title ?? label,
+    },
+  });
 }
 
 export default async function RubriquePage({ params }: PageProps<"/blog/[rubrique]">) {

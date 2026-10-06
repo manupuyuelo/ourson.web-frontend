@@ -10,13 +10,15 @@
   font-size: 17px;
   line-height: 1.6;
   font-weight: 600;
-  text-wrap: pretty;
+  /* Le handoff n'équilibre que l'introduction. */
+  text-wrap: wrap;
 }
 
 /* 1er paragraphe = introduction. */
 .prose > p:first-child {
   font-size: 18px;
   font-weight: 700;
+  text-wrap: pretty;
 }
 
 .prose strong {
@@ -30,18 +32,33 @@
   font-size: 26px;
   line-height: 1.05;
   color: var(--deep);
-  text-wrap: balance;
+  text-wrap: wrap;
 }
 
-/* Items « **1. Lead** : texte » (voir mdx-components.tsx). */
+/* Items « **1. Titre.** texte » regroupés par lib/remark-points.ts. */
+.points {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Liste de conseils : encart blanc, pastilles claires. */
+.encadre {
+  background: #fff;
+  border-radius: 22px;
+  padding: 20px;
+  gap: 16px;
+}
+
+.encadre .num {
+  background: var(--tint);
+  color: var(--deep);
+}
+
 .point {
   display: flex;
   gap: 14px;
   align-items: flex-start;
-}
-
-.point + .point {
-  margin-top: -4px;
 }
 
 .num {
@@ -58,8 +75,17 @@
   font-size: 16px;
 }
 
-/* Listes : encart blanc (puces ou pastilles numérotées teintées). */
-.prose ul,
+/* Listes à puces : comme les puces du handoff (point de 8 px, sans encart). */
+.prose ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Listes numérotées markdown : encart blanc et pastilles teintées, comme les listes de conseils. */
 .prose ol {
   margin: 0;
   padding: 20px;
@@ -82,17 +108,17 @@
 }
 
 .prose ul > li {
-  padding-left: 26px;
+  padding-left: 18px;
+  min-height: 0;
 }
 
 .prose ul > li::before {
   content: "";
   position: absolute;
-  left: 4px;
-  top: 0.8em;
-  translate: 0 -50%;
-  width: 10px;
-  height: 10px;
+  left: 0;
+  top: 10px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: var(--c);
 }

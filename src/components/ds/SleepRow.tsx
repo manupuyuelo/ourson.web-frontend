@@ -1,9 +1,9 @@
 import { Icon } from "./Icon";
 import s from "./SleepRow.module.css";
 
-// Ligne d'un sommeil (nuit ou sieste) : tuile 48, surtitre, nom Baloo 16, heures, signature, durée, chevron.
+// Ligne d’un sommeil (nuit ou sieste) : tuile 48, surtitre, nom Baloo 16, heures, signature, durée, chevron.
 
-// Teintes des adultes du foyer, dans l'ordre d'arrivée (theme.ts · personTints).
+// Teintes des adultes du foyer, dans l’ordre d’arrivée (theme.ts · personTints).
 const PERSON = [
   ["var(--sommeil-tint)", "var(--sommeil-ink)"],
   ["var(--coral-tint)", "var(--coral-ink)"],

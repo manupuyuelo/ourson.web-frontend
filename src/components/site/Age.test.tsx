@@ -8,7 +8,7 @@ describe("Age", () => {
 
   it("change d'âge au clic et ne garde qu'une puce active", () => {
     render(<Age />);
-    const puree = screen.getByRole("button", { name: "Dès 4 mois : purée lisse" });
+    const puree = screen.getByRole("button", { name: "Dès 4 mois\u00a0: purée lisse" });
     expect(screen.getByRole("button", { name: "Le plat des parents" }).getAttribute("aria-pressed")).toBe(
       "true",
     );

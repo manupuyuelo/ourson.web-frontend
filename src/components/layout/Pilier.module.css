@@ -1,14 +1,12 @@
 /* Gabarit commun des pages piliers (Nutrition, Sommeil, Éveil) — classes dk* du handoff.
-   Variables par page : --bear-dk-w / --bear-dk-left (ourson desktop), --hero-dk-pb (réserve sous le hero). */
+   Variables par page : --bear-dk-w / --bear-dk-left (ourson desktop), --hero-dk-pb (réserve sous le hero).
+   .tight : section collée à la précédente (Éveil « Ce soir, au choix ») ; elle et la précédente
+   perdent la hauteur minimale desktop. */
 
 .page {
   --o-in-y: 40px;
   --o-drop-y: 50px;
   --o-drop-s: 0.92;
-}
-
-.page a {
-  white-space: nowrap;
 }
 
 .sec {
@@ -57,6 +55,7 @@
   font-weight: 800;
   font-size: 42px;
   line-height: 0.95;
+  letter-spacing: -0.01em;
 }
 
 .h2 {
@@ -119,12 +118,12 @@
 }
 
 .wave {
-  animation: oWave 5s ease-in-out infinite;
+  animation: oWave 5s ease-in-out 3;
   transform-origin: bottom center;
 }
 
 .float {
-  animation: oFloat 4s ease-in-out infinite;
+  animation: oFloat 4s ease-in-out 4;
 }
 
 @media (min-width: 900px) {
@@ -134,7 +133,17 @@
     /* Pas de column-gap : dans le handoff, le gap: 16px en ligne l'emporte sur le 72px du README. */
     row-gap: 16px;
     align-items: center;
-    padding: 96px 56px;
+    align-content: center;
+    justify-content: center;
+    min-height: min(760px, calc(100svh - 72px));
+    padding: 96px var(--g);
+  }
+  .sec:first-of-type {
+    min-height: min(calc(100svh - 72px), 920px);
+  }
+  .sec:has(+ .tight),
+  .wide.tight {
+    min-height: 0;
   }
   .sec > .txt {
     grid-column: 1;
@@ -170,7 +179,7 @@
   .bear {
     width: var(--bear-dk-w, 200px);
     right: auto;
-    left: var(--bear-dk-left, 56px);
+    left: var(--bear-dk-left, var(--g));
     top: auto;
     bottom: 0;
   }
@@ -179,9 +188,11 @@
     padding-bottom: var(--hero-dk-pb, 200px);
   }
   /* Section pleine largeur (titre au-dessus, contenu en dessous). */
+  /* Section pleine largeur : contenu centré verticalement dans la même hauteur minimale. */
   .wide {
     display: flex;
-    padding: 96px 56px;
+    min-height: min(760px, calc(100svh - 72px));
+    justify-content: center;
   }
 }
 
@@ -204,4 +215,10 @@
   50% {
     transform: translateY(-8px) rotate(var(--r, 0deg));
   }
+}
+
+/* Fond plein : anneau de focus blanc (handoff, accessibilité). */
+.hero,
+.plein {
+  --focus: #fff;
 }

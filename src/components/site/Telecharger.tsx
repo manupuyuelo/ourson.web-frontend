@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { SITE } from "@/lib/site";
 import { useAppareil } from "@/lib/useAppareil";
+import { useCartelMasque } from "@/lib/useCartelMasque";
 import type { Appareil } from "@/lib/device";
 import appStoreNoir from "@/assets/stores/app-store-badge-noir.svg";
 import appStoreBlanc from "@/assets/stores/app-store-badge-blanc.svg";
@@ -16,20 +17,27 @@ import s from "./Telecharger.module.css";
 type Props = {
   /** Badges blancs, pour un fond sombre. */
   sombre?: boolean;
-  /** Force un rendu (le bloc QR flottant est toujours en mode ordinateur). */
+  /** Force un rendu (le cartel QR flottant est toujours en mode ordinateur). */
   appareil?: Appareil;
+  /** Cartel compact fixé en bas de l’écran, qui s’efface devant les autres blocs de téléchargement. */
+  flottant?: boolean;
 };
 
-/** Un seul élément selon l'appareil : badge App Store (iOS), badge Google Play (autre mobile), QR (ordinateur). */
-export function Telecharger({ sombre = false, appareil }: Props) {
+const QR_ALT = `QR code vers ${SITE.url}/app`;
+const CONSIGNE = "Scannez ce code avec l’appareil photo de votre téléphone.";
+
+/** Un seul élément selon l’appareil : badge App Store (iOS), badge Google Play (autre mobile), QR (ordinateur). */
+export function Telecharger({ sombre = false, appareil, flottant = false }: Props) {
   const detecte = useAppareil();
   const dev = appareil ?? detecte;
+
+  if (flottant) return dev ? <Cartel dev={dev} /> : null;
 
   if (dev === "ios") {
     return (
       <div className={s.wrap}>
-        <a href={SITE.appStoreUrl} className={s.badge} aria-label="Ourson sur l'App Store">
-          <Image src={sombre ? appStoreBlanc : appStoreNoir} alt="Télécharger dans l'App Store" height={48} />
+        <a href={SITE.appStoreUrl} className={s.badge} aria-label="Ourson sur l’App Store">
+          <Image src={sombre ? appStoreBlanc : appStoreNoir} alt="Télécharger dans l’App Store" height={48} />
         </a>
       </div>
     );
@@ -47,22 +55,69 @@ export function Telecharger({ sombre = false, appareil }: Props) {
     <div className={s.wrap}>
       {dev === null && <div className={s.pending} aria-hidden="true" />}
       <div className={dev === null ? `${s.qr} ${s.pendingQr}` : s.qr}>
-        <div className={s.qrTitle}>Téléchargez l&apos;app</div>
-        <div className={s.stores}>
-          <a href={SITE.appStoreUrl} aria-label="Ourson sur l'App Store">
-            <Image src={appleLogo} alt="" height={20} />
-          </a>
-          <span className={s.dot} />
-          <a href={SITE.playStoreUrl} aria-label="Ourson sur Google Play">
-            <Image src={androidLogo} alt="" height={20} />
-          </a>
-        </div>
+        <div className={s.qrTitle}>Téléchargez l’app</div>
+        <Stores />
         <div className={s.code}>
-          <Image src="/qr.svg" alt={`QR code vers ${SITE.url}`} width={180} height={180} unoptimized />
+          <Image src="/qr.svg" alt={QR_ALT} width={180} height={180} unoptimized />
           <Image src={appIcon} alt="" width={44} height={44} className={s.icon} />
         </div>
-        <div className={s.hint}>Scannez ce code avec l&apos;appareil photo de votre téléphone.</div>
+        <div className={s.hint}>{CONSIGNE}</div>
       </div>
+    </div>
+  );
+}
+
+function Stores({ petit = false }: { petit?: boolean }) {
+  return (
+    <div className={petit ? `${s.stores} ${s.storesPetit}` : s.stores}>
+      <a href={SITE.appStoreUrl} aria-label="Ourson sur l’App Store">
+        <Image src={appleLogo} alt="" height={petit ? 22 : 24} className={s.apple} />
+      </a>
+      <span className={s.dot} />
+      <a href={SITE.playStoreUrl} aria-label="Ourson sur Google Play">
+        <Image src={androidLogo} alt="" height={petit ? 18 : 20} className={s.android} />
+      </a>
+    </div>
+  );
+}
+
+/** Mobile : icône, titre et badge du store. Ordinateur : QR 112 px, titre, consigne et logos. */
+function Cartel({ dev }: { dev: Appareil }) {
+  const masque = useCartelMasque();
+  const classe = `${s.cartel} ${dev === "desktop" ? s.cartelQr : ""} ${masque ? s.masque : ""}`;
+
+  if (dev === "desktop") {
+    return (
+      <div className={classe} aria-hidden={masque || undefined} inert={masque} data-cartel={dev}>
+        <div className={s.cartelCode}>
+          <Image src="/qr.svg" alt={QR_ALT} width={112} height={112} unoptimized />
+          <Image src={appIcon} alt="" width={28} height={28} className={s.cartelCodeIcone} />
+        </div>
+        <div className={s.cartelCorps}>
+          <div className={s.cartelTitreQr}>Téléchargez l’app</div>
+          <div className={s.cartelConsigne}>{CONSIGNE}</div>
+          <Stores petit />
+        </div>
+      </div>
+    );
+  }
+
+  const ios = dev === "ios";
+  return (
+    <div className={classe} aria-hidden={masque || undefined} inert={masque} data-cartel={dev}>
+      <Image src={appIcon} alt="" width={44} height={44} className={s.cartelIcone} />
+      <div className={s.cartelTitre}>Téléchargez l’app</div>
+      <a
+        href={ios ? SITE.appStoreUrl : SITE.playStoreUrl}
+        className={s.cartelBadge}
+        aria-label={ios ? "Ourson sur l’App Store" : "Ourson sur Google Play"}
+      >
+        <Image
+          src={ios ? appStoreNoir : playNoir}
+          alt={ios ? "Télécharger dans l’App Store" : "Disponible sur Google Play"}
+          height={40}
+        />
+      </a>
     </div>
   );
 }

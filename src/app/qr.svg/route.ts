@@ -1,11 +1,12 @@
 import QRCode from "qrcode";
 import { SITE } from "@/lib/site";
 
-// QR du bloc de téléchargement desktop, généré une fois au build (correction H : l'icône recouvre le centre).
+// QR des blocs de téléchargement desktop, généré une fois au build (correction H : l’icône recouvre le centre).
+// Il pointe vers /app, qui renvoie vers le bon store selon le téléphone.
 export const dynamic = "force-static";
 
 export async function GET() {
-  const svg = await QRCode.toString(SITE.url, {
+  const svg = await QRCode.toString(`${SITE.url}/app`, {
     type: "svg",
     errorCorrectionLevel: "H",
     margin: 0,

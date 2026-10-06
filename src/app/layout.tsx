@@ -5,7 +5,7 @@ import { Header } from "@/components/layout/Header";
 import { ConsentBanner } from "@/components/consent/ConsentBanner";
 import { Gtm } from "@/components/consent/Gtm";
 import { CONSENT_SCRIPT } from "@/components/consent/config";
-import { JsonLd, organisation, siteWeb } from "@/lib/seo";
+import { JsonLd, PARTAGE, og, organisation, siteWeb } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 import "@/styles/globals.css";
 import s from "./layout.module.css";
@@ -22,22 +22,23 @@ const bryndan = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: "Ourson · l'app qui vous donne un coup de patte",
+    default: "Ourson, l’app des parents\u00a0: repas, sommeil, éveil",
     template: "%s · Ourson",
   },
   description: SITE.description,
   applicationName: SITE.name,
-  authors: [{ name: "L'équipe Ourson" }],
+  authors: [{ name: "L’équipe Ourson" }],
   alternates: { canonical: "/" },
-  openGraph: {
-    type: "website",
-    locale: SITE.locale,
-    siteName: SITE.name,
+  // Repli pour les pages sans partage propre (404…) : l’ourson de l’accueil.
+  openGraph: og({
     url: "/",
-  },
+    titre: "Ourson, l’app des parents\u00a0: repas, sommeil, éveil",
+    description: SITE.description,
+    image: PARTAGE.ourson,
+  }),
   twitter: { card: "summary_large_image" },
   formatDetection: { telephone: false },
-  ...(SITE.appStoreId ? { itunes: { appId: SITE.appStoreId } } : {}),
+  // Pas de bannière iOS (apple-itunes-app) : elle doublerait le cartel de téléchargement.
 };
 
 export const viewport: Viewport = {
@@ -55,6 +56,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
     >
       <head>
+        {/* Consent Mode v2 : le consentement par défaut doit précéder GTM. */}
         <script dangerouslySetInnerHTML={{ __html: CONSENT_SCRIPT }} />
       </head>
       <body>

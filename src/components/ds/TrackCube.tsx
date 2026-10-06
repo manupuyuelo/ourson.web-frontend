@@ -1,7 +1,7 @@
 import { Icon, type IconName } from "./Icon";
 import s from "./TrackCube.module.css";
 
-// Éveil › Jalons — cube de bois d'une piste : face tintée, arête basse, cadre pointillé.
+// Éveil › Jalons — cube de bois d’une piste : face tintée, arête basse, cadre pointillé.
 const TRACKS = {
   gross_motor: ["var(--sun-tint)", "var(--sun-ink)", "var(--sun)", "run"],
   fine_motor: ["var(--coral-tint)", "var(--coral-ink)", "var(--coral-bright)", "hand"],
@@ -37,7 +37,7 @@ export function TrackCube({ track, size = 76, rotate = 0 }: TrackCubeProps) {
     (b, k) => (Math.abs(k - size) < Math.abs(b - size) ? k : b),
     76,
   );
-  // Valeurs de référence mises à l'échelle de la taille demandée.
+  // Valeurs de référence mises à l’échelle de la taille demandée.
   const [h, r, rim, drop, inset, isz] = scale(SPEC[key], size / key);
 
   const style = {

@@ -1,5 +1,10 @@
 import { expect, test } from "@playwright/test";
 
+// GTM est chargé dès l'arrivée (Consent Mode avancé) : on le remplace par un script vide, hors réseau.
+test.beforeEach(async ({ page }) => {
+  await page.route(/googletagmanager\.com/, (r) => r.fulfill({ body: "", contentType: "text/javascript" }));
+});
+
 const PAGES = ["/", "/nutrition", "/sommeil", "/eveil", "/blog", "/blog/sommeil", "/confidentialite"];
 
 for (const path of PAGES) {
@@ -15,33 +20,68 @@ for (const path of PAGES) {
   });
 }
 
-test("aucune requête Google avant consentement, GTM après acceptation", async ({ page }) => {
-  const google: string[] = [];
-  page.on("request", (r) => /googletagmanager|google-analytics/.test(r.url()) && google.push(r.url()));
+test("Consent Mode avancé : refus par défaut avant GTM, puis le choix", async ({ page }) => {
   await page.goto("/");
-  // Laisse le temps à l'hydratation et aux scripts différés de partir s'ils devaient partir.
-  await expect(page.getByRole("button", { name: "Accepter" })).toBeVisible();
-  await page.waitForTimeout(1500);
-  expect(google).toEqual([]);
-  await page.getByRole("button", { name: "Accepter" }).click();
-  await expect.poll(() => google.some((u) => u.includes("gtm.js"))).toBe(true);
+  const accepter = page.getByRole("button", { name: "Miam, j’accepte" });
+  await expect(accepter).toBeVisible();
+  await expect.poll(() => page.evaluate(() => window.dataLayer?.length ?? 0)).toBeGreaterThan(1);
+  // Ordre du dataLayer : consent default (script du <head>) avant l'événement gtm.js.
+  const ordre = await page.evaluate(() =>
+    (window.dataLayer ?? []).map((d) => {
+      const v = Object.values(Object(d));
+      return v[0] === "consent" ? `consent:${String(v[1])}` : String(Object(d).event);
+    }),
+  );
+  expect(ordre.indexOf("consent:default")).toBeGreaterThanOrEqual(0);
+  expect(ordre.indexOf("consent:default")).toBeLessThan(ordre.indexOf("gtm.js"));
+
+  await accepter.click();
+  await expect(accepter).toHaveCount(0);
+  const evenement = await page.evaluate(() =>
+    (window.dataLayer ?? []).find((d) => Object(d).event === "ourson_consent"),
+  );
+  expect(evenement).toMatchObject({ audience: true, pub: true });
+
+  await page.reload();
+  await expect(page.getByRole("button", { name: "Miam, j’accepte" })).toHaveCount(0);
 });
 
-test("refus : bandeau masqué et toujours aucune requête Google", async ({ page }) => {
-  const google: string[] = [];
-  page.on("request", (r) => /googletagmanager|google-analytics/.test(r.url()) && google.push(r.url()));
+test("refus : « Non merci » masque le bandeau, aussi après rechargement", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: "Refuser" }).click();
-  await expect(page.getByRole("button", { name: "Accepter" })).toHaveCount(0);
+  await page.getByRole("button", { name: "Non merci" }).click();
+  await expect(page.getByRole("button", { name: "Miam, j’accepte" })).toHaveCount(0);
   await page.reload();
-  await expect(page.getByRole("button", { name: "Accepter" })).toHaveCount(0);
-  expect(google).toEqual([]);
+  await expect(page.getByRole("button", { name: "Non merci" })).toHaveCount(0);
+  const stocke = await page.evaluate(() => JSON.parse(localStorage.getItem("ourson-cookies") ?? "{}"));
+  expect(stocke).toMatchObject({ audience: false, pub: false });
+});
+
+test("le lien « Cookies » rouvre le détail avec le choix en cours", async ({ page }) => {
+  await page.goto("/blog");
+  await page.getByRole("button", { name: "Miam, j’accepte" }).click();
+  await page.getByRole("contentinfo").getByRole("link", { name: "Cookies" }).click();
+  await expect(page.getByRole("button", { name: "Valider mes choix" })).toBeVisible();
+  await expect(page.getByRole("switch", { name: "Mesure d’audience" })).toHaveAttribute(
+    "aria-checked",
+    "true",
+  );
+  await page.getByRole("switch", { name: "Publicité" }).click();
+  await page.getByRole("button", { name: "Valider mes choix" }).click();
+  await expect(page.getByRole("button", { name: "Valider mes choix" })).toHaveCount(0);
+  const stocke = await page.evaluate(() => JSON.parse(localStorage.getItem("ourson-cookies") ?? "{}"));
+  expect(stocke).toMatchObject({ audience: true, pub: false });
+});
+
+test("/app renvoie vers l'accueil tant que les stores ne sont pas publics", async ({ request }) => {
+  const res = await request.get("/app", { maxRedirects: 0 });
+  expect(res.status()).toBe(307);
+  expect(new URL(res.headers().location ?? "").pathname).toBe("/");
 });
 
 test("/suppression-compte ouvre la feuille de suppression, Échap la ferme", async ({ page }) => {
   await page.goto("/suppression-compte");
   await expect(page).toHaveURL(/\/confidentialite#suppression$/);
-  const feuille = page.locator("dialog[open]");
+  const feuille = page.getByRole("dialog", { name: "Suppression de compte" });
   await expect(feuille).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(feuille).toHaveCount(0);

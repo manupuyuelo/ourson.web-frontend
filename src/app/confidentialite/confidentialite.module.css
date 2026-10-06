@@ -205,14 +205,21 @@
 
 @media (min-width: 900px) {
   .hero {
-    padding: 96px 56px 56px;
+    padding: 96px var(--g) 56px;
   }
 
   .h1 {
     font-size: 64px;
   }
 
+  /* Colonne de lecture alignée sur la gouttière gauche (704 px de texte). */
   .corps {
-    padding: 24px 56px 80px;
+    padding: 24px 56px 80px var(--g);
+    max-width: calc(704px + var(--g));
   }
+}
+
+/* Fond plein : anneau de focus blanc (handoff, accessibilité). */
+.corail {
+  --focus: #fff;
 }

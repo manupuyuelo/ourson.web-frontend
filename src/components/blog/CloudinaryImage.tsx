@@ -6,7 +6,7 @@ import { cloudinaryLoader } from "@/lib/cloudinary-loader";
 
 type Props = {
   src: string;
-  /** Ourson de la rubrique, affiché en « contain » si l'image Cloudinary ne charge pas. */
+  /** Ourson de la rubrique, affiché en « contain » si l’image Cloudinary ne charge pas. */
   repli: StaticImageData;
   alt: string;
   sizes: string;
@@ -43,7 +43,7 @@ export function CloudinaryImage({ src, repli, alt, sizes, width, height, classNa
       className={className}
       {...priorite}
       onError={() => setErreur(true)}
-      // L'erreur a pu survenir avant l'hydratation : onError ne se déclenchera plus.
+      // L’erreur a pu survenir avant l’hydratation : onError ne se déclenchera plus.
       ref={(img) => {
         if (img?.complete && img.naturalWidth === 0) setErreur(true);
       }}

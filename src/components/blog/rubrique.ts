@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 import { RUBRIQUES, type Rubrique } from "@/lib/blog";
 
-/** Variables de couleur d'une rubrique (couleurs de son pilier : activites → éveil). */
+/** Variables de couleur d’une rubrique (couleurs de son pilier : activites → éveil). */
 export function couleurs(r: Rubrique): CSSProperties {
   const p = RUBRIQUES[r].pilier;
   return {
@@ -12,7 +12,7 @@ export function couleurs(r: Rubrique): CSSProperties {
   };
 }
 
-/** Textes propres à chaque rubrique (« À lire aussi », encart vers le pilier — repris des titres de l'Accueil). */
+/** Textes propres à chaque rubrique (« À lire aussi », encart vers le pilier — repris des titres de l’Accueil). */
 export const TEXTES = {
   nutrition: {
     sujet: "la nutrition",
@@ -27,9 +27,9 @@ export const TEXTES = {
     pilierLien: "Tout sur le sommeil dans Ourson →",
   },
   activites: {
-    sujet: "l'éveil",
-    toute: "Tout l'éveil →",
+    sujet: "l’éveil",
+    toute: "Tout l’éveil →",
     pilierTitre: "Ses jalons, un jeu par jour.",
-    pilierLien: "Tout sur l'éveil dans Ourson →",
+    pilierLien: "Tout sur l’éveil dans Ourson →",
   },
 } as const satisfies Record<Rubrique, Record<string, string>>;

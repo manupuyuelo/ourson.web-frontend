@@ -24,10 +24,10 @@ export function Carrousel({ set, label }: Props) {
           const [tint, ink, dot] = COULEURS[it.tag];
           return (
             <li key={it.title} className={s.carte} style={{ "--tint": tint, "--ink-c": ink, "--dot": dot }}>
-              <Image src={it.src} alt="" sizes="238px" placeholder="blur" />
+              <Image src={it.src} alt="" sizes="(min-width: 900px) 320px, 238px" placeholder="blur" />
               <div className={s.texte}>
                 <span className={s.tag}>{it.tag}</span>
-                <h3 className={s.titre}>{it.title}</h3>
+                <div className={s.titre}>{it.title}</div>
               </div>
             </li>
           );

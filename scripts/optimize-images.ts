@@ -1,11 +1,11 @@
 // Prépare les images sources du handoff pour next/image (qui servira ensuite AVIF/WebP).
 // On réduit seulement les sources à 2× leur taille d'affichage max pour alléger le repo et le build.
 // Usage : yarn images [dossier du handoff]
-import { mkdir, readdir } from "node:fs/promises";
+import { mkdir, readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 
-const HANDOFF = process.argv[2] ?? path.join(process.env.HOME ?? "", "Downloads/design_handoff_site_vitrine");
+const HANDOFF = process.argv[2] ?? path.join(process.env.HOME ?? "", "Downloads/design_handoff_site_ourson");
 const ASSETS = path.join(import.meta.dirname, "..", "src", "assets");
 
 async function* walk(dir: string): AsyncGenerator<string> {
@@ -38,8 +38,16 @@ for (const name of ["ourson-accueil", "ourson-repas", "ourson-sommeil", "ourson-
 await resize(path.join(HANDOFF, "site/assets/icon.png"), path.join(ASSETS, "icon.png"), 176);
 
 // Photos et illustrations de l'app : cartes de 250 à 560 px de large.
-const ECH = path.join(HANDOFF, "uploads/ourson-site-brief/echantillons");
-for await (const file of walk(ECH)) {
-  if (!file.endsWith(".jpg")) continue;
-  await resize(file, path.join(ASSETS, "echantillons", path.relative(ECH, file)), 1000);
+// Seules les images importées dans src/ sont copiées (le handoff en contient une centaine).
+const ECH = path.join(HANDOFF, "site/assets/echantillons");
+const SRC = path.join(import.meta.dirname, "..", "src");
+const utilisees = new Set<string>();
+for await (const file of walk(SRC)) {
+  if (!/\.(tsx?|mdx?)$/.test(file)) continue;
+  for (const m of (await readFile(file, "utf8")).matchAll(/@\/assets\/echantillons\/([^"']+\.jpg)/g)) {
+    if (m[1]) utilisees.add(m[1]);
+  }
+}
+for (const rel of [...utilisees].toSorted()) {
+  await resize(path.join(ECH, rel), path.join(ASSETS, "echantillons", rel), 1000);
 }

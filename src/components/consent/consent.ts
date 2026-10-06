@@ -1,27 +1,54 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { CONSENT_DUREE, CONSENT_KEY } from "./config";
+import { CONSENT_DUREE, CONSENT_KEY, CONSENT_VERSION } from "./config";
 
-export type Choix = "accepte" | "refuse";
+/** audience → GA4 (analytics_storage) ; pub → mesure des campagnes Google Ads (ad_*). */
+export type Consentement = { audience: boolean; pub: boolean };
 
-const KEY = CONSENT_KEY;
-const EVENT = "ourson-consentement";
-const DUREE = CONSENT_DUREE;
+type Stocke = Consentement & { date: string; version: number };
 
-type Stocke = { choix: Choix; le: number };
+declare global {
+  interface Window {
+    dataLayer?: unknown[];
+    oursonCookies?: { open: () => void };
+  }
+}
 
-function lire(): Choix | null {
+const EVENT = "ourson-cookies";
+
+/** Valide un choix stocké : bonne version, moins de 6 mois. */
+export function valider(raw: string | null, maintenant = Date.now()): Consentement | null {
+  if (!raw) return null;
   try {
-    const raw = localStorage.getItem(KEY);
-    if (!raw) return null;
     const v: unknown = JSON.parse(raw);
-    if (typeof v !== "object" || v === null || !("choix" in v) || !("le" in v)) return null;
-    if (typeof v.le !== "number" || Date.now() - v.le > DUREE) return null;
-    return v.choix === "accepte" || v.choix === "refuse" ? v.choix : null;
+    if (typeof v !== "object" || v === null) return null;
+    const { audience, pub, date, version } = v as Partial<Stocke>;
+    if (version !== CONSENT_VERSION || typeof date !== "string") return null;
+    if (!(maintenant - Date.parse(date) < CONSENT_DUREE)) return null;
+    return { audience: audience === true, pub: pub === true };
   } catch {
     return null;
   }
+}
+
+// useSyncExternalStore exige un instantané stable : on le recalcule seulement si le stockage change.
+let dernierRaw: string | null | undefined;
+let dernier: Consentement | null = null;
+
+/** Choix valide enregistré (lecture directe, hors rendu React). */
+export function lire(): Consentement | null {
+  let raw: string | null = null;
+  try {
+    raw = localStorage.getItem(CONSENT_KEY);
+  } catch {
+    // stockage indisponible : aucun choix
+  }
+  if (raw !== dernierRaw) {
+    dernierRaw = raw;
+    dernier = valider(raw);
+  }
+  return dernier;
 }
 
 function subscribe(cb: () => void) {
@@ -33,32 +60,48 @@ function subscribe(cb: () => void) {
   };
 }
 
-/** undefined côté serveur, null tant qu'aucun choix n'est fait. */
-export function useConsentement(): Choix | null | undefined {
+/** undefined côté serveur et pendant l’hydratation, null tant qu’aucun choix valide n’existe. */
+export function useConsentement(): Consentement | null | undefined {
   return useSyncExternalStore(subscribe, lire, () => undefined);
 }
 
-export function enregistrer(choix: Choix | null) {
+function gtag(..._args: unknown[]) {
+  // gtag.js attend l’objet arguments lui-même, pas un tableau.
+  // oxlint-disable-next-line prefer-rest-params
+  (window.dataLayer ??= []).push(arguments);
+}
+
+const g = (b: boolean) => (b ? "granted" : "denied");
+
+export function enregistrer(c: Consentement) {
   const avant = lire();
+  const v: Stocke = { ...c, date: new Date().toISOString(), version: CONSENT_VERSION };
   try {
-    if (choix) localStorage.setItem(KEY, JSON.stringify({ choix, le: Date.now() } satisfies Stocke));
-    else localStorage.removeItem(KEY);
+    localStorage.setItem(CONSENT_KEY, JSON.stringify(v));
   } catch {
     // stockage indisponible : le choix vaut pour la page en cours
   }
-  if (choix) document.documentElement.dataset.consent = choix;
-  else delete document.documentElement.dataset.consent;
+  gtag("consent", "update", {
+    analytics_storage: g(c.audience),
+    ad_storage: g(c.pub),
+    ad_user_data: g(c.pub),
+    ad_personalization: g(c.pub),
+  });
+  (window.dataLayer ??= []).push({ event: "ourson_consent", audience: c.audience, pub: c.pub });
+  document.documentElement.dataset.consent = "";
+  // Retrait : Google cesse d’écrire, on efface ce qu’il a déjà déposé.
+  if (avant?.audience && !c.audience) effacer(/^(_ga|_gid|_gat)/);
+  if (avant?.pub && !c.pub) effacer(/^(_gcl|_gac)/);
   window.dispatchEvent(new Event(EVENT));
-  // Retrait du consentement : GTM est déjà chargé, on efface ses cookies et on repart d'une page propre.
-  if (avant === "accepte" && choix !== "accepte") {
-    for (const c of document.cookie.split(";")) {
-      const nom = c.split("=")[0]?.trim();
-      if (nom && /^(_ga|_gid|_gat|_gcl)/.test(nom)) {
-        const domaine = location.hostname.replace(/^www\./, "");
-        document.cookie = `${nom}=; Max-Age=0; path=/`;
-        document.cookie = `${nom}=; Max-Age=0; path=/; domain=.${domaine}`;
-      }
+}
+
+function effacer(motif: RegExp) {
+  const domaine = location.hostname.replace(/^www\./, "");
+  for (const c of document.cookie.split(";")) {
+    const nom = c.split("=")[0]?.trim();
+    if (nom && motif.test(nom)) {
+      document.cookie = `${nom}=; Max-Age=0; path=/`;
+      document.cookie = `${nom}=; Max-Age=0; path=/; domain=.${domaine}`;
     }
-    location.reload();
   }
 }

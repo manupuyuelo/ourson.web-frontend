@@ -75,7 +75,7 @@
 
 @media (min-width: 900px) {
   .hero {
-    padding: 88px 56px 40px;
+    padding: 88px var(--g) 40px;
   }
 
   .h1 {
@@ -83,6 +83,6 @@
   }
 
   .corps {
-    padding: 8px 56px 80px;
+    padding: 8px var(--g) 80px;
   }
 }

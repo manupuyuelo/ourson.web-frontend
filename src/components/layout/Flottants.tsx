@@ -4,7 +4,10 @@ import { Telecharger } from "@/components/site/Telecharger";
 import { useAppareil } from "@/lib/useAppareil";
 import s from "./Flottants.module.css";
 
-/** Barre mobile (badge du store) et bloc QR desktop, sur les pages de vente. */
+/**
+ * Pages de vente : cartel mobile (badge du store, téléphones et tablettes, sous 900 px)
+ * et cartel QR (dès 900 px, quel que soit l’appareil : un iPad en paysage le voit aussi).
+ */
 export function Flottants() {
   const appareil = useAppareil();
   return (
@@ -12,17 +15,13 @@ export function Flottants() {
       {appareil && appareil !== "desktop" && (
         <div className={s.barre}>
           <div className={s.barreInner}>
-            <Telecharger appareil={appareil} />
+            <Telecharger appareil={appareil} flottant />
           </div>
         </div>
       )}
-      {appareil === "desktop" && (
-        <div className={s.qr}>
-          <div className={s.qrInner}>
-            <Telecharger appareil="desktop" />
-          </div>
-        </div>
-      )}
+      <div className={s.qr}>
+        <Telecharger appareil="desktop" flottant />
+      </div>
     </>
   );
 }

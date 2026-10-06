@@ -9,8 +9,7 @@
   font-weight: 700;
 }
 
-.footer a,
-.footer button {
+.footer a {
   color: var(--muted);
   text-decoration: none;
 }
@@ -20,24 +19,15 @@
   font-weight: 800;
 }
 
-.footer button {
-  border: 0;
-  background: none;
-  padding: 0;
-  cursor: pointer;
-  font-weight: 700;
-  font-size: 14px;
-}
-
-/* Pages de vente : pied de page desktop uniquement, sans filet (la fin de page fait office de clôture). */
+/* Pages de vente : pied de page desktop uniquement (en mobile, le cartel occupe le bas de l'écran). */
 .vente {
   display: none;
-  gap: 28px;
-  padding: 24px 56px 40px;
-  border-top: 0;
 }
 
 @media (min-width: 900px) {
+  .footer {
+    padding: 24px var(--g) 40px;
+  }
   .vente {
     display: flex;
   }

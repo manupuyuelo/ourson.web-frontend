@@ -3,10 +3,20 @@
 import { Icon } from "@/components/ds";
 import s from "./Carrousel.module.css";
 
-/** Fait défiler la piste d'une carte (250 px + 14 px d'écart) dans un sens ou dans l'autre. */
+const ECART = 14;
+const GOUTTIERE = 20;
+
+/** Fait défiler la piste d’autant de cartes qu’il en tient à l’écran (une seule en mobile). */
 export function CarrouselBoutons({ piste }: { piste: string }) {
-  const defiler = (sens: 1 | -1) =>
-    document.getElementById(piste)?.scrollBy({ left: sens * 264, behavior: "smooth" });
+  const defiler = (sens: 1 | -1) => {
+    const el = document.getElementById(piste);
+    if (!el) return;
+    const carte = el.querySelector("li");
+    const pas = carte ? carte.offsetWidth + ECART : 264;
+    const n = Math.max(1, Math.floor((el.clientWidth - 2 * GOUTTIERE + ECART) / pas));
+    const reduit = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    el.scrollBy({ left: sens * pas * n, behavior: reduit ? "auto" : "smooth" });
+  };
 
   return (
     <div className={s.boutons}>

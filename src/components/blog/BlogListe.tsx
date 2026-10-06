@@ -29,7 +29,7 @@ export async function BlogListe({ rubrique }: { rubrique?: Rubrique }) {
     <>
       <section className={s.hero}>
         <div className={s.eyebrow}>Le blog</div>
-        <h1 className={s.h1}>Bienvenue sur le blog d&apos;Ourson</h1>
+        <h1 className={s.h1}>Bienvenue sur le blog d’Ourson</h1>
         <p className={s.chapeau}>Découvrez les derniers articles sur toutes les thématiques.</p>
         <nav aria-label="Rubriques du blog" className={s.filtres}>
           {filtres.map((f) => (

@@ -8,3 +8,5 @@ export { DayTimeline, h, type DayTimelineProps, type Segment } from "./DayTimeli
 export { TimelineAxis } from "./TimelineAxis";
 export { TimelineLegend, type TimelineLegendProps } from "./TimelineLegend";
 export { ActivityRow, type ActivityRowProps } from "./ActivityRow";
+export { Switch, type SwitchProps } from "./Switch";
+export { Button, type ButtonProps } from "./Button";

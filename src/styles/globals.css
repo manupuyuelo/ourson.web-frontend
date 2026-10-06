@@ -14,6 +14,13 @@ html {
   background: var(--bg);
 }
 
+/* Desktop : fonds bord à bord, contenu centré sur 1140 px par une gouttière fluide (handoff : --g). */
+@media (min-width: 900px) {
+  :root {
+    --g: max(56px, calc(50vw - 570px));
+  }
+}
+
 body {
   margin: 0;
   background: var(--bg);
@@ -49,7 +56,8 @@ button {
 }
 
 :focus-visible {
-  outline: 3px solid var(--coral);
+  /* --focus vaut #fff sur les sections à fond plein. */
+  outline: 3px solid var(--focus, var(--ink));
   outline-offset: 3px;
 }
 

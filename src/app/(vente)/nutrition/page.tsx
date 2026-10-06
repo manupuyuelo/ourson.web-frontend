@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { og } from "@/lib/seo";
+import { PARTAGE, meta } from "@/lib/seo";
 import Image, { type StaticImageData } from "next/image";
 import { Fragment } from "react";
 import { DivChip, DivHead, Icon, ShopItem, type IconName, type ShopItemProps } from "@/components/ds";
@@ -17,14 +17,15 @@ import lentilles from "@/assets/echantillons/repas/recettes-bebe/beetroot_parsni
 import potiron from "@/assets/echantillons/repas/recettes-bebe/cheese_pumpkin_potato.jpg";
 
 const CHAPEAU =
-  "Ourson vous propose les menus de la semaine. Pour chaque plat, l'app vous explique comment adapter la part de chaque enfant à son âge : en purée, écrasée ou en petits morceaux.";
+  "Ourson vous propose les menus de la semaine. Pour chaque plat, l’app vous explique comment adapter la part de chaque enfant à son âge\u00a0: en purée, écrasée ou en petits morceaux.";
 
-export const metadata: Metadata = {
-  title: "Nutrition : un seul plat pour toute la famille",
-  description: CHAPEAU,
-  alternates: { canonical: "/nutrition" },
-  openGraph: og("/nutrition"),
-};
+export const metadata: Metadata = meta({
+  url: "/nutrition",
+  titre: "Un seul plat pour toute la famille · Ourson",
+  description:
+    "Une cuisson, une part par âge\u00a0: purée lisse dès 4 mois, morceaux fondants dès 10 mois. Liste de courses et diversification suivies.",
+  image: PARTAGE.nutrition,
+});
 
 type Rayon = { icone: IconName; nom: string; articles: ShopItemProps[] };
 
@@ -82,7 +83,7 @@ const PLATS: Plat[] = [
 ];
 
 const NOTIFS = [
-  { r: "-1.5deg", text: "Inès a noté : Léa a goûté le poulet, et aimé." },
+  { r: "-1.5deg", text: "Inès a noté\u00a0: Léa a goûté le poulet, et aimé." },
   { r: "1.5deg", text: "Papa a coché la betterave sur la liste de courses." },
   { r: "-1deg", text: "Mamie a rejoint votre foyer." },
 ];
@@ -117,6 +118,8 @@ export default function NutritionPage() {
           src={OURS.repas}
           alt=""
           className={`${p.bear} ${p.wave}`}
+          data-boucle
+          data-pause
           sizes="(min-width: 900px) 200px, 130px"
           loading="eager"
         />
@@ -131,10 +134,10 @@ export default function NutritionPage() {
             Une cuisson, une part par âge
           </h2>
           <p className={p.texte}>
-            Pour chaque enfant : la quantité à mettre de côté, les ingrédients à retirer et la bonne texture.
-            Vous prélevez au bon moment, le reste de la recette se poursuit pour les grands.
+            Pour chaque enfant&nbsp;: la quantité à mettre de côté, les ingrédients à retirer et la bonne
+            texture. Vous prélevez au bon moment, le reste de la recette se poursuit pour les grands.
           </p>
-          <p className={p.texte}>Une recette rien que pour lui si le plat ne lui convient pas.</p>
+          <p className={p.texte}>Une recette sur mesure si le plat ne lui convient pas.</p>
         </div>
         <div className={`oReveal ${p.vis}`} style={{ "--r": "-1.5deg" }}>
           <Carte which="prochain" />
@@ -151,7 +154,7 @@ export default function NutritionPage() {
             La liste de courses, calculée pour toute la famille
           </h2>
           <p className={p.texte}>
-            Les menus de la semaine, prêts dès la première ouverture. La liste s&apos;en déduit toute seule,
+            Les menus de la semaine, prêts dès la première ouverture. La liste s’en déduit toute seule,
             quantités comprises. Celui qui passe au magasin coche, les autres le voient.
           </p>
         </div>
@@ -218,7 +221,7 @@ export default function NutritionPage() {
           </div>
           <div className={s.soleil}>
             <span />
-            <p>Le poulet est au menu de mardi : une première pour Léa.</p>
+            <p>Le poulet est au menu de mardi&nbsp;: une première pour Léa.</p>
           </div>
         </div>
       </section>
@@ -262,8 +265,8 @@ export default function NutritionPage() {
             <Icon name="stethoscope" size={20} />
           </span>
           <p>
-            Âges d&apos;introduction et textures suivent les recommandations de Santé publique France, de
-            l&apos;ANSES et de l&apos;OMS, toutes citées dans l&apos;app.
+            Âges d’introduction et textures suivent les recommandations de Santé publique France, de l’ANSES
+            et de l’OMS, toutes citées dans l’app.
           </p>
         </div>
       </section>
@@ -274,11 +277,11 @@ export default function NutritionPage() {
             Toute la famille
           </div>
           <h2 id="nutrition-foyer" className={`${p.h2} ${s.foyerH2}`}>
-            Ce que l&apos;un note, les autres le voient aussitôt
+            Ce que l’un note, les autres le voient aussitôt
           </h2>
           <p className={`${p.texte} ${s.foyerTexte}`}>
-            Invitez l&apos;autre parent, la nounou ou les grands-parents. Un aliment goûté chez Mamie, une
-            course cochée par Papa : tout est au même endroit.
+            Invitez l’autre parent, la nounou ou les grands-parents. Un aliment goûté chez Mamie, une course
+            cochée par Papa&nbsp;: tout est au même endroit.
           </p>
         </div>
         <div className={`${p.vis} ${s.notifs}`}>

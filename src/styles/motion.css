@@ -1,5 +1,7 @@
 /* Animations globales du handoff (.oReveal, .oDrop). Les écarts entre pages passent par des variables :
-   --o-in-y (50px Accueil, 40px piliers), --o-drop-y / --o-drop-s (60px/.9 ou 50px/.92).
+   --o-in-y (50px Accueil, 40px piliers). oDrop part de 50px / .92 partout (handoff).
+   Boucles (oWave, oFloat, oPulse) : quelques cycles seulement (WCAG 2.2.2), en pause hors écran
+   via [data-pause] (voir PauseHorsEcran).
    Les modules CSS renommant les noms d'animation, les autres keyframes vivent dans leur module. */
 
 @keyframes oIn {
@@ -15,7 +17,7 @@
 
 @keyframes oDrop {
   from {
-    transform: translateY(var(--o-drop-y, 60px)) scale(var(--o-drop-s, 0.9));
+    transform: translateY(var(--o-drop-y, 50px)) scale(var(--o-drop-s, 0.92));
     /* 0.001 et non 0 : Chrome ignore les éléments à opacité nulle pour le LCP (rendu identique à l'œil). */
     opacity: 0.001;
   }
@@ -41,6 +43,11 @@
 /* Entrée du hero : <div class="oDrop" style="--d:.3s"> */
 .oDrop {
   animation: oDrop var(--dur, 0.7s) cubic-bezier(0.34, 1.4, 0.64, 1) var(--d, 0s) both;
+}
+
+[data-pause],
+[data-pause]::after {
+  animation-play-state: paused !important;
 }
 
 @media (prefers-reduced-motion: reduce) {

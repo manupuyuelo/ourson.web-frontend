@@ -1,4 +1,5 @@
-/* Grille de cartes : 1 colonne, 2 dès 640 px, 3 dès 900 px. */
+/* Grille de cartes : 1 colonne, 2 dès 640 px, 3 dès 900 px.
+   .uneColonne : sans palier à 640 px (« À lire aussi » de l'article, comme le handoff). */
 .grille {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -6,7 +7,7 @@
 }
 
 @media (min-width: 640px) {
-  .grille {
+  .grille:not(.uneColonne) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

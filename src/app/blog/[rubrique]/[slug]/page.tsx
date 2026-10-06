@@ -9,8 +9,7 @@ import { TEXTES, couleurs } from "@/components/blog/rubrique";
 import g from "@/components/blog/Grille.module.css";
 import prose from "@/components/blog/Prose.module.css";
 import { RUBRIQUES, formatDate, getArticle, getArticles, oursDeRubrique } from "@/lib/blog";
-import { JsonLd, billet, filAriane } from "@/lib/seo";
-import { SITE } from "@/lib/site";
+import { JsonLd, billet, couverturePartage, filAriane, og } from "@/lib/seo";
 import s from "./page.module.css";
 
 export const dynamicParams = false;
@@ -23,22 +22,26 @@ export async function generateMetadata({ params }: PageProps<"/blog/[rubrique]/[
   const { rubrique, slug } = await params;
   const a = await getArticle(rubrique, slug);
   if (!a) return {};
+  const titre = `${a.title} · Ourson`;
   return {
-    title: a.title,
+    title: { absolute: titre },
     description: a.description,
     alternates: { canonical: a.href },
-    // L'image de partage vient de opengraph-image.tsx (prioritaire sur openGraph.images).
-    openGraph: {
-      type: "article",
-      url: a.href,
-      title: a.title,
-      description: a.description,
-      siteName: SITE.name,
-      locale: SITE.locale,
-      publishedTime: a.date.toISOString(),
-      authors: [a.author],
-      section: RUBRIQUES[a.rubrique].label,
-    },
+    // Image de partage : la couverture de l’article recadrée en 1200 × 630.
+    openGraph: og(
+      {
+        url: a.href,
+        titre,
+        description: a.description,
+        image: { url: couverturePartage(a.image), alt: a.title },
+      },
+      {
+        type: "article",
+        publishedTime: a.date.toISOString(),
+        authors: [a.author],
+        section: RUBRIQUES[a.rubrique].label,
+      },
+    ),
   };
 }
 
@@ -58,7 +61,7 @@ export default async function ArticlePage({ params }: PageProps<"/blog/[rubrique
   return (
     <div className={s.page} style={couleurs(a.rubrique)}>
       <section className={s.hero}>
-        <nav aria-label="Fil d'Ariane">
+        <nav aria-label="Fil d’Ariane">
           <ol className={s.ariane}>
             <li>
               <Link href="/blog" className={s.arianeBlog}>
@@ -121,7 +124,7 @@ export default async function ArticlePage({ params }: PageProps<"/blog/[rubrique
               {textes.toute}
             </Link>
           </div>
-          <div className={g.grille}>
+          <div className={`${g.grille} ${g.uneColonne}`}>
             {aLire.map((x) => (
               <ArticleCard key={x.slug} article={x} variante="lie" />
             ))}

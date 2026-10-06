@@ -190,7 +190,6 @@
   font-size: 12px;
   font-weight: 800;
   color: var(--sommeil);
-  white-space: nowrap;
 }
 
 .ligne {
@@ -236,7 +235,16 @@
   inset: 0;
   border-radius: 50%;
   background: var(--sommeil);
-  animation: oPulse 1.6s ease-out infinite;
+  animation: oPulse 1.6s ease-out 6;
+}
+
+/* Mouvement réduit : un anneau fixe à la place de la pulsation. */
+@media (prefers-reduced-motion: reduce) {
+  .pulse::after {
+    animation: none !important;
+    transform: scale(1.8);
+    opacity: 0.3;
+  }
 }
 
 .cta {

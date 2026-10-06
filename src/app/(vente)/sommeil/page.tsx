@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { og } from "@/lib/seo";
+import { PARTAGE, meta } from "@/lib/seo";
 import Image from "next/image";
 import { DayTimeline, h, Icon, SleepRow, TimelineAxis, TimelineLegend } from "@/components/ds";
 import { FinDePage } from "@/components/layout/FinDePage";
@@ -8,15 +8,15 @@ import { Carte } from "@/components/site/Carte";
 import { OURS } from "@/lib/ours";
 import s from "./sommeil.module.css";
 
-export const metadata: Metadata = {
-  title: "Comprenez enfin ses nuits",
+export const metadata: Metadata = meta({
+  url: "/sommeil",
+  titre: "Nuits et siestes de bébé, au bon moment · Ourson",
   description:
-    "Notez le coucher et chaque réveil en un geste, même à 3 h du matin. Ourson vous montre ce qui l'aide à mieux dormir, la nuit comme à la sieste.",
-  alternates: { canonical: "/sommeil" },
-  openGraph: og("/sommeil"),
-};
+    "Notez coucher et réveil d’un geste. Ourson repère ce qui aide votre enfant à dormir et vous dit quand viendra la prochaine sieste.",
+  image: PARTAGE.sommeil,
+});
 
-// Ses 7 dernières nuits : jour, durée (h), nombre de réveils. La dernière est « aujourd'hui ».
+// Ses 7 dernières nuits : jour, durée (h), nombre de réveils. La dernière est « aujourd’hui ».
 const NUITS = [
   ["lun.", 10.2, 2],
   ["mar.", 10.6, 1],
@@ -53,10 +53,10 @@ export default function SommeilPage() {
           </h1>
           <p className={`oDrop ${p.chapeau}`} style={{ "--d": ".25s" }}>
             Notez le coucher et chaque réveil en un geste, même à 3 h du matin. Ourson vous montre ce qui
-            l&apos;aide à mieux dormir, la nuit comme à la sieste.
+            l’aide à mieux dormir, la nuit comme à la sieste.
           </p>
           <div className={`oDrop ${p.puces}`} style={{ "--d": ".35s" }}>
-            <span>Ses nuits en un coup d&apos;œil</span>
+            <span>Ses nuits en un coup d’œil</span>
             <span>Ses propres repères</span>
             <span>Partagé avec le foyer</span>
           </div>
@@ -98,6 +98,8 @@ export default function SommeilPage() {
           src={OURS.sommeil}
           alt=""
           className={`${p.bear} ${p.float} ${s.bear}`}
+          data-boucle
+          data-pause
           sizes="(min-width: 900px) 200px, 140px"
           loading="eager"
           fetchPriority="high"
@@ -110,16 +112,14 @@ export default function SommeilPage() {
             Les nuits
           </div>
           <h2 id="sommeil-nuits" className={p.h2}>
-            Le matin, sa nuit en un coup d&apos;œil
+            Le matin, sa nuit en un coup d’œil
           </h2>
           <p className={p.texte}>
             Un réveil en pleine nuit se note en un geste, sur un écran sombre qui ne réveille personne. Au
-            matin, vous voyez combien de temps il a dormi, combien de fois il s&apos;est réveillé et qui
-            s&apos;est levé.
+            matin, vous voyez la durée de sa nuit, le nombre de réveils et qui s’est levé.
           </p>
           <p className={p.texte}>
-            Nuit après nuit, Ourson repère ce qui les allonge&nbsp;: l&apos;heure du coucher, la dernière
-            sieste.
+            Nuit après nuit, Ourson repère ce qui les allonge&nbsp;: l’heure du coucher, la dernière sieste.
           </p>
         </div>
         <div className={`oReveal ${p.vis} ${s.carte} ${s.carteNuit}`} style={{ "--r": "1.5deg" }}>
@@ -158,15 +158,15 @@ export default function SommeilPage() {
             Un geste pour le coucher, un geste pour le réveil
           </h2>
           <p className={p.texte}>
-            Qui l&apos;a couché, où, à quelle heure : tout est noté d&apos;une main, par celui qui est avec
-            lui. Vous êtes au travail ? Vous savez quand Mamie a couché Noé, et combien de temps il a dormi.
+            Coucher, lieu, heure&nbsp;: tout est noté d’une main, par l’adulte présent. Vous êtes au
+            travail&#8239;? Vous savez quand Mamie a couché Noé, et combien de temps a duré sa sieste.
           </p>
         </div>
         <div className={`oReveal ${p.vis} ${s.carte} ${s.carteSuivi}`} style={{ "--r": "-1.5deg" }}>
           <div className={`${s.tete} ${s.teteSimple}`}>
-            <div className={s.teteTitre}>Aujourd&apos;hui · Noé</div>
+            <div className={s.teteTitre}>Aujourd’hui · Noé</div>
             <div className={`${s.teteMeta} ${s.enCours}`}>
-              <span className={s.pulse} aria-hidden="true" />
+              <span className={s.pulse} aria-hidden="true" data-boucle data-pause />
               En cours
             </div>
           </div>
@@ -194,7 +194,7 @@ export default function SommeilPage() {
               tags={TAGS_SIESTE}
             />
           </div>
-          {/* Aperçu de l'écran de l'app : bouton factice, non interactif. */}
+          {/* Aperçu de l’écran de l’app : bouton factice, non interactif. */}
           <div className={s.cta}>Réveil de Noé</div>
         </div>
       </section>
@@ -205,11 +205,12 @@ export default function SommeilPage() {
             Le bon moment
           </div>
           <h2 id="sommeil-moment" className={p.h2}>
-            La prochaine sieste, avant qu&apos;il ne soit trop tard
+            La prochaine sieste, avant le coup de fatigue
           </h2>
           <p className={p.texte}>
-            L&apos;heure probable de sa prochaine sieste, calculée sur ses 14 derniers jours. Une plage, pas
-            une alarme : vous couchez votre enfant quand il est prêt, et ses nuits en profitent.
+            L’heure probable de sa prochaine sieste, calculée sur ses 14 derniers jours. Une plage, pas une
+            alarme&nbsp;: vous couchez votre enfant dès les premiers signes de fatigue, et ses nuits en
+            profitent.
           </p>
         </div>
         <div className={`oReveal ${p.vis} ${s.carte} ${s.carteJours}`} style={{ "--r": "1.5deg" }}>
@@ -240,20 +241,19 @@ export default function SommeilPage() {
             Ses repères
           </div>
           <h2 id="sommeil-reperes" className={p.h2}>
-            Ce qui l&apos;aide à bien dormir, lui
+            Ce qui l’aide à bien dormir, à sa manière
           </h2>
           <p className={p.texte}>
-            Ourson compare ses propres nuits et siestes entre elles : l&apos;heure, le lieu, l&apos;adulte qui
-            le couche. Puis vous propose un essai de 7 jours pour tester un nouvel horaire et voir ce qui
-            change.
+            Ourson compare ses propres nuits et siestes entre elles&nbsp;: l’heure, le lieu, l’adulte qui le
+            couche. Puis vous propose un essai de 7 jours pour tester un nouvel horaire et voir ce qui change.
           </p>
           <div className={s.sources}>
             <span className={s.sourcesIcone}>
               <Icon name="stethoscope" size={20} />
             </span>
             <div className={s.sourcesTexte}>
-              Des repères appuyés sur les recommandations de l&apos;American Academy of Pediatrics, de la HAS
-              et de Santé publique France, toutes citées dans l&apos;app.
+              Des repères appuyés sur les recommandations de l’American Academy of Pediatrics, de la HAS et de
+              Santé publique France, toutes citées dans l’app.
             </div>
           </div>
         </div>
@@ -290,17 +290,17 @@ export default function SommeilPage() {
             Toute la famille
           </div>
           <h2 id="sommeil-foyer" className={`${p.h2} ${s.foyerTitre}`}>
-            Ce que l&apos;un note, les autres le voient aussitôt
+            Ce que l’un note, les autres le voient aussitôt
           </h2>
           <p className={`${p.texte} ${s.foyerTexte}`}>
-            Invitez l&apos;autre parent, la nounou ou les grands-parents. Quand l&apos;un d&apos;eux note une
-            sieste, tout le monde le voit aussitôt, et les repères d&apos;Ourson tiennent compte de toutes les
-            siestes, chez qui qu&apos;elles aient eu lieu.
+            Invitez l’autre parent, la nounou ou les grands-parents. Quand l’un d’eux note une sieste, tout le
+            monde le voit aussitôt, et les repères d’Ourson tiennent compte de toutes les siestes, chez qui
+            qu’elles aient eu lieu.
           </p>
         </div>
         <div className={`${p.vis} ${s.notifs}`}>
           <div className="oReveal" style={{ "--r": "-1.5deg" }}>
-            <Carte which="notif" text="Noé s'est réveillé à 14 h 40, après 1 h 35 de sommeil." />
+            <Carte which="notif" text="Noé s’est réveillé à 14 h 40, après 1 h 35 de sommeil." />
           </div>
           <div className="oReveal" style={{ "--r": "1.5deg" }}>
             <Carte which="notif" text="Noé dort depuis 13 h 05 (Mamie)." />

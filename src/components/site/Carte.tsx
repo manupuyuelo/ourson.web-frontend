@@ -3,13 +3,14 @@ import { Icon } from "@/components/ds";
 import appIcon from "@/assets/icon.png";
 import s from "./Carte.module.css";
 
-// Morceaux d'écran de l'app recomposés (handoff : Carte.dc.html), textes du § 6 du socle.
+// Morceaux d’écran de l’app recomposés (handoff : Carte.dc.html), textes du § 6 du socle.
 type Props =
   | { which: "notif"; text: string }
   | { which: "observation"; text?: string }
   | { which: "prochain" | "parts" | "jour" | "essai" | "premiere" };
 
-const OBSERVATION = "Pour Noé, quand la sieste commence avant 13 h, elle dure 1 h 30 ; après 13 h, 50 min.";
+const OBSERVATION =
+  "Pour Noé, quand la sieste commence avant 13 h, elle dure 1 h 30\u202f; après 13 h, 50 min.";
 
 export function Carte(props: Props) {
   switch (props.which) {
@@ -18,7 +19,7 @@ export function Carte(props: Props) {
         <div className={`${s.carte} ${s.notif}`}>
           <Image src={appIcon} alt="" width={40} height={40} className={s.notifIcon} />
           <div className={s.notifBody}>
-            <div className={s.notifMeta}>Ourson · à l&apos;instant</div>
+            <div className={s.notifMeta}>Ourson · à l’instant</div>
             <div className={s.notifText}>{props.text}</div>
           </div>
         </div>
@@ -37,7 +38,7 @@ export function Carte(props: Props) {
       return (
         <div className={`${s.carte} ${s.blanche} ${s.parts}`}>
           <div className={s.titre}>Les parts des enfants</div>
-          <div className={s.muted}>Prélevez 150 g de plat par enfant avant d&apos;assaisonner.</div>
+          <div className={s.muted}>Prélevez 150 g de plat par enfant avant d’assaisonner.</div>
           <div className={s.filet} />
           <div className={s.enfant}>
             <div className={s.avatar} style={{ background: "var(--coral-tint)", color: "var(--coral-ink)" }}>
@@ -64,7 +65,7 @@ export function Carte(props: Props) {
         <div className={`${s.carte} ${s.jour}`}>
           <div className={s.jourTitre}>Éveillé depuis 2 h 06</div>
           <div className={s.jourTexte}>
-            Prochaine sieste probablement entre 13 h 10 et 13 h 50, d&apos;après 14 jours notés.
+            Prochaine sieste probablement entre 13 h 10 et 13 h 50, d’après 14 jours notés.
           </div>
         </div>
       );
@@ -87,11 +88,11 @@ export function Carte(props: Props) {
         <div className={`${s.carte} ${s.blanche} ${s.premiere}`}>
           <div className={s.photo}>
             <Icon name="camera" size={32} />
-            Photo de l&apos;enfant
+            Photo de l’enfant
           </div>
           <div className={s.premiereBas}>
             <span />
-            <div className={s.titre}>Une première fois !</div>
+            <div className={s.titre}>Une première fois&#8239;!</div>
           </div>
         </div>
       );

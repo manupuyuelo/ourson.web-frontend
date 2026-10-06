@@ -1,18 +1,17 @@
 import type { Metadata } from "next";
-import { og } from "@/lib/seo";
+import { PARTAGE, meta } from "@/lib/seo";
 import type { ReactNode } from "react";
 import { Footer } from "@/components/layout/Footer";
 import { SITE } from "@/lib/site";
 import { SuppressionSheet } from "./SuppressionSheet";
 import s from "./confidentialite.module.css";
 
-export const metadata: Metadata = {
-  title: "Règles de confidentialité",
-  description:
-    "Les données collectées par l’application Ourson, leur utilisation, leur stockage et leur protection, vos droits et la suppression de votre compte.",
-  alternates: { canonical: "/confidentialite" },
-  openGraph: og("/confidentialite"),
-};
+export const metadata: Metadata = meta({
+  url: "/confidentialite",
+  titre: "Règles de confidentialité · Ourson",
+  description: "Données collectées, utilisation, stockage, vos droits et suppression de compte.",
+  image: PARTAGE.ourson,
+});
 
 const DONNEES = [
   "Adresse e-mail",
@@ -99,7 +98,7 @@ export default function Confidentialite() {
           </Section>
 
           <Section id="utilisation" titre="Utilisation des données">
-            <p className={s.texte}>Les données collectées nous permettent de :</p>
+            <p className={s.texte}>Les données collectées nous permettent de&nbsp;:</p>
             <Liste items={UTILISATIONS} />
           </Section>
 
@@ -132,16 +131,22 @@ export default function Confidentialite() {
             </p>
           </Section>
 
-          {/* TODO(texte) : section absente du handoff, à valider. */}
-          <Section id="cookies" titre="Cookies et mesure d’audience">
+          {/* Absente du handoff : décrit le bandeau de consentement du site. TODO(texte) : à valider. */}
+          <Section id="cookies-audience" titre="Cookies du site">
             <p className={s.texte}>
-              Ce site ne dépose aucun cookie de mesure d’audience sans votre accord. Si vous l’acceptez,
-              Google Tag Manager et Google Analytics mesurent sa fréquentation de façon agrégée, pour nous
-              aider à l’améliorer.
+              Ce site utilise Google Tag Manager. Tant que vous n’avez rien accepté, aucun cookie de mesure
+              n’est déposé&nbsp;: Google ne reçoit que des signaux anonymes, sans cookie ni identifiant.
             </p>
+            <p className={s.texte}>Avec votre accord, et seulement pour ce que vous acceptez&nbsp;:</p>
+            <Liste
+              items={[
+                "Mesure d’audience (Google Analytics)\u00a0: compter les visites et voir les pages qui plaisent.",
+                "Publicité (Google Ads)\u00a0: savoir si nos annonces sur d’autres sites vous ont menés jusqu’ici. Aucune publicité n’est affichée sur ce site.",
+              ]}
+            />
             <p className={s.texte}>
-              Votre choix est conservé 6 mois. Vous pouvez le modifier à tout moment grâce au lien « Gérer les
-              cookies » en bas de page.
+              Votre choix est conservé 6 mois. Vous pouvez le modifier à tout moment grâce au lien
+              «&nbsp;Cookies&nbsp;» en bas de page.
             </p>
           </Section>
 
@@ -151,9 +156,9 @@ export default function Confidentialite() {
               demande, écrivez-nous à <Mail />.
             </p>
             <p className={s.texte}>
-              Si vous souhaitez supprimer votre compte et l&apos;ensemble des données associées, vous pouvez
-              le faire directement depuis l&apos;application ou en suivant la procédure décrite sur cette page
-              : <a href="#suppression">Suppression de compte</a>.
+              Si vous souhaitez supprimer votre compte et l’ensemble des données associées, vous pouvez le
+              faire directement depuis l’application ou en suivant la procédure décrite sur cette page&nbsp;:{" "}
+              <a href="#suppression">Suppression de compte</a>.
             </p>
           </Section>
 
@@ -181,12 +186,12 @@ export default function Confidentialite() {
 
           <section className={s.bloc} aria-labelledby="suppr-comment">
             <h3 id="suppr-comment" className={s.h3}>
-              Comment supprimer votre compte ?
+              Comment supprimer votre compte&#8239;?
             </h3>
             <p className={s.texte}>
-              Depuis l&apos;application, accédez à la page Paramètres, puis cliquez sur « Supprimer mon compte
-              ». Un message de confirmation vous sera affiché, et toutes vos données personnelles seront
-              supprimées de manière définitive.
+              Depuis l’application, accédez à la page Paramètres, puis cliquez sur «&nbsp;Supprimer mon
+              compte&nbsp;». Un message de confirmation vous sera affiché, et toutes vos données personnelles
+              seront supprimées de manière définitive.
             </p>
           </section>
 
@@ -194,7 +199,7 @@ export default function Confidentialite() {
             <h3 id="suppr-effacees" className={s.h3}>
               Données supprimées
             </h3>
-            <p className={s.texte}>Voici les données qui seront effacées :</p>
+            <p className={s.texte}>Voici les données qui seront effacées&nbsp;:</p>
             <Liste items={SUPPRIMEES} />
           </section>
 
@@ -211,7 +216,7 @@ export default function Confidentialite() {
 
           <section className={`${s.bloc} ${s.corail}`} aria-labelledby="suppr-aide">
             <h3 id="suppr-aide" className={s.h3}>
-              Besoin d’aide ?
+              Besoin d’aide&#8239;?
             </h3>
             <p className={s.texte}>
               Si vous ne parvenez pas à supprimer votre compte depuis l’application, vous pouvez nous écrire à{" "}

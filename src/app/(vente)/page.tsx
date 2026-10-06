@@ -7,16 +7,19 @@ import { Age } from "@/components/site/Age";
 import { Carte } from "@/components/site/Carte";
 import { Telecharger } from "@/components/site/Telecharger";
 import { OURS } from "@/lib/ours";
-import { JsonLd, application } from "@/lib/seo";
+import { JsonLd, PARTAGE, application, meta } from "@/lib/seo";
 import { SITE } from "@/lib/site";
-import jeu from "@/assets/echantillons/eveil/jeux/cache_cache_foulard.jpg";
+import jeu from "@/assets/echantillons/eveil/jeux/deux_paniers.jpg";
+import baleine from "@/assets/echantillons/eveil/histoires/la_baleine_qui_chante.jpg";
+import etoiles from "@/assets/echantillons/sommeil/berceuses/berceuse_des_etoiles.jpg";
 import s from "./accueil.module.css";
 
-// Titre : le défaut du layout racine (« Ourson · l'app qui vous donne un coup de patte »).
-export const metadata: Metadata = {
+export const metadata: Metadata = meta({
+  url: "/",
+  titre: "Ourson, l’app des parents\u00a0: repas, sommeil, éveil",
   description: SITE.description,
-  alternates: { canonical: "/" },
-};
+  image: PARTAGE.ourson,
+});
 
 // Durée relative des 7 dernières nuits (hauteur des barres, en %).
 const NUITS = [
@@ -44,15 +47,17 @@ export default function Accueil() {
       <section className={`${s.sec} ${s.hero}`} aria-labelledby="accueil-titre">
         <div className={`oDrop ${s.logo}`}>ourson</div>
         <div className={`oDrop ${s.slogan}`} style={{ "--d": ".15s", "--dur": ".6s" }}>
-          l&apos;app qui vous donne un coup de patte
+          l’app qui vous donne un coup de patte
         </div>
         <h1 id="accueil-titre" className={`oDrop ${s.h1}`} style={{ "--d": ".3s" }}>
-          Il mange quoi&nbsp;? Il dort quand&nbsp;? On joue à quoi&nbsp;?
+          {/* Verbes dans la couleur de leur pilier, en écho aux trois cercles. */}
+          On <span className={s.mange}>mange</span> quoi&#8239;? On <span className={s.dort}>dort</span>{" "}
+          quand&#8239;? On <span className={s.joue}>joue</span> à quoi&#8239;?
         </h1>
         <p className={`oDrop ${s.chapeau}`} style={{ "--d": ".42s" }}>
           Les trois questions phares de 0 à 3 ans. On vous aide dans votre vie de parent heure par heure.
         </p>
-        <div className={`oDrop ${s.dl}`} style={{ "--d": ".55s" }}>
+        <div className={`oDrop ${s.dl}`} style={{ "--d": ".55s" }} data-dl-hero>
           <Telecharger />
         </div>
         <div className={`${s.vis} ${s.heroVis}`}>
@@ -69,7 +74,7 @@ export default function Accueil() {
             fetchPriority="high"
           />
           <div className={`oDrop ${s.bulle}`} style={{ "--d": "1.5s", "--dur": ".6s" }}>
-            Par quoi on commence aujourd&apos;hui&nbsp;?
+            Par quoi on commence aujourd’hui&#8239;?
           </div>
         </div>
       </section>
@@ -79,7 +84,7 @@ export default function Accueil() {
           7<span>h</span>00
         </div>
         <h2 id="reveil-titre" className={`oReveal ${s.h2}`}>
-          Réveillée, et bien reposée.
+          Une bonne nuit, un réveil en douceur.
         </h2>
         <p className={`oReveal ${s.texte}`}>
           Ourson repère ce qui marche pour son sommeil, et vous le dit dès le matin.
@@ -102,7 +107,7 @@ export default function Accueil() {
           <div className={s.encart}>
             <span className={s.encartPuce} />
             <div className={s.encartTexte}>
-              Couchée avant 20 h, Léa a dormi 11 h cette nuit. On garde ce rythme.
+              Au lit avant 20 h, Léa a dormi 11 h cette nuit. On garde ce rythme.
             </div>
           </div>
         </div>
@@ -119,7 +124,14 @@ export default function Accueil() {
           Une cuisson, une part par âge. Courses et diversification suivent.
         </p>
         <div className={`${s.vis} ${s.visRepas}`}>
-          <Image src={OURS.repas} alt="" className={`${s.oursIn} ${s.wave}`} sizes="220px" />
+          <Image
+            src={OURS.repas}
+            alt=""
+            className={`${s.oursIn} ${s.wave}`}
+            sizes="220px"
+            data-boucle
+            data-pause
+          />
           <div className={`oReveal ${s.carteAge}`} style={{ "--r": "-2deg" }}>
             <Age compact sizes="(min-width: 900px) 436px, (min-width: 430px) 366px, calc(100vw - 64px)" />
           </div>
@@ -127,7 +139,14 @@ export default function Accueil() {
         <Link href="/nutrition" className={`oReveal ${s.bouton}`}>
           Tout sur la nutrition →
         </Link>
-        <Image src={OURS.repas} alt="" className={`${s.ours} ${s.wave}`} sizes="140px" />
+        <Image
+          src={OURS.repas}
+          alt=""
+          className={`${s.ours} ${s.wave}`}
+          sizes="140px"
+          data-boucle
+          data-pause
+        />
       </section>
 
       <section id="sommeil" className={`${s.sec} ${s.plein} ${s.sommeil}`} aria-labelledby="sommeil-titre">
@@ -138,13 +157,15 @@ export default function Accueil() {
           La sieste, au bon moment.
         </h2>
         <p className={`oReveal ${s.texte}`}>
-          Notez coucher et réveil d&apos;un geste. Ourson vous dit quand viendra la prochaine.
+          Notez coucher et réveil d’un geste. Ourson vous dit quand viendra la prochaine.
         </p>
         <div className={`${s.vis} ${s.visSommeil}`}>
           <Image
             src={OURS.sommeil}
             alt=""
             className={`${s.oursIn} ${s.float}`}
+            data-boucle
+            data-pause
             style={{ "--r": "-4deg" }}
             sizes="220px"
           />
@@ -162,6 +183,8 @@ export default function Accueil() {
           src={OURS.sommeil}
           alt=""
           className={`${s.ours} ${s.float}`}
+          data-boucle
+          data-pause
           style={{ "--r": "-4deg" }}
           sizes="150px"
         />
@@ -174,9 +197,7 @@ export default function Accueil() {
         <h2 id="eveil-titre" className={`oReveal ${s.h2}`}>
           Ses jalons, un jeu par jour.
         </h2>
-        <p className={`oReveal ${s.texte} ${s.pad}`}>
-          Six domaines, sans note. Chaque activité l&apos;encourage là où il en est.
-        </p>
+        <p className={`oReveal ${s.texte} ${s.pad}`}>Six domaines. Des activités à son rythme, pas à pas.</p>
         <div className={`oReveal ${s.cubes}`}>
           {CUBES.map((c) => (
             <div key={c.track} className={s.cube}>
@@ -190,6 +211,8 @@ export default function Accueil() {
             src={OURS.eveil}
             alt=""
             className={`${s.oursIn} ${s.float}`}
+            data-boucle
+            data-pause
             style={{ "--r": "8deg" }}
             sizes="220px"
           />
@@ -202,17 +225,60 @@ export default function Accueil() {
             />
           </div>
         </div>
-        <div className={s.soir}>Le soir : une histoire, une berceuse.</div>
         <Link href="/eveil" className={`oReveal ${s.bouton}`}>
-          Tout sur l&apos;éveil →
+          Tout sur l’éveil →
         </Link>
         <Image
           src={OURS.eveil}
           alt=""
           className={`${s.ours} ${s.float}`}
+          data-boucle
+          data-pause
           style={{ "--r": "8deg" }}
           sizes="150px"
         />
+      </section>
+
+      <section id="soir" className={`${s.sec} ${s.plein} ${s.soir}`} aria-labelledby="soir-titre">
+        <div className={`oReveal ${s.time}`}>
+          19<span>h</span>45
+        </div>
+        <h2 id="soir-titre" className={`oReveal ${s.h2}`}>
+          Le soir, une comptine et une histoire.
+        </h2>
+        <p className={`oReveal ${s.texte}`}>
+          Une berceuse à chanter, une histoire qui reprend son prénom et son doudou.
+        </p>
+        <div className={`oReveal ${s.ecran}`}>
+          Pas d’écran pour votre enfant&nbsp;: c’est vous qui chantez et racontez.
+        </div>
+        <div className={`${s.vis} ${s.visSoir}`}>
+          <div className={`oReveal ${s.histoire}`} style={{ "--r": "1.5deg" }}>
+            <Image
+              src={baleine}
+              alt=""
+              sizes="(min-width: 900px) 460px, (min-width: 430px) 390px, calc(100vw - 40px)"
+              placeholder="blur"
+            />
+            <div className={s.histoireCorps}>
+              <div className={s.histoireTete}>
+                <div className={s.histoireTitre}>La baleine qui chante</div>
+                <span className={s.pastille}>Histoire</span>
+              </div>
+              <div className={s.histoireTexte}>
+                Au fond de la mer, une baleine chante tout doucement. Léa et Pompon l’écoutent.
+              </div>
+            </div>
+          </div>
+          <div className={`oReveal ${s.comptine}`} style={{ "--r": "-1.5deg" }}>
+            <Image src={etoiles} alt="" width={56} height={56} sizes="56px" placeholder="blur" />
+            <div className={s.comptineTexte}>
+              <div className={s.comptineTitre}>Une étoile, deux étoiles</div>
+              <div className={s.comptineSous}>Paroles, gestes et mélodie</div>
+            </div>
+            <span className={`${s.pastille} ${s.pastilleComptine}`}>Comptine</span>
+          </div>
+        </div>
       </section>
 
       <section id="foyer" className={`${s.sec} ${s.foyer}`} aria-labelledby="foyer-titre">
@@ -221,11 +287,11 @@ export default function Accueil() {
           Un seul foyer. Toutes les infos.
         </h2>
         <p className={`oReveal ${s.texte}`}>
-          Parents, nounou, grands-parents : ce que l&apos;un note, les autres le voient aussitôt.
+          Parents, nounou, grands-parents&nbsp;: ce que l’un note, les autres le voient aussitôt.
         </p>
         <div className={`${s.vis} ${s.visFoyer}`}>
           <div className="oReveal" style={{ "--r": "-1.5deg" }}>
-            <Carte which="notif" text="Inès a noté : Léa a goûté le poulet, et aimé." />
+            <Carte which="notif" text={"Inès a noté\u00a0: Léa a goûté le poulet, et aimé."} />
           </div>
           <div className="oReveal" style={{ "--r": "1.5deg" }}>
             <Carte which="notif" text="Noé dort depuis 13 h 05 (Mamie)." />

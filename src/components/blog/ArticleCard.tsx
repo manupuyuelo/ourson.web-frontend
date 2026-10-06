@@ -26,7 +26,7 @@ export function ArticleCard({ article: a, variante, eager }: Props) {
     <Link
       // oxlint-disable-next-line typescript/no-unsafe-type-assertion -- les routes typées refusent un `${string}` (il pourrait contenir « / »).
       href={a.href as Route}
-      // La grille compte jusqu'à 58 cartes : on ne précharge pas chaque article qui défile.
+      // La grille compte jusqu’à 58 cartes : on ne précharge pas chaque article qui défile.
       prefetch={variante === "grille" ? false : null}
       className={une ? s.une : s.carte}
       style={couleurs(a.rubrique)}
@@ -52,7 +52,7 @@ export function ArticleCard({ article: a, variante, eager }: Props) {
         )}
         <Titre className={une ? s.h2 : variante === "lie" ? s.h3Lie : s.h3}>{a.title}</Titre>
         {variante !== "lie" && <p className={une ? s.descUne : s.desc}>{a.description}</p>}
-        {une && <span className={s.lire}>Lire l&apos;article →</span>}
+        {une && <span className={s.lire}>Lire l’article →</span>}
       </div>
     </Link>
   );

@@ -4,10 +4,10 @@ import { useState, type ReactNode } from "react";
 import { HISTOIRE, fill } from "@/lib/data";
 import s from "./eveil.module.css";
 
-// Première page de « Où es-tu, doudou ? », réécrite avec le prénom et le doudou saisis.
+// Première page de « La baleine qui chante », réécrite avec le prénom et le doudou saisis.
 const [texte, conseil] = HISTOIRE[0] ?? ["", ""];
 
-/** `illustration` est rendue côté serveur : l'îlot client ne porte que les champs et le texte. */
+/** `illustration` est rendue côté serveur : l’îlot client ne porte que les champs et le texte. */
 export function HistoirePerso({ illustration }: { illustration: ReactNode }) {
   const [prenom, setPrenom] = useState("Léa");
   const [doudou, setDoudou] = useState("Pompon");
@@ -18,7 +18,7 @@ export function HistoirePerso({ illustration }: { illustration: ReactNode }) {
         {illustration}
         <div className={s.histoireCorps}>
           <div className={s.histoireHaut}>
-            <div className={s.histoireTitre}>Où es-tu, doudou ?</div>
+            <div className={s.histoireTitre}>La baleine qui chante</div>
             <span className={s.page1}>Page 1 sur 6</span>
           </div>
           <p className={s.histoireTexte}>{fill(texte, prenom, doudou)}</p>
@@ -35,7 +35,7 @@ export function HistoirePerso({ illustration }: { illustration: ReactNode }) {
           <input value={doudou} onChange={(e) => setDoudou(e.target.value)} autoComplete="off" />
         </label>
       </div>
-      <p className={s.aide}>Changez le prénom et le doudou : l&apos;histoire suit.</p>
+      <p className={s.aide}>Changez le prénom et le doudou&nbsp;: l’histoire suit.</p>
     </>
   );
 }

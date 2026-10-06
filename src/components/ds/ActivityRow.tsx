@@ -2,7 +2,7 @@ import Image, { type StaticImageData } from "next/image";
 import { Icon } from "./Icon";
 import s from "./ActivityRow.module.css";
 
-// Ligne d'activité Éveil : vignette 58 r15 (46 r13 en compact), titre Baloo 15.5, sous-ligne, « Plutôt vers… ».
+// Ligne d’activité Éveil : vignette 58 r15 (46 r13 en compact), titre Baloo 15.5, sous-ligne, « Plutôt vers… ».
 export type ActivityRowProps = {
   image?: StaticImageData;
   title: string;

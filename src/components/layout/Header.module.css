@@ -38,11 +38,11 @@ a.logo:hover {
   text-decoration: none;
   white-space: nowrap;
   color: var(--c);
-  border-bottom: 3px solid transparent;
 }
 
+/* Comme le handoff : seule la page active porte la bordure (elle la décale de 1,5 px). */
 .nav a[aria-current="page"] {
-  border-bottom-color: var(--c);
+  border-bottom: 3px solid var(--c);
 }
 
 .burger,
@@ -60,7 +60,7 @@ a.logo:hover {
 
 @media (min-width: 900px) {
   .header {
-    padding: 14px 56px;
+    padding: 14px var(--g);
   }
   .nav {
     display: flex;
@@ -85,6 +85,7 @@ a.logo:hover {
   color: var(--ink);
   padding: 12px 20px 40px;
   flex-direction: column;
+  /* Invisible tant que le menu tient à l'écran ; utile en paysage sur petit téléphone. */
   overflow-y: auto;
 }
 
@@ -121,7 +122,6 @@ a.logo:hover {
 
 .menuBottom {
   margin-top: auto;
-  padding-top: 32px;
   display: flex;
   flex-direction: column;
   gap: 24px;

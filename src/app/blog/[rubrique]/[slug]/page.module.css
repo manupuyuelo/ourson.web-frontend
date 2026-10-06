@@ -185,7 +185,7 @@
 
 @media (min-width: 900px) {
   .hero {
-    padding: 72px 56px 32px;
+    padding: 72px var(--g) 32px;
     align-items: center;
     text-align: center;
   }
@@ -200,7 +200,7 @@
   }
 
   .cover {
-    padding: 0 56px;
+    padding: 0 var(--g);
   }
 
   .article {
@@ -208,6 +208,6 @@
   }
 
   .rel {
-    padding: 0 56px 80px;
+    padding: 0 var(--g) 80px;
   }
 }

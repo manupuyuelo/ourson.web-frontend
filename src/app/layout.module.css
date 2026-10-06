@@ -18,6 +18,6 @@
 
 @media (min-width: 900px) {
   .col {
-    max-width: 1140px;
+    max-width: none;
   }
 }

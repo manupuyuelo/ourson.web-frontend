@@ -8,7 +8,7 @@ import s from "./Age.module.css";
 type Props = {
   compact?: boolean;
   sizes?: string;
-  /** Au-dessus de la ligne de flottaison : la première photo est l'élément LCP. */
+  /** Au-dessus de la ligne de flottaison : la première photo est l’élément LCP. */
   eager?: boolean;
 };
 
@@ -32,7 +32,7 @@ export function Age({ compact = false, sizes = "(min-width: 430px) 366px, 100vw"
         ))}
       </div>
       <fieldset className={s.chips}>
-        <legend className="srOnly">Âge de l'enfant</legend>
+        <legend className="srOnly">Âge de l’enfant</legend>
         {AGES.map((a, k) => (
           <button key={a.chip} type="button" aria-pressed={k === i} onClick={() => setI(k)}>
             {a.chip}

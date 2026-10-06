@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { og } from "@/lib/seo";
+import { PARTAGE, meta } from "@/lib/seo";
 import Image from "next/image";
 import cacheCacheFoulard from "@/assets/echantillons/eveil/jeux/cache_cache_foulard.jpg";
 import deuxPaniers from "@/assets/echantillons/eveil/jeux/deux_paniers.jpg";
@@ -9,19 +9,19 @@ import p from "@/components/layout/Pilier.module.css";
 import { Carrousel } from "@/components/site/Carrousel";
 import { Carte } from "@/components/site/Carte";
 import { OURS } from "@/lib/ours";
-import ouEsTuDoudou from "@/assets/echantillons/eveil/histoires/ou_es_tu_doudou.jpg";
+import baleine from "@/assets/echantillons/eveil/histoires/la_baleine_qui_chante.jpg";
 import { HistoirePerso } from "./HistoirePerso";
 import s from "./eveil.module.css";
 
-const TITRE = "L'accompagner dans son éveil, jour après jour";
+const TITRE = "L’accompagner dans son éveil, jour après jour";
 
-export const metadata: Metadata = {
-  title: TITRE,
+export const metadata: Metadata = meta({
+  url: "/eveil",
+  titre: "Éveil de bébé\u00a0: jalons, jeux et histoires · Ourson",
   description:
-    "Ourson suit ses progrès et vous propose chaque jour une activité qui l'aide là où il en est, avec ce que vous avez à la maison. Et le soir, une comptine et une histoire.",
-  alternates: { canonical: "/eveil" },
-  openGraph: og("/eveil"),
-};
+    "Une idée de jeu par jour adaptée à son âge, ses jalons suivis pas à pas, des comptines et des histoires qui reprennent son prénom.",
+  image: PARTAGE.eveil,
+});
 
 const PISTES: { id: Track; label: string; sub: string; rot: number }[] = [
   { id: "gross_motor", label: "Motricité", sub: "Tient assise", rot: -3 },
@@ -44,8 +44,8 @@ export default function EveilPage() {
             {TITRE}
           </h1>
           <p className={`oDrop ${p.chapeau}`} style={{ "--d": ".25s" }}>
-            Ourson suit ses progrès et vous propose chaque jour une activité qui l&apos;aide là où il en est,
-            avec ce que vous avez à la maison. Et le soir, une comptine et une histoire.
+            Ourson suit ses progrès et vous propose chaque jour une activité à son rythme, avec ce que vous
+            avez à la maison. Et le soir, une comptine et une histoire.
           </p>
           <div className={`oDrop ${p.puces}`} style={{ "--d": ".35s" }}>
             <span>Ses progrès suivis</span>
@@ -56,7 +56,7 @@ export default function EveilPage() {
         <div className={`oDrop ${p.vis} ${s.heroVis}`} style={{ "--d": ".45s", "--dur": ".8s" }}>
           <div className={s.photo}>
             <Image
-              src={cacheCacheFoulard}
+              src={deuxPaniers}
               placeholder="blur"
               alt=""
               sizes="(min-width: 900px) 460px, 370px"
@@ -67,12 +67,12 @@ export default function EveilPage() {
           <div className={s.idee}>
             <div className={s.ideeHaut}>
               <div className={s.ideeSurTitre}>Idée du jour · Léa, 8 mois</div>
-              <div className={s.ideeDuree}>5 min · un foulard</div>
+              <div className={s.ideeDuree}>10 min · un panier</div>
             </div>
-            <div className={s.ideeTitre}>Cache-cache foulard</div>
+            <div className={s.ideeTitre}>Le panier à trésors</div>
             <div className={s.puce}>
-              Léa commence à chercher l&apos;objet caché. Ce jeu l&apos;aide à comprendre qu&apos;un objet
-              existe même quand elle ne le voit plus.
+              Léa tient assise et attrape tout. Elle explore chaque objet du panier avec les mains et la
+              bouche, à son rythme.
             </div>
           </div>
         </div>
@@ -80,6 +80,8 @@ export default function EveilPage() {
           src={OURS.eveil}
           alt=""
           className={`${p.bear} ${p.float} ${s.ours}`}
+          data-boucle
+          data-pause
           style={{ "--r": "8deg" }}
           sizes="(min-width: 900px) 270px, 175px"
         />
@@ -94,22 +96,21 @@ export default function EveilPage() {
             Ses progrès dans six domaines
           </h2>
           <p className={p.texte}>
-            Motricité, mains, langage, social, cognitif, autonomie : vous cochez ce que votre enfant sait déjà
-            faire. Ourson en déduit ce qu&apos;il apprend en ce moment, et choisit les activités qui
-            l&apos;encouragent là où il en est.
+            Motricité, mains, langage, social, cognitif, autonomie&nbsp;: vous cochez ce que votre enfant sait
+            déjà faire. Ourson en déduit ses apprentissages du moment, et choisit les activités qui vont avec.
           </p>
           <div className={s.sources}>
             <span className={s.sourcesIcone}>
               <Icon name="stethoscope" size={20} />
             </span>
             <p>
-              Les jalons reprennent les repères de développement du CDC et de l&apos;American Academy of
-              Pediatrics, cités dans l&apos;app.
+              Les jalons reprennent les repères de développement du CDC et de l’American Academy of
+              Pediatrics, cités dans l’app.
             </p>
           </div>
         </div>
         <div className={`oReveal ${p.vis} ${s.jalons}`} style={{ "--r": "-1.5deg" }}>
-          <h3 className={s.jalonsTitre}>Ce que Léa sait déjà faire</h3>
+          <div className={s.jalonsTitre}>Ce que Léa sait déjà faire</div>
           <ul className={s.pistes}>
             {PISTES.map((t) => (
               <li key={t.id} className={s.piste}>
@@ -120,7 +121,7 @@ export default function EveilPage() {
             ))}
           </ul>
           <div className={s.filet} />
-          <div className={s.micro}>Pour l&apos;encourager cette semaine</div>
+          <div className={s.micro}>Pour l’encourager cette semaine</div>
           <ActivityRow
             image={cacheCacheFoulard}
             title="Cache-cache foulard"
@@ -149,12 +150,12 @@ export default function EveilPage() {
             Une activité par jour, avec ce que vous avez à la maison
           </h2>
           <p className={p.texte}>
-            Un foulard, une bassine, du scotch : chaque activité est choisie selon son âge et ce qu&apos;il
-            apprend en ce moment. Vous la faites, vous cochez, le foyer le voit.
+            Un foulard, une bassine, du scotch&nbsp;: chaque activité est choisie selon son âge et ses
+            apprentissages du moment. Vous la faites, vous cochez, le foyer le voit.
           </p>
         </div>
         <div className={`oReveal ${s.marge}`}>
-          <Carrousel set="jeux" label="Exemples d'activités" />
+          <Carrousel set="jeux" label="Exemples d’activités" />
         </div>
         <p className={`${s.pad} ${s.total}`}>122 activités, à la maison comme dehors.</p>
       </section>
@@ -168,26 +169,29 @@ export default function EveilPage() {
             Le soir, une comptine et une histoire
           </h2>
           <p className={`${p.texte} ${s.attenue}`}>
-            En fin de journée, Ourson vous propose une berceuse et une histoire à raconter. L&apos;histoire
-            reprend le prénom de votre enfant et le nom de son doudou.
+            En fin de journée, Ourson vous propose une berceuse et une histoire à raconter. L’histoire reprend
+            le prénom de votre enfant et le nom de son doudou.
           </p>
           <p className={`${p.texte} ${s.attenue}`}>
             Des comptines avec les paroles, les gestes et la mélodie pour les apprendre.
           </p>
           <div className={s.sansEcran}>
-            Pas d&apos;écran pour votre enfant : c&apos;est vous qui jouez, chantez et racontez.
+            Pas d’écran pour votre enfant&nbsp;: c’est vous qui jouez, chantez et racontez.
           </div>
         </div>
         <div className={`oReveal ${p.vis}`} style={{ "--r": "1.5deg" }}>
           <HistoirePerso
             illustration={
-              <Image src={ouEsTuDoudou} alt="" sizes="(min-width: 900px) 480px, 390px" placeholder="blur" />
+              <Image src={baleine} alt="" sizes="(min-width: 900px) 480px, 390px" placeholder="blur" />
             }
           />
         </div>
       </section>
 
-      <section className={`${p.wide} ${s.large} ${s.tight} ${s.nuit}`} aria-labelledby="eveil-ce-soir">
+      <section
+        className={`${p.wide} ${p.tight} ${s.large} ${s.tight} ${s.nuit}`}
+        aria-labelledby="eveil-ce-soir"
+      >
         <div className={`${s.pad} ${s.soirTitre}`}>
           <h2 id="eveil-ce-soir">Ce soir, au choix</h2>
           <p>107 comptines et 121 histoires.</p>

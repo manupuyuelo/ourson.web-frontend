@@ -1,4 +1,6 @@
 .carrousel {
+  /* Le nombre de cartes visibles suit la largeur du carrousel, pas celle de l'écran. */
+  container-type: inline-size;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -97,4 +99,26 @@
   display: grid;
   place-items: center;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14);
+}
+
+/* Desktop : 3, 4 puis 5 cartes visibles ; la piste est rognée sur la gouttière. */
+@container (min-width: 700px) {
+  .carte {
+    width: calc((100% - 28px) / 3);
+  }
+  .piste {
+    clip-path: inset(-30px 20px -30px 20px);
+  }
+}
+
+@container (min-width: 980px) {
+  .carte {
+    width: calc((100% - 42px) / 4);
+  }
+}
+
+@container (min-width: 1240px) {
+  .carte {
+    width: calc((100% - 56px) / 5);
+  }
 }

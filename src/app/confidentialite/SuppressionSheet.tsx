@@ -37,7 +37,7 @@ export function SuppressionSheet({ titreId, entete, children }: Props) {
       if (location.hash === HASH) history.replaceState(null, "", location.pathname + location.search);
     };
 
-    // Liens #suppression : pas de nouvelle entrée d'historique (comme le prototype).
+    // Liens #suppression : pas de nouvelle entrée d’historique (comme le prototype).
     const surClicLien = (e: MouseEvent) => {
       if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
       if (!(e.target instanceof Element) || !e.target.closest(`a[href="${HASH}"]`)) return;
@@ -47,7 +47,7 @@ export function SuppressionSheet({ titreId, entete, children }: Props) {
     };
 
     // Clic sur le voile : la cible est le <dialog> lui-même (le contenu est dans un conteneur intérieur).
-    // On vérifie aussi le pointerdown pour ne pas fermer à la fin d'une sélection de texte.
+    // On vérifie aussi le pointerdown pour ne pas fermer à la fin d’une sélection de texte.
     let appuiSurVoile = false;
     const surAppui = (e: PointerEvent) => {
       appuiSurVoile = e.target === dialog;

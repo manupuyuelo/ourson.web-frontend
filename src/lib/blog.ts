@@ -24,7 +24,7 @@ export type Rubrique = (typeof RUBRIQUE_KEYS)[number];
 
 export const isRubrique = (v: string): v is Rubrique => v in RUBRIQUES;
 
-/** Ourson de repli quand l'image Cloudinary ne charge pas. */
+/** Ourson de repli quand l’image Cloudinary ne charge pas. */
 export const oursDeRubrique = (r: Rubrique): StaticImageData => OURS[RUBRIQUES[r].pilier];
 
 const Frontmatter = z.object({

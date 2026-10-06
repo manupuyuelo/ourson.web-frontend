@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import { BlogListe } from "@/components/blog/BlogListe";
-import { JsonLd, filAriane, og } from "@/lib/seo";
+import { JsonLd, PARTAGE, filAriane, meta } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Le blog",
+export const metadata: Metadata = meta({
+  url: "/blog",
+  titre: "Le blog d’Ourson\u00a0: repas, sommeil et éveil",
   description:
-    "Découvrez les derniers articles sur toutes les thématiques : nutrition, sommeil et éveil des 0-3 ans.",
-  alternates: { canonical: "/blog" },
-  openGraph: og("/blog"),
-};
+    "Conseils pratiques pour les parents de tout-petits\u00a0: alimentation, sommeil et activités d’éveil.",
+  image: PARTAGE.ourson,
+});
 
 export default function BlogPage() {
   return (

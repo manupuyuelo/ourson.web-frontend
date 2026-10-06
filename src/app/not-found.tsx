@@ -17,9 +17,9 @@ export default function NotFound() {
         loading="eager"
         fetchPriority="high"
       />
-      <h1 className={s.titre}>Cette page s&apos;est cachée.</h1>
+      <h1 className={s.titre}>Cette page s’est cachée.</h1>
       <Link href="/" className={s.lien}>
-        Retour à l&apos;accueil →
+        Retour à l’accueil →
       </Link>
     </main>
   );

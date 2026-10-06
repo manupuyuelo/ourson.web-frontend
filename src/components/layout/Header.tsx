@@ -86,7 +86,13 @@ export function Header() {
         onClose={() => setOpen(false)}
       >
         <div className={s.menuTop}>
-          <span className={s.logo}>ourson</span>
+          {pathname === "/" ? (
+            <span className={s.logo}>ourson</span>
+          ) : (
+            <Link href="/" className={s.logo} aria-label="Ourson, accueil" onClick={() => setOpen(false)}>
+              ourson
+            </Link>
+          )}
           <button type="button" className={s.close} aria-label="Fermer" onClick={() => setOpen(false)}>
             <svg
               width="26"
@@ -126,6 +132,10 @@ export function Header() {
               Confidentialité
             </Link>
             <a href={SITE.cgvUrl}>CGV</a>
+            {/* Le bandeau s’ouvre via l’écouteur délégué ; on ferme le menu pour le laisser voir. */}
+            <a href="#cookies" onClick={() => setOpen(false)}>
+              Cookies
+            </a>
           </div>
           <div className={s.rule} />
           {open && <Telecharger />}

@@ -2,7 +2,7 @@
 
 .eveil {
   --bear-dk-w: 270px;
-  --bear-dk-left: 40px;
+  --bear-dk-left: calc(var(--g) - 16px);
   --hero-dk-pb: 260px;
 }
 
@@ -393,10 +393,15 @@
     margin-right: 0;
   }
   .large {
-    padding: 96px 56px;
+    padding: 96px var(--g);
   }
-  /* Dans le handoff, .dkWide (déclarée après .dkTight) l'emporte : 96px en haut aussi sur desktop. */
+  /* section.dkWide.dkTight du handoff : pas de padding haut, la section prolonge « Le soir ». */
   .large.tight {
-    padding: 96px 56px;
+    padding: 0 var(--g) 96px;
   }
+}
+
+/* Fond plein : anneau de focus blanc (handoff, accessibilité). */
+.nuit {
+  --focus: #fff;
 }

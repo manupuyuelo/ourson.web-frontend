@@ -1,4 +1,6 @@
 .age {
+  /* Carte blanche, même sur une section à fond plein : anneau de focus foncé. */
+  --focus: var(--ink);
   display: flex;
   flex-direction: column;
   gap: 16px;

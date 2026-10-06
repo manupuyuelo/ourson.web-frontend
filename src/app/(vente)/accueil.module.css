@@ -1,9 +1,19 @@
 /* Accueil — la journée heure par heure (handoff : Ourson Accueil.dc.html).
-   Amplitudes d'animation = défauts de motion.css (50px / 60px / .9). */
+   Amplitudes d'animation = défauts de motion.css (oIn 50px, oDrop 50px / .92). */
 
 /* Aimantation des sections : sur le défilement racine, uniquement sur cette page. */
 :global(html):has(.snap) {
   scroll-snap-type: y proximity;
+  /* Hauteur de l'en-tête collant : sans elle, Chrome réaligne le hero sous l'en-tête
+     au moindre changement de mise en page (police, badge) et masque le logo. */
+  scroll-padding-top: 69px;
+}
+
+/* Desktop : pas d'aimantation (sections plus courtes que l'écran). */
+@media (min-width: 900px) {
+  :global(html):has(.snap) {
+    scroll-snap-type: none;
+  }
 }
 
 /* Copies locales de oWave / oFloat : un module CSS renomme les noms d'animation qu'il référence. */
@@ -54,7 +64,7 @@
 
 .slogan {
   font-family: var(--font-brand);
-  font-size: 18px;
+  font-size: 24px;
   color: var(--coral);
 }
 
@@ -62,9 +72,21 @@
   margin: 18px 0 0;
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 42px;
+  font-size: 40px;
   line-height: 0.95;
   letter-spacing: -0.01em;
+}
+
+.mange {
+  color: var(--repas);
+}
+
+.dort {
+  color: var(--sommeil);
+}
+
+.joue {
+  color: var(--eveil);
 }
 
 .chapeau {
@@ -181,6 +203,8 @@
   line-height: 1.4;
   font-weight: 700;
   max-width: 32ch;
+  /* Le handoff n'équilibre que le chapeau du hero. */
+  text-wrap: wrap;
 }
 
 .plein {
@@ -227,12 +251,12 @@
 }
 
 .wave {
-  animation: wave 5s ease-in-out infinite;
+  animation: wave 5s ease-in-out 3;
   transform-origin: bottom center;
 }
 
 .float {
-  animation: float 4s ease-in-out infinite;
+  animation: float 4s ease-in-out 4;
 }
 
 /* 7 h 00 */
@@ -460,11 +484,125 @@
   border-radius: 18px;
 }
 
+/* 19 h 45 */
 .soir {
-  padding: 0 20px;
+  --c: var(--sommeil-surface);
+  background: var(--sommeil-ink);
+}
+
+/* Encart desktop uniquement. */
+.ecran {
+  display: none;
+  align-self: flex-start;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  padding: 12px 14px;
   font-size: 15px;
+  font-weight: 700;
+  line-height: 1.45;
+  max-width: 40ch;
+}
+
+.visSoir {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.histoire {
+  background: #fff;
+  color: var(--ink);
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.35);
+}
+
+.histoire img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+}
+
+.histoireCorps {
+  padding: 14px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.histoireTete {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.histoireTitre {
+  font-family: var(--font-display);
   font-weight: 800;
-  color: var(--eveil-surface);
+  font-size: 18px;
+}
+
+.histoireTexte {
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.pastille {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--sommeil);
+  background: var(--sommeil-tint);
+  border-radius: 30px;
+  padding: 4px 10px;
+  white-space: nowrap;
+}
+
+.pastilleComptine {
+  margin-right: 4px;
+}
+
+.comptine {
+  background: #fff;
+  color: var(--ink);
+  border-radius: 22px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.comptine img {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  object-fit: cover;
+  flex: none;
+}
+
+.comptineTexte {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.comptineTitre {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 1.1;
+}
+
+.comptineSous {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
 }
 
 /* Le foyer */
@@ -499,7 +637,11 @@
     /* Pas de column-gap : dans le handoff, le gap en ligne de chaque section l'emporte sur le 64px. */
     row-gap: 16px;
     align-content: center;
-    padding: 96px 56px;
+    min-height: min(760px, calc(100svh - 72px));
+    padding: 96px var(--g);
+  }
+  .hero {
+    min-height: min(calc(100svh - 72px), 920px);
   }
   .sec > * {
     grid-column: 1;
@@ -534,7 +676,6 @@
   }
   /* Section Éveil : la gouttière de la grille remplace celle des blocs. */
   .pad,
-  .soir,
   .eveil .h2,
   .cubes,
   .visEveil {
@@ -556,13 +697,24 @@
   .nowrap {
     white-space: nowrap;
   }
+  .ecran {
+    display: flex;
+  }
+  /* 12 h 15 : l'ourson plus petit et plus haut laisse respirer le sélecteur d'âge. */
+  .repas > .vis {
+    margin-top: 70px;
+  }
+  .repas .oursIn {
+    top: -125px;
+    width: 200px;
+  }
   .carteNuits {
     box-shadow: 0 30px 60px rgba(88, 104, 214, 0.28);
   }
 
   /* Hero */
   .hero h1 {
-    font-size: 64px;
+    font-size: 56px;
     max-width: 14ch;
   }
   .chapeau {
@@ -607,4 +759,10 @@
     max-width: 170px;
     font-size: 18px;
   }
+}
+
+/* Fond plein : anneau de focus blanc (handoff, accessibilité). */
+.plein,
+.foyer {
+  --focus: #fff;
 }
