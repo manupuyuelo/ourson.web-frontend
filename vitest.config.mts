@@ -1,5 +1,4 @@
 import react from "@vitejs/plugin-react";
-import tsconfigPaths from "vite-tsconfig-paths";
 import { defineConfig, type Plugin } from "vitest/config";
 
 // Next transforme `import img from "x.png"` en { src, width, height } ; Vite renverrait une URL.
@@ -15,8 +14,10 @@ const imagesStatiques: Plugin = {
 };
 
 export default defineConfig({
-  plugins: [imagesStatiques, tsconfigPaths(), react()],
+  plugins: [imagesStatiques, react()],
   resolve: {
+    // Alias `@/…` du tsconfig, résolus nativement par Vite.
+    tsconfigPaths: true,
     // `server-only` lève une erreur hors bundler React Server : neutralisé en test.
     alias: { "server-only": new URL("./src/test/vide.ts", import.meta.url).pathname },
   },
