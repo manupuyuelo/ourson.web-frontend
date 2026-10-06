@@ -12,19 +12,19 @@ yarn               # installe aussi les hooks git (core.hooksPath = .githooks)
 yarn dev           # http://localhost:3000
 ```
 
-| Script                                                                          | Rôle                                                                                                                             |
-| ------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| `yarn dev`                                                                      | serveur de développement (Turbopack)                                                                                             |
-| `yarn verify`                                                                   | types, oxlint (`--deny-warnings`), `oxfmt --check`, tests unitaires : la porte du pre-push et de la CI                           |
-| `yarn test` / `yarn test:watch`                                                 | tests unitaires Vitest (dont la validation de chaque article MDX et la typographie française)                                    |
-| `yarn build`                                                                    | build de production : chaque route doit rester statique (`○` / `●`), sauf `ƒ /app`                                               |
-| `yarn test:e2e`                                                                 | Playwright sur le build de production, en mobile et en desktop                                                                   |
-| `VISUEL=1 yarn test:e2e visuel [--update-snapshots]`                            | non-régression au pixel près (iPhone 15, 16 Pro Max, 1280 et 1440 px). Références locales, à générer avant une modification      |
-| `CAPTURES=1 yarn test:e2e ecrans`, puis `node scripts/planche-ecrans.ts <page>` | audit sur 24 formats (téléphones, foldables, tablettes, paysage, ordinateurs) et planche de relecture dans `.captures/planches/` |
-| `CAPTURES=1 HANDOFF_URL=http://localhost:3200 yarn test:e2e captures`           | captures v2 / handoff côte à côte (puis `node scripts/compare-captures.ts`)                                                      |
-| `npx @lhci/cli@0.15.1 autorun`                                                  | budget Lighthouse local (rapports dans `.lighthouseci/`)                                                                         |
-| `yarn images [dossier-handoff]`                                                 | régénère les images sources depuis le handoff (seulement celles importées dans `src/`)                                           |
-| `yarn og [dossier-handoff]`                                                     | régénère les images de partage 1200 × 630 dans `public/og/`                                                                      |
+| Script                                                                                                              | Rôle                                                                                                                             |
+| ------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `yarn dev`                                                                                                          | serveur de développement (Turbopack)                                                                                             |
+| `yarn verify`                                                                                                       | types, oxlint (`--deny-warnings`), `oxfmt --check`, tests unitaires : la porte du pre-push et de la CI                           |
+| `yarn test` / `yarn test:watch`                                                                                     | tests unitaires Vitest (dont la validation de chaque article MDX et la typographie française)                                    |
+| `yarn build`                                                                                                        | build de production : chaque route doit rester statique (`○` / `●`), sauf `ƒ /app`                                               |
+| `yarn test:e2e`                                                                                                     | Playwright sur le build de production, en mobile et en desktop                                                                   |
+| `VISUEL=1 yarn test:e2e visuel [--update-snapshots]`                                                                | non-régression au pixel près (iPhone 15, 16 Pro Max, 1280 et 1440 px). Références locales, à générer avant une modification      |
+| `ECRANS=1 yarn test:e2e ecrans` (avec `CAPTURES=1`, puis `node scripts/planche-ecrans.ts <page>` pour les captures) | audit sur 24 formats (téléphones, foldables, tablettes, paysage, ordinateurs) et planche de relecture dans `.captures/planches/` |
+| `CAPTURES=1 HANDOFF_URL=http://localhost:3200 yarn test:e2e captures`                                               | captures v2 / handoff côte à côte (puis `node scripts/compare-captures.ts`)                                                      |
+| `npx @lhci/cli@0.15.1 autorun`                                                                                      | budget Lighthouse local (rapports dans `.lighthouseci/`)                                                                         |
+| `yarn images [dossier-handoff]`                                                                                     | régénère les images sources depuis le handoff (seulement celles importées dans `src/`)                                           |
+| `yarn og [dossier-handoff]`                                                                                         | régénère les images de partage 1200 × 630 dans `public/og/`                                                                      |
 
 ## Portes de qualité
 
@@ -35,7 +35,7 @@ yarn dev           # http://localhost:3000
   - types, lint, format ;
   - tests unitaires ;
   - build (échoue si une route devient dynamique) ;
-  - Playwright, audit multi-formats compris ;
+  - Playwright (rendu des pages, bandeau, cartels, redirections ; l’audit multi-formats se lance à la main, `ECRANS=1`) ;
   - budget Lighthouse sur 9 pages (`lighthouserc.json`). Seuils bloquants : SEO 100, accessibilité et bonnes pratiques ≥ 95, CLS ≤ 0,05, TBT ≤ 300 ms. Avertissements : performance < 90, LCP > 3 s.
 
 ## Pages

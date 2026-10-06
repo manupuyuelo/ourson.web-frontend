@@ -2,7 +2,7 @@ import { devices, expect, test, type BrowserContextOptions, type Page } from "@p
 import { mkdirSync } from "node:fs";
 
 // Audit de mise en page sur toute la gamme d'écrans : téléphones, foldables, tablettes, paysage, ordinateurs.
-// Contrôles bloquants : pas de défilement horizontal, pas de texte hors écran, pas de grand vide
+// ECRANS=1 yarn test:e2e ecrans. Contrôles bloquants : pas de défilement horizontal, pas de texte hors écran, pas de grand vide
 // dans une section, un seul bloc de téléchargement visible. CAPTURES=1 enregistre aussi les pages
 // dans .captures/ecrans/ (puis node scripts/planche-ecrans.ts <page>).
 
@@ -129,6 +129,8 @@ function mesurer() {
 }
 
 test.describe.configure({ mode: "parallel" });
+// Long (24 formats × 9 pages) : lancé à la demande avant une modification visuelle, pas en CI.
+test.skip(!process.env.ECRANS && !process.env.CAPTURES, "lancé seulement avec ECRANS=1 ou CAPTURES=1");
 
 for (const [format, options] of FORMATS) {
   test.describe(format, () => {
@@ -142,7 +144,7 @@ for (const [format, options] of FORMATS) {
           r.fulfill({ body: "", contentType: "text/javascript" }),
         );
         const page = await ctx.newPage();
-        await page.goto(path);
+        await page.goto(path, { waitUntil: "domcontentloaded" });
         await preparer(page);
 
         const m = await page.evaluate(mesurer);

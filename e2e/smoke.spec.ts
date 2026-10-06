@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { pageHydratee } from "./outils";
 
 // GTM est chargé dès l'arrivée (Consent Mode avancé) : on le remplace par un script vide, hors réseau.
 test.beforeEach(async ({ page }) => {
@@ -22,7 +23,7 @@ for (const path of PAGES) {
     const erreurs: string[] = [];
     page.on("pageerror", (e) => erreurs.push(e.message));
     page.on("console", (m) => m.type() === "error" && erreurs.push(m.text()));
-    const res = await page.goto(path);
+    const res = await page.goto(path, { waitUntil: "domcontentloaded" });
     expect(res?.status()).toBe(200);
     await expect(page.locator("h1")).toHaveCount(1);
     await expect(page.locator('link[rel="canonical"]')).toHaveCount(1);
@@ -31,10 +32,13 @@ for (const path of PAGES) {
 }
 
 test("Consent Mode avancé : refus par défaut avant GTM, puis le choix", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/", { waitUntil: "domcontentloaded" });
   const accepter = page.getByRole("button", { name: "Miam, j’accepte" });
   await expect(accepter).toBeVisible();
-  await expect.poll(() => page.evaluate(() => window.dataLayer?.length ?? 0)).toBeGreaterThan(1);
+  // GTM se charge après l'hydratation : on attend son événement avant de lire l'ordre.
+  await expect
+    .poll(() => page.evaluate(() => (window.dataLayer ?? []).some((d) => Object(d).event === "gtm.js")))
+    .toBe(true);
   // Ordre du dataLayer : consent default (script du <head>) avant l'événement gtm.js.
   const ordre = await page.evaluate(() =>
     (window.dataLayer ?? []).map((d) => {
@@ -45,6 +49,7 @@ test("Consent Mode avancé : refus par défaut avant GTM, puis le choix", async 
   expect(ordre.indexOf("consent:default")).toBeGreaterThanOrEqual(0);
   expect(ordre.indexOf("consent:default")).toBeLessThan(ordre.indexOf("gtm.js"));
 
+  await pageHydratee(page);
   await accepter.click();
   await expect(accepter).toHaveCount(0);
   const evenement = await page.evaluate(() =>
@@ -57,7 +62,8 @@ test("Consent Mode avancé : refus par défaut avant GTM, puis le choix", async 
 });
 
 test("refus : « Non merci » masque le bandeau, aussi après rechargement", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+  await pageHydratee(page);
   await page.getByRole("button", { name: "Non merci" }).click();
   await expect(page.getByRole("button", { name: "Miam, j’accepte" })).toHaveCount(0);
   await page.reload();
@@ -67,7 +73,8 @@ test("refus : « Non merci » masque le bandeau, aussi après rechargement", asy
 });
 
 test("le lien « Cookies » rouvre le détail avec le choix en cours", async ({ page }) => {
-  await page.goto("/blog");
+  await page.goto("/blog", { waitUntil: "domcontentloaded" });
+  await pageHydratee(page);
   await page.getByRole("button", { name: "Miam, j’accepte" }).click();
   await page.getByRole("contentinfo").getByRole("link", { name: "Cookies" }).click();
   await expect(page.getByRole("button", { name: "Valider mes choix" })).toBeVisible();
@@ -89,7 +96,7 @@ test("/app renvoie vers l'accueil tant que les stores ne sont pas publics", asyn
 });
 
 test("/suppression-compte ouvre la feuille de suppression, Échap la ferme", async ({ page }) => {
-  await page.goto("/suppression-compte");
+  await page.goto("/suppression-compte", { waitUntil: "domcontentloaded" });
   await expect(page).toHaveURL(/\/confidentialite#suppression$/);
   const feuille = page.getByRole("dialog", { name: "Suppression de compte" });
   await expect(feuille).toBeVisible();
@@ -116,7 +123,7 @@ test("redirections des anciennes URLs", async ({ request }) => {
 });
 
 test("le filtre du blog navigue vers la rubrique", async ({ page }) => {
-  await page.goto("/blog");
+  await page.goto("/blog", { waitUntil: "domcontentloaded" });
   await page.getByRole("link", { name: "Sommeil", exact: true }).last().click();
   await expect(page).toHaveURL(/\/blog\/sommeil$/);
 });
