@@ -9,7 +9,14 @@ export const metadata: Metadata = { title: "Page introuvable", robots: { index: 
 export default function NotFound() {
   return (
     <main className={s.nf}>
-      <Image src={OURS.accueil} alt="" className={s.ours} sizes="180px" />
+      <Image
+        src={OURS.accueil}
+        alt=""
+        className={s.ours}
+        sizes="180px"
+        loading="eager"
+        fetchPriority="high"
+      />
       <h1 className={s.titre}>Cette page s&apos;est cachée.</h1>
       <Link href="/" className={s.lien}>
         Retour à l&apos;accueil →

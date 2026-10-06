@@ -1,10 +1,14 @@
 import type { NextConfig } from "next";
 import createMDX from "@next/mdx";
 
+// En développement, React utilise eval() pour ses outils de débogage (piles d'appels, etc.).
+// Jamais en production : la directive n'est ajoutée qu'avec `next dev`.
+const dev = process.env.NODE_ENV === "development";
+
 const csp = [
   "default-src 'self'",
   // 'unsafe-inline' : un nonce rendrait toutes les pages dynamiques ; GTM ne charge qu'après consentement.
-  "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com",
+  `script-src 'self' 'unsafe-inline'${dev ? " 'unsafe-eval'" : ""} https://www.googletagmanager.com`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: https://res.cloudinary.com https://www.googletagmanager.com https://*.google-analytics.com",
   "font-src 'self'",
