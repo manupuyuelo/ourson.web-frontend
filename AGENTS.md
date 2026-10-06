@@ -23,7 +23,7 @@ Next.js 16 (App Router, Turbopack, React Compiler), React 19, TypeScript 7, CSS 
 
 ## Organisation
 
-- `src/app/(vente)/` : pages de vente (Accueil, `nutrition`, `sommeil`, `eveil`). Leur layout ajoute les cartels de téléchargement flottants (`Flottants`), le pied de page desktop et la pause des animations hors écran.
+- `src/app/(vente)/` : pages de vente (Accueil, `nutrition`, `sommeil`, `eveil`). Leur layout ajoute les cartels de téléchargement flottants (`Flottants`), le pied de page et la pause des animations hors écran. Le pied de page (`Footer`) n'existe qu'en desktop : sur téléphone et tablette, ses liens sont dans le menu.
 - `src/app/blog/` : liste, rubriques (`nutrition`, `sommeil`, `activites`), articles `/blog/<rubrique>/<slug>` (URLs de l'ancien site, à conserver).
 - `src/app/confidentialite/` (+ feuille `#suppression`, lien donné aux stores), `src/app/cgu/` (CGU et mentions légales), `src/app/sources/` (sources institutionnelles).
 - `src/app/app/route.ts` : cible du QR, redirige vers le store de l'appareil (vers `/` tant que les liens sont à `#`). `src/app/qr.svg/` : le QR, généré au build.
@@ -42,7 +42,7 @@ Next.js 16 (App Router, Turbopack, React Compiler), React 19, TypeScript 7, CSS 
 - **Typographie française** (site, hors articles MDX) : apostrophe courbe `’`, espace fine insécable (U+202F) avant `? ! ;`, insécable (U+00A0) avant `:` et dans « ». Dans le JSX : `&#8239;` et `&nbsp;` ; dans les chaînes : ` ` et ` `, **jamais dans un attribut JSX entre guillemets** (utiliser `{"…"}`). Vérifié par `src/lib/typo.test.ts`.
 - **Code en français** (noms, commentaires, messages de commit), comme le reste du dépôt. Commits atomiques, message au présent, une étape par commit.
 - **Statique avant tout** : la détection d'appareil se fait côté client (`useAppareil`) ; pendant le rendu serveur, la place est réservée pour éviter tout décalage.
-- **Consentement** (Consent Mode v2 avancé) : le script du `<head>` (`components/consent/config.ts`) refuse tout par défaut, avant GTM. Deux finalités : audience (`analytics_storage`) et publicité (`ad_*`). Choix dans `localStorage['ourson-cookies']`, 6 mois ; incrémenter `CONSENT_VERSION` pour le redemander. Tout lien `#cookies` rouvre le bandeau. Un nouveau domaine tiers doit être ajouté à la CSP (`next.config.ts`) et soumis au consentement.
+- **Consentement** (Consent Mode v2 avancé) : le script du `<head>` (`components/consent/config.ts`) refuse tout par défaut, avant GTM. GTM se charge à la première interaction ou après 3 s (`Gtm.tsx`) pour ne pas bloquer le démarrage sur les téléphones modestes ; ce qui est poussé avant dans le dataLayer est traité à son arrivée. Deux finalités : audience (`analytics_storage`) et publicité (`ad_*`). Choix dans `localStorage['ourson-cookies']`, 6 mois ; incrémenter `CONSENT_VERSION` pour le redemander. Tout lien `#cookies` rouvre le bandeau. Un nouveau domaine tiers doit être ajouté à la CSP (`next.config.ts`) et soumis au consentement.
 - **Mesure** : chaque clic vers un store pousse `ourson_store` (`store`, `emplacement`) via `src/lib/mesure.ts`.
 - **Images** : `next/image` avec `sizes` qui couvre les trois paliers ; image LCP en `eager` + `fetchPriority="high"`. Pas de gabarit composé pour le partage : une vraie image par page.
 - **Animations** en boucle (`data-boucle`) : quelques cycles seulement, en pause hors écran. Mouvement réduit respecté.
@@ -50,7 +50,7 @@ Next.js 16 (App Router, Turbopack, React Compiler), React 19, TypeScript 7, CSS 
 
 ## Points ouverts
 
-- Liens App Store / Google Play à renseigner dans `src/lib/site.ts` à la sortie de l'app (`TODO(stores)`), ou mention « Bientôt sur l'App Store et Google Play ».
+- Liens App Store / Google Play à renseigner dans `src/lib/site.ts` à la sortie de l'app (`TODO(stores)`). D'ici là, `storePublie()` affiche les badges sans lien avec la mention « Bientôt », et aucun `ourson_store` n'est envoyé.
 - Section « Cookies du site » de la Confidentialité à valider (`TODO(texte)`), CGU à relire (code postal, directeur de la publication, contenus IA).
 - Carte « Une première fois ! » (Éveil) : l'emplacement « Photo de l'enfant » attend une vraie photo.
 - Dans `ourson-app`, `LEGAL_URL` (`src/lib/links.ts`) doit pointer vers `/cgu`.

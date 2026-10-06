@@ -8,7 +8,7 @@ import type {
   WithContext,
 } from "schema-dts";
 import type { Metadata } from "next";
-import { SITE } from "./site";
+import { SITE, storePublie } from "./site";
 
 /** Image de partage : une vraie photo ou illustration, 1200 × 630, jamais de gabarit composé. */
 export type ImagePartage = { url: string; alt: string };
@@ -108,8 +108,8 @@ export const application = (): WithContext<MobileApplication> => ({
   applicationCategory: "LifestyleApplication",
   inLanguage: "fr-FR",
   publisher: { "@id": `${SITE.url}/#organisation` },
-  ...(SITE.appStoreUrl !== "#" || SITE.playStoreUrl !== "#"
-    ? { downloadUrl: [SITE.appStoreUrl, SITE.playStoreUrl].filter((u) => u !== "#") }
+  ...(storePublie(SITE.appStoreUrl) || storePublie(SITE.playStoreUrl)
+    ? { downloadUrl: [SITE.appStoreUrl, SITE.playStoreUrl].filter(storePublie) }
     : {}),
 });
 

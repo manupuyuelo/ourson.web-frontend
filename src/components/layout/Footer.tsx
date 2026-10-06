@@ -2,15 +2,12 @@ import Link from "next/link";
 import { SITE } from "@/lib/site";
 import s from "./Footer.module.css";
 
-type Props = {
-  /** « vente » : masqué sur mobile (le cartel de téléchargement occupe le bas de l’écran). */
-  variant?: "vente" | "lecture";
-  actif?: "confidentialite" | "cgu";
-};
+type Props = { actif?: "confidentialite" | "cgu" };
 
-export function Footer({ variant = "lecture", actif }: Props) {
+/** Barre de liens, desktop uniquement : sur téléphone et tablette, ces liens sont dans le menu. */
+export function Footer({ actif }: Props) {
   return (
-    <footer className={variant === "vente" ? `${s.footer} ${s.vente}` : s.footer}>
+    <footer className={s.footer}>
       <a href={`mailto:${SITE.email}`}>Contact</a>
       <Link href="/confidentialite" aria-current={actif === "confidentialite" ? "page" : undefined}>
         Confidentialité
