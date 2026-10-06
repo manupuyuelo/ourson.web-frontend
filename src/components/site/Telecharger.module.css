@@ -1,6 +1,7 @@
 .wrap {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
   color: var(--ink);
 }
@@ -8,6 +9,19 @@
 .badge {
   display: block;
   padding: 12px;
+}
+
+/* Avant la sortie de l'app : mention sous le badge (sans lien). */
+.bientot {
+  margin: -6px 0 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  text-align: center;
+}
+
+.bientotSombre {
+  color: #fff;
 }
 
 .badge img {

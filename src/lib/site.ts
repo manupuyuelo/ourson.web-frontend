@@ -18,3 +18,6 @@ export const PILIERS = {
   sommeil: { label: "Sommeil", href: "/sommeil", lien: "Le sommeil →" },
   eveil: { label: "Éveil", href: "/eveil", lien: "L’éveil →" },
 } as const satisfies Record<Pilier, { label: string; href: string; lien: string }>;
+
+/** Une fiche de store est publiée quand son lien est renseigné (sinon « Bientôt », sans lien). */
+export const storePublie = (url: string) => url.startsWith("https://");

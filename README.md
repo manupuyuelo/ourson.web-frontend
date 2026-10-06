@@ -60,6 +60,8 @@ yarn dev           # http://localhost:3000
 - **Téléchargement :**
   - un seul bloc visible à la fois ;
   - le cartel flottant s'efface devant les autres blocs et le pied de page ;
+  - avant la sortie de l'app (liens des stores à `#`) : badges sans lien et mention « Bientôt » ;
+  - pied de page en desktop seulement (sur téléphone et tablette, ses liens sont dans le menu) ; la fin des pages de vente occupe tout l'écran du téléphone.
   - écran tactile : badge du store de l'appareil, à toutes les largeurs ;
   - ordinateur : QR (généré au build, `/qr.svg`), qui pointe vers `/app`.
 - **Cookies et mesure :** Consent Mode v2 avancé.
@@ -81,7 +83,7 @@ yarn dev           # http://localhost:3000
 
 ## Mise en ligne
 
-1. Renseigner les liens des stores dans `src/lib/site.ts`, ou afficher « Bientôt sur l'App Store et Google Play ».
+1. Renseigner les liens des stores dans `src/lib/site.ts`. Tant qu'ils valent `#`, les badges s'affichent sans lien, avec la mention « Bientôt sur l'App Store et Google Play » ; ils redeviennent cliquables d'eux-mêmes.
 2. Sur la préversion Vercel, vérifier :
    - le consentement dans GTM (mode Prévisualiser) ;
    - la console : aucune erreur de politique de sécurité (CSP) ;

@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { SITE, storePublie } from "../src/lib/site";
 import { pageHydratee } from "./outils";
 
 const UA = {
@@ -79,7 +80,19 @@ test("iPad en paysage : badge App Store en cartel, pas de QR", async ({ browser,
   await ctx.close();
 });
 
+test("avant la sortie : « Bientôt », sans lien vers les stores", async ({ page, isMobile }) => {
+  test.skip(storePublie(SITE.appStoreUrl), "liens des stores renseignés");
+  test.skip(isMobile, "vérifié en desktop");
+  await page.goto("/nutrition", { waitUntil: "domcontentloaded" });
+  await pageHydratee(page);
+  const bloc = page.locator("#telecharger");
+  await expect(bloc.getByText("Bientôt sur l’App Store et Google Play.")).toBeVisible();
+  await expect(bloc.getByRole("link")).toHaveCount(0);
+  await expect(page.locator('a[href="#"]')).toHaveCount(0);
+});
+
 test("clic vers un store : événement ourson_store dans le dataLayer", async ({ page, isMobile }) => {
+  test.skip(!storePublie(SITE.appStoreUrl), "liens des stores pas encore renseignés");
   test.skip(isMobile, "vérifié en desktop");
   await page.route(/googletagmanager\.com/, (r) => r.fulfill({ body: "", contentType: "text/javascript" }));
   await page.goto("/nutrition", { waitUntil: "domcontentloaded" });

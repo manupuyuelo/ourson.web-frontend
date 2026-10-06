@@ -23,7 +23,7 @@ Next.js 16 (App Router, Turbopack, React Compiler), React 19, TypeScript 7, CSS 
 
 ## Organisation
 
-- `src/app/(vente)/` : pages de vente (Accueil, `nutrition`, `sommeil`, `eveil`). Leur layout ajoute les cartels de téléchargement flottants (`Flottants`), le pied de page desktop et la pause des animations hors écran.
+- `src/app/(vente)/` : pages de vente (Accueil, `nutrition`, `sommeil`, `eveil`). Leur layout ajoute les cartels de téléchargement flottants (`Flottants`), le pied de page et la pause des animations hors écran. Le pied de page (`Footer`) n'existe qu'en desktop : sur téléphone et tablette, ses liens sont dans le menu.
 - `src/app/blog/` : liste, rubriques (`nutrition`, `sommeil`, `activites`), articles `/blog/<rubrique>/<slug>` (URLs de l'ancien site, à conserver).
 - `src/app/confidentialite/` (+ feuille `#suppression`, lien donné aux stores), `src/app/cgu/` (CGU et mentions légales), `src/app/sources/` (sources institutionnelles).
 - `src/app/app/route.ts` : cible du QR, redirige vers le store de l'appareil (vers `/` tant que les liens sont à `#`). `src/app/qr.svg/` : le QR, généré au build.
@@ -50,7 +50,7 @@ Next.js 16 (App Router, Turbopack, React Compiler), React 19, TypeScript 7, CSS 
 
 ## Points ouverts
 
-- Liens App Store / Google Play à renseigner dans `src/lib/site.ts` à la sortie de l'app (`TODO(stores)`), ou mention « Bientôt sur l'App Store et Google Play ».
+- Liens App Store / Google Play à renseigner dans `src/lib/site.ts` à la sortie de l'app (`TODO(stores)`). D'ici là, `storePublie()` affiche les badges sans lien avec la mention « Bientôt », et aucun `ourson_store` n'est envoyé.
 - Section « Cookies du site » de la Confidentialité à valider (`TODO(texte)`), CGU à relire (code postal, directeur de la publication, contenus IA).
 - Carte « Une première fois ! » (Éveil) : l'emplacement « Photo de l'enfant » attend une vraie photo.
 - Dans `ourson-app`, `LEGAL_URL` (`src/lib/links.ts`) doit pointer vers `/cgu`.
