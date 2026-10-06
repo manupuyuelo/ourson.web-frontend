@@ -131,7 +131,13 @@ export function Header() {
             >
               Confidentialité
             </Link>
-            <a href={SITE.cgvUrl}>CGV</a>
+            <Link
+              href="/cgu"
+              aria-current={pathname === "/cgu" ? "page" : undefined}
+              onClick={() => setOpen(false)}
+            >
+              CGU
+            </Link>
             {/* Le bandeau s’ouvre via l’écouteur délégué ; on ferme le menu pour le laisser voir. */}
             <a href="#cookies" onClick={() => setOpen(false)}>
               Cookies

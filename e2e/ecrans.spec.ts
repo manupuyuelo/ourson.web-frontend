@@ -55,6 +55,7 @@ const PAGES = [
   ["blog", "/blog"],
   ["article", "/blog/sommeil/importance-regularite-temps-endormissement-enfant"],
   ["confidentialite", "/confidentialite"],
+  ["cgu", "/cgu"],
 ] as const;
 
 /**

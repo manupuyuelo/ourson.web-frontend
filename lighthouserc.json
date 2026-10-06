@@ -10,7 +10,8 @@
         "http://localhost:3200/eveil",
         "http://localhost:3200/blog",
         "http://localhost:3200/blog/sommeil/importance-regularite-temps-endormissement-enfant",
-        "http://localhost:3200/confidentialite"
+        "http://localhost:3200/confidentialite",
+        "http://localhost:3200/cgu"
       ],
       "numberOfRuns": 2,
       "settings": { "chromeFlags": "--no-sandbox" }

@@ -9,8 +9,6 @@ export const SITE = {
   // TODO(stores) : à renseigner dès que les fiches sont publiques.
   appStoreUrl: "#",
   playStoreUrl: "#",
-  // TODO(cgv) : page à rédiger sur le modèle de /confidentialite.
-  cgvUrl: "#",
 } as const;
 
 export type Pilier = "repas" | "sommeil" | "eveil";

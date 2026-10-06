@@ -5,7 +5,7 @@ test.beforeEach(async ({ page }) => {
   await page.route(/googletagmanager\.com/, (r) => r.fulfill({ body: "", contentType: "text/javascript" }));
 });
 
-const PAGES = ["/", "/nutrition", "/sommeil", "/eveil", "/blog", "/blog/sommeil", "/confidentialite"];
+const PAGES = ["/", "/nutrition", "/sommeil", "/eveil", "/blog", "/blog/sommeil", "/confidentialite", "/cgu"];
 
 for (const path of PAGES) {
   test(`${path} : rendu, un seul h1, pas d'erreur console`, async ({ page }) => {

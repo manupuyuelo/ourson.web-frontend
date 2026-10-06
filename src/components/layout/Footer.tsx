@@ -5,7 +5,7 @@ import s from "./Footer.module.css";
 type Props = {
   /** « vente » : masqué sur mobile (le cartel de téléchargement occupe le bas de l’écran). */
   variant?: "vente" | "lecture";
-  actif?: "confidentialite";
+  actif?: "confidentialite" | "cgu";
 };
 
 export function Footer({ variant = "lecture", actif }: Props) {
@@ -15,7 +15,9 @@ export function Footer({ variant = "lecture", actif }: Props) {
       <Link href="/confidentialite" aria-current={actif === "confidentialite" ? "page" : undefined}>
         Confidentialité
       </Link>
-      <a href={SITE.cgvUrl}>CGV</a>
+      <Link href="/cgu" aria-current={actif === "cgu" ? "page" : undefined}>
+        CGU
+      </Link>
       {/* Rouvre le bandeau de consentement (écouteur délégué dans ConsentBanner). */}
       <a href="#cookies">Cookies</a>
     </footer>
