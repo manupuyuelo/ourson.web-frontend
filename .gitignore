@@ -45,3 +45,6 @@ next-env.d.ts
 
 # lighthouse ci
 /.lighthouseci/
+
+# références de non-régression visuelle (dépendent de la machine)
+/e2e/*-snapshots/
