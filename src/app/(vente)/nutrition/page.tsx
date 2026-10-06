@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { PARTAGE, meta } from "@/lib/seo";
+import Link from "next/link";
 import Image, { type StaticImageData } from "next/image";
 import { Fragment } from "react";
 import { DivChip, DivHead, Icon, ShopItem, type IconName, type ShopItemProps } from "@/components/ds";
@@ -269,7 +270,7 @@ export default function NutritionPage() {
           </span>
           <p>
             Âges d’introduction et textures suivent les recommandations de Santé publique France, de l’ANSES
-            et de l’OMS, toutes citées dans l’app.
+            et de l’OMS, toutes citées dans l’app. <Link href="/sources#repas">Nos sources&nbsp;→</Link>
           </p>
         </div>
       </section>

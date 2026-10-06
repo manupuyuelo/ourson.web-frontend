@@ -128,7 +128,8 @@ export default function Cgu() {
           <Section id="sante" titre="Santé et sécurité de votre enfant">
             <p className={s.texte}>
               Les contenus d’Ourson sont des informations générales, appuyées sur des recommandations
-              publiques (Santé publique France, HAS, ANSES, OMS, American Academy of Pediatrics, CDC).{" "}
+              publiques (Santé publique France, HAS, ANSES, OMS, American Academy of Pediatrics, CDC),
+              détaillées dans <Link href="/sources">nos sources</Link>.{" "}
               <strong>
                 Ils ne remplacent ni l’avis d’un professionnel de santé, ni les examens de suivi de votre
                 enfant.

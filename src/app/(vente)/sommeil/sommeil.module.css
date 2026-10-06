@@ -418,3 +418,11 @@ h2.foyerTitre {
     opacity: 0;
   }
 }
+
+/* Lien vers la page des sources : dans la couleur du texte de l'encart. */
+.sources a {
+  color: inherit;
+  font-weight: 800;
+  white-space: nowrap;
+  text-underline-offset: 2px;
+}

@@ -1,0 +1,58 @@
+/* Page des sources : complète le gabarit de confidentialite.module.css. */
+
+/* Bloc d'un pilier : sur-titre et titre à sa couleur. */
+.pilier {
+  scroll-margin-top: 80px;
+}
+
+.surTitre {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c);
+}
+
+.refs {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.refs li {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.refs li::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c);
+  flex: none;
+  transform: translateY(-1px);
+}
+
+.refs a {
+  color: var(--deep);
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.mention {
+  margin: 4px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  font-weight: 600;
+  color: var(--muted);
+}

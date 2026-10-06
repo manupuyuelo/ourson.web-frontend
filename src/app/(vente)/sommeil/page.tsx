@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { PARTAGE, meta } from "@/lib/seo";
+import Link from "next/link";
 import Image from "next/image";
 import { DayTimeline, h, Icon, SleepRow, TimelineAxis, TimelineLegend } from "@/components/ds";
 import { FinDePage } from "@/components/layout/FinDePage";
@@ -253,7 +254,8 @@ export default function SommeilPage() {
             </span>
             <div className={s.sourcesTexte}>
               Des repères appuyés sur les recommandations de l’American Academy of Pediatrics, de la HAS et de
-              Santé publique France, toutes citées dans l’app.
+              Santé publique France, toutes citées dans l’app.{" "}
+              <Link href="/sources#sommeil">Nos sources&nbsp;→</Link>
             </div>
           </div>
         </div>

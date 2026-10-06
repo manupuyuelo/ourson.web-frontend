@@ -340,3 +340,11 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+
+/* Lien vers la page des sources : dans la couleur du texte de l'encart. */
+.sources a {
+  color: inherit;
+  font-weight: 800;
+  white-space: nowrap;
+  text-underline-offset: 2px;
+}

@@ -26,6 +26,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.6,
     })),
     { url: url("/confidentialite"), changeFrequency: "yearly", priority: 0.3 },
+    { url: url("/sources"), changeFrequency: "monthly", priority: 0.5 },
     { url: url("/cgu"), changeFrequency: "yearly", priority: 0.3 },
   ];
 }

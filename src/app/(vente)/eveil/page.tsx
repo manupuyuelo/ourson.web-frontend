@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { PARTAGE, meta } from "@/lib/seo";
+import Link from "next/link";
 import Image from "next/image";
 import cacheCacheFoulard from "@/assets/echantillons/eveil/jeux/cache_cache_foulard.jpg";
 import deuxPaniers from "@/assets/echantillons/eveil/jeux/deux_paniers.jpg";
@@ -107,7 +108,7 @@ export default function EveilPage() {
             </span>
             <p>
               Les jalons reprennent les repères de développement du CDC et de l’American Academy of
-              Pediatrics, cités dans l’app.
+              Pediatrics, cités dans l’app. <Link href="/sources#eveil">Nos sources&nbsp;→</Link>
             </p>
           </div>
         </div>
