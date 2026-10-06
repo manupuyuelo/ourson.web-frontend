@@ -84,6 +84,8 @@ export default function EveilPage() {
           data-pause
           style={{ "--r": "8deg" }}
           sizes="(min-width: 900px) 270px, 175px"
+          // Visible dès l'arrivée : c'est souvent l'élément LCP en mobile, il ne doit pas être différé.
+          loading="eager"
         />
       </section>
 

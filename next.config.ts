@@ -28,6 +28,9 @@ const nextConfig: NextConfig = {
   experimental: {
     // Turbopack : regroupe le CSS par route au lieu d'un gros fichier partagé chargé partout.
     cssChunking: "graph",
+    // CSS dans le <head> plutôt qu'en fichiers bloquants : le site est surtout visité une fois
+    // (pas de cache à exploiter) et le CSS d'une page est léger. Gain mesuré sur FCP et LCP.
+    inlineCss: true,
   },
   typedRoutes: true,
   pageExtensions: ["ts", "tsx", "md", "mdx"],
