@@ -1,3 +1,60 @@
+# www.ourson.app : guide pour les agents
+
+Site vitrine de **Ourson**, l'app des parents d'enfants de 0 à 3 ans (repas, sommeil, éveil, partagés avec le foyer). Le site présente l'app, publie un blog de conseils et porte les pages légales. Édité par AddedSugar (SASU). L'app elle-même vit dans un autre dépôt, `ourson-app` (Expo / React Native, Supabase).
+
+Ce fichier est la source unique des consignes (`CLAUDE.md` l'importe). Le bloc entre les marqueurs `nextjs-agent-rules`, en bas, est géré par Next.js : ne pas le modifier.
+
+## Pile
+
+Next.js 16 (App Router, Turbopack, React Compiler), React 19, TypeScript 7, CSS Modules et tokens du design system (pas de Tailwind), MDX pour le blog, Yarn classic, oxlint et oxfmt, Vitest, Playwright, Node 24. Tout est statique (SSG) sauf la route `/app`. Hébergé sur Vercel (fonctions à Paris, `cdg1`).
+
+## Commandes
+
+| Commande                                                                    | Rôle                                                                                                                                                   |
+| --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `yarn dev`                                                                  | développement, http://localhost:3000                                                                                                                   |
+| `yarn verify`                                                               | types, lint (`--deny-warnings`), format, tests unitaires : à lancer avant tout commit (le pre-push le fait)                                            |
+| `yarn build`                                                                | build de production : toutes les routes doivent rester `○` ou `●`, sauf `ƒ /app`                                                                       |
+| `yarn test:e2e`                                                             | Playwright sur le build (`E2E_SKIP_BUILD=1` si le build est déjà fait)                                                                                 |
+| `VISUEL=1 yarn test:e2e visuel`                                             | non-régression au pixel près (iPhone 15, 16 Pro Max, 1280, 1440). Références locales : `--update-snapshots` **avant** de modifier, puis comparer après |
+| `CAPTURES=1 yarn test:e2e ecrans` + `node scripts/planche-ecrans.ts <page>` | audit sur 24 formats (téléphones, foldables, tablettes, paysage, ordinateurs) et planche de relecture                                                  |
+| `npx @lhci/cli@0.15.1 autorun`                                              | budget Lighthouse (9 pages)                                                                                                                            |
+| `yarn images` / `yarn og`                                                   | régénère les images depuis le handoff / les images de partage 1200 × 630                                                                               |
+
+## Organisation
+
+- `src/app/(vente)/` : pages de vente (Accueil, `nutrition`, `sommeil`, `eveil`). Leur layout ajoute les cartels de téléchargement flottants (`Flottants`), le pied de page desktop et la pause des animations hors écran.
+- `src/app/blog/` : liste, rubriques (`nutrition`, `sommeil`, `activites`), articles `/blog/<rubrique>/<slug>` (URLs de l'ancien site, à conserver).
+- `src/app/confidentialite/` (+ feuille `#suppression`, lien donné aux stores), `src/app/cgu/` (CGU et mentions légales), `src/app/sources/` (sources institutionnelles).
+- `src/app/app/route.ts` : cible du QR, redirige vers le store de l'appareil (vers `/` tant que les liens sont à `#`). `src/app/qr.svg/` : le QR, généré au build.
+- `src/content/blog/*.mdx` : articles. Frontmatter validé par zod (`src/lib/blog.ts`) ; publier = ajouter un fichier. Les listes « **1. Titre** : texte » sont mises en forme par `src/lib/remark-points.ts`.
+- `src/components/ds/` : composants du design system Ourson portés du handoff. `components/site/` (Telecharger, Carte, Age, Carrousel), `components/layout/` (Header, Footer, FinDePage, Flottants, gabarit `Pilier.module.css`), `components/consent/` (bandeau et Consent Mode), `components/blog/`.
+- `src/lib/` : `site.ts` (URLs, e-mail, ID GTM), `seo.tsx` (`meta()`, `og()`, images `PARTAGE`, JSON-LD), `data.ts` (contenus des pages), `sources.ts`, `mesure.ts` (événements GTM), `device.ts` / `useAppareil.ts`, `useCartelMasque.ts`.
+- `src/styles/` : tokens (`tokens/*.css`), `globals.css`, `motion.css`.
+- `e2e/` : `smoke`, `appareil`, `ecrans` (audit multi-formats), `visuel` (non-régression), `captures` (comparaison avec le handoff).
+- `scripts/` : images, images de partage, planches, comparaison de captures, hooks Git.
+
+## Règles à respecter
+
+- **Le handoff fait foi.** Référence actuelle : `~/Downloads/design_handoff_site_ourson` (prototypes `.dc.html` : styles en ligne = mobile, bloc `@media (min-width:900px)` = desktop). Textes et valeurs repris tels quels. Quand le README du handoff contredit un prototype, le prototype gagne.
+- **Trois paliers, pilotés par la gouttière `--g`** (`globals.css`) : téléphone < 600 px (contenu de 390 px, le design du handoff), tablette 600–899 px (colonne de 560 px, sections à la hauteur du contenu, oursons posés sur les visuels), desktop ≥ 900 px (contenu de 1140 px). Fonds toujours bord à bord. Toute marge latérale de section passe par `var(--g)`.
+- **Pas de régression** : avant une modification visuelle, générer les références `visuel`, puis vérifier qu'aucun écart n'apparaît hors de ce qui est voulu. Lancer aussi l'audit `ecrans` (pas de défilement horizontal, pas de texte hors écran, pas de vide de plus de 200 px, un seul bloc de téléchargement visible).
+- **Typographie française** (site, hors articles MDX) : apostrophe courbe `’`, espace fine insécable (U+202F) avant `? ! ;`, insécable (U+00A0) avant `:` et dans « ». Dans le JSX : `&#8239;` et `&nbsp;` ; dans les chaînes : ` ` et ` `, **jamais dans un attribut JSX entre guillemets** (utiliser `{"…"}`). Vérifié par `src/lib/typo.test.ts`.
+- **Code en français** (noms, commentaires, messages de commit), comme le reste du dépôt. Commits atomiques, message au présent, une étape par commit.
+- **Statique avant tout** : la détection d'appareil se fait côté client (`useAppareil`) ; pendant le rendu serveur, la place est réservée pour éviter tout décalage.
+- **Consentement** (Consent Mode v2 avancé) : le script du `<head>` (`components/consent/config.ts`) refuse tout par défaut, avant GTM. Deux finalités : audience (`analytics_storage`) et publicité (`ad_*`). Choix dans `localStorage['ourson-cookies']`, 6 mois ; incrémenter `CONSENT_VERSION` pour le redemander. Tout lien `#cookies` rouvre le bandeau. Un nouveau domaine tiers doit être ajouté à la CSP (`next.config.ts`) et soumis au consentement.
+- **Mesure** : chaque clic vers un store pousse `ourson_store` (`store`, `emplacement`) via `src/lib/mesure.ts`.
+- **Images** : `next/image` avec `sizes` qui couvre les trois paliers ; image LCP en `eager` + `fetchPriority="high"`. Pas de gabarit composé pour le partage : une vraie image par page.
+- **Animations** en boucle (`data-boucle`) : quelques cycles seulement, en pause hors écran. Mouvement réduit respecté.
+- **Accessibilité** : focus visible (`--focus`, blanc sur fond plein), contrastes du handoff conservés tels quels (choix assumé).
+
+## Points ouverts
+
+- Liens App Store / Google Play à renseigner dans `src/lib/site.ts` à la sortie de l'app (`TODO(stores)`), ou mention « Bientôt sur l'App Store et Google Play ».
+- Section « Cookies du site » de la Confidentialité à valider (`TODO(texte)`), CGU à relire (code postal, directeur de la publication, contenus IA).
+- Carte « Une première fois ! » (Éveil) : l'emplacement « Photo de l'enfant » attend une vraie photo.
+- Dans `ourson-app`, `LEGAL_URL` (`src/lib/links.ts`) doit pointer vers `/cgu`.
+
 <!-- BEGIN:nextjs-agent-rules -->
 
 # This is NOT the Next.js you know
