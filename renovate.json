@@ -1,0 +1,12 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", ":semanticCommitsDisabled"],
+  "timezone": "Europe/Paris",
+  "schedule": ["before 9am on monday"],
+  "packageRules": [
+    { "matchUpdateTypes": ["patch"], "automerge": true },
+    { "groupName": "next", "matchPackageNames": ["next", "@next/**", "eslint-config-next"] },
+    { "groupName": "react", "matchPackageNames": ["react", "react-dom", "@types/react", "@types/react-dom"] },
+    { "groupName": "oxc", "matchPackageNames": ["oxlint", "oxlint-tsgolint", "oxfmt"] }
+  ]
+}

@@ -1,0 +1,59 @@
+/* Animations globales du handoff (.oReveal, .oDrop). Les écarts entre pages passent par des variables :
+   --o-in-y (50px Accueil, 40px piliers), --o-drop-y / --o-drop-s (60px/.9 ou 50px/.92).
+   Les modules CSS renommant les noms d'animation, les autres keyframes vivent dans leur module. */
+
+@keyframes oIn {
+  from {
+    opacity: 0;
+    transform: translateY(var(--o-in-y, 50px)) rotate(0deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(var(--r, 0deg));
+  }
+}
+
+@keyframes oDrop {
+  from {
+    transform: translateY(var(--o-drop-y, 60px)) scale(var(--o-drop-s, 0.9));
+    /* 0.001 et non 0 : Chrome ignore les éléments à opacité nulle pour le LCP (rendu identique à l'œil). */
+    opacity: 0.001;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Apparition au défilement : sans support de animation-timeline, pas d'animation, rotation conservée. */
+.oReveal {
+  transform: rotate(var(--r, 0deg));
+}
+
+@supports (animation-timeline: view()) {
+  .oReveal {
+    animation: oIn 0.8s cubic-bezier(0.2, 0.9, 0.3, 1.1) both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 40%;
+  }
+}
+
+/* Entrée du hero : <div class="oDrop" style="--d:.3s"> */
+.oDrop {
+  animation: oDrop var(--dur, 0.7s) cubic-bezier(0.34, 1.4, 0.64, 1) var(--d, 0s) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .oReveal {
+    animation: none !important;
+  }
+}

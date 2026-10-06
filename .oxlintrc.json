@@ -1,0 +1,25 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["eslint", "typescript", "unicorn", "oxc", "react", "nextjs", "jsx-a11y", "import"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn",
+    "perf": "warn"
+  },
+  "options": { "typeAware": true },
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "react/rules-of-hooks": "error",
+    "react/exhaustive-deps": "warn",
+    // Imports à effet de bord voulus : feuilles de style globales, augmentation de types, "server-only".
+    "import/no-unassigned-import": ["warn", { "allow": ["**/*.css", "server-only", "react"] }]
+  },
+  "overrides": [
+    {
+      // Scripts ponctuels et tests e2e : l'exécution séquentielle est voulue.
+      "files": ["scripts/**", "e2e/**"],
+      "rules": { "eslint/no-await-in-loop": "off" }
+    }
+  ],
+  "ignorePatterns": [".next/**", "next-env.d.ts", "src/content/**", "playwright-report/**", "test-results/**"]
+}

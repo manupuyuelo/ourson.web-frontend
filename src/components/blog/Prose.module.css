@@ -1,0 +1,148 @@
+/* Corps des articles MDX. Couleurs de la rubrique via --c, --deep, --tint (définies sur l'article). */
+.prose {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.prose p {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.6;
+  font-weight: 600;
+  text-wrap: pretty;
+}
+
+/* 1er paragraphe = introduction. */
+.prose > p:first-child {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.prose strong {
+  font-weight: 800;
+}
+
+.prose h2 {
+  margin: 20px 0 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 26px;
+  line-height: 1.05;
+  color: var(--deep);
+  text-wrap: balance;
+}
+
+/* Items « **1. Lead** : texte » (voir mdx-components.tsx). */
+.point {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.point + .point {
+  margin-top: -4px;
+}
+
+.num {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--c);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 16px;
+}
+
+/* Listes : encart blanc (puces ou pastilles numérotées teintées). */
+.prose ul,
+.prose ol {
+  margin: 0;
+  padding: 20px;
+  list-style: none;
+  background: #fff;
+  border-radius: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  counter-reset: item;
+}
+
+.prose li {
+  position: relative;
+  padding-left: 46px;
+  min-height: 32px;
+  font-size: 17px;
+  line-height: 1.6;
+  font-weight: 600;
+}
+
+.prose ul > li {
+  padding-left: 26px;
+}
+
+.prose ul > li::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 0.8em;
+  translate: 0 -50%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--c);
+}
+
+.prose ol > li {
+  counter-increment: item;
+}
+
+.prose ol > li::before {
+  content: counter(item);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--tint);
+  color: var(--deep);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 1;
+}
+
+/* « Conclusion » (toujours en fin d'article) : encart plein, le titre et les paragraphes qui suivent. */
+.prose h2.conclusion,
+.conclusion ~ * {
+  background: var(--c);
+  color: #fff;
+  padding-inline: 20px;
+}
+
+.prose h2.conclusion {
+  margin-top: 20px;
+  padding-top: 24px;
+  border-radius: 28px 28px 0 0;
+}
+
+.conclusion ~ * {
+  margin-top: -18px;
+  padding-top: 12px;
+}
+
+.prose > .conclusion ~ p {
+  font-weight: 700;
+}
+
+.conclusion ~ :last-child {
+  padding-bottom: 24px;
+  border-radius: 0 0 28px 28px;
+}

@@ -1,0 +1,38 @@
+.cube {
+  position: relative;
+  flex: none;
+  display: inline-block;
+}
+
+.edge,
+.face {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-radius: var(--r);
+}
+
+.edge {
+  top: var(--drop);
+  height: var(--h);
+  background: var(--edge);
+}
+
+.face {
+  top: 0;
+  height: var(--h);
+  background: var(--face);
+  border: var(--rim) solid var(--edge);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Cadre pointillé intérieur */
+.dash {
+  position: absolute;
+  inset: var(--dash-inset);
+  border-radius: var(--dash-r);
+  border: 1.5px dashed var(--edge);
+  opacity: 0.45;
+}

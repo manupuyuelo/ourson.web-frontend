@@ -1,0 +1,610 @@
+/* Accueil — la journée heure par heure (handoff : Ourson Accueil.dc.html).
+   Amplitudes d'animation = défauts de motion.css (50px / 60px / .9). */
+
+/* Aimantation des sections : sur le défilement racine, uniquement sur cette page. */
+:global(html):has(.snap) {
+  scroll-snap-type: y proximity;
+}
+
+/* Copies locales de oWave / oFloat : un module CSS renomme les noms d'animation qu'il référence. */
+@keyframes wave {
+  0%,
+  100% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--r, 0deg));
+  }
+  50% {
+    transform: translateY(-8px) rotate(var(--r, 0deg));
+  }
+}
+
+.sec {
+  scroll-snap-align: start;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+  padding: 52px 20px 0;
+  gap: 12px;
+  background: var(--gradient-hero);
+  overflow: hidden;
+  position: relative;
+}
+
+.logo {
+  font-family: var(--font-brand);
+  font-size: 76px;
+  line-height: 0.8;
+  color: var(--coral);
+}
+
+.slogan {
+  font-family: var(--font-brand);
+  font-size: 18px;
+  color: var(--coral);
+}
+
+.h1 {
+  margin: 18px 0 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 42px;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+}
+
+.chapeau {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.45;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.dl {
+  align-self: flex-start;
+  margin-left: -12px;
+}
+
+.heroVis {
+  margin-top: auto;
+  position: relative;
+  height: 300px;
+}
+
+.cercle {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.cercle1 {
+  left: -10px;
+  bottom: 120px;
+  width: 150px;
+  height: 150px;
+  background: var(--repas);
+}
+
+.cercle2 {
+  right: -30px;
+  bottom: 170px;
+  width: 190px;
+  height: 190px;
+  background: var(--sommeil);
+}
+
+.cercle3 {
+  left: 110px;
+  bottom: -60px;
+  width: 220px;
+  height: 220px;
+  background: var(--eveil);
+}
+
+.heroOurs {
+  position: absolute;
+  left: 50%;
+  bottom: -14px;
+  margin-left: -135px;
+  width: 270px;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 20px 24px rgba(42, 32, 28, 0.22));
+}
+
+.bulle {
+  position: absolute;
+  left: 21px;
+  top: 152px;
+  background: #fff;
+  border-radius: 22px 0 22px 22px;
+  padding: 12px 16px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--ink);
+  box-shadow: 0 10px 24px rgba(42, 32, 28, 0.14);
+  max-width: 150px;
+  line-height: 1.15;
+}
+
+/* Rebond plus marqué que la cascade .oDrop. */
+.hero .bulle {
+  animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ---------- Sections horaires ---------- */
+
+.time {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 84px;
+  line-height: 0.82;
+  letter-spacing: -0.05em;
+  color: var(--c);
+}
+
+.time span {
+  font-size: 44px;
+}
+
+.h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 36px;
+  line-height: 1;
+}
+
+/* Réserve la place de l'ourson coupé en haut à droite (mobile). */
+.h2Ours {
+  padding-right: 110px;
+}
+
+.texte {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.4;
+  font-weight: 700;
+  max-width: 32ch;
+}
+
+.plein {
+  color: #fff;
+  padding: 40px 20px 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+.bouton,
+.bouton:hover {
+  text-decoration: none;
+  align-self: flex-start;
+  background: #fff;
+  color: var(--c);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 15px;
+  height: 44px;
+  padding: 0 18px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+}
+
+/* Ourson coupé en haut à droite (mobile), remplacé en desktop par .oursIn au-dessus du visuel. */
+.ours {
+  position: absolute;
+  right: -24px;
+  top: 24px;
+  width: 140px;
+  height: auto;
+  filter: drop-shadow(0 16px 20px rgba(0, 0, 0, 0.25));
+}
+
+.oursIn {
+  display: none;
+  position: absolute;
+  right: -30px;
+  top: -150px;
+  width: 220px;
+  height: auto;
+  filter: drop-shadow(0 16px 20px rgba(0, 0, 0, 0.25));
+}
+
+.wave {
+  animation: wave 5s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+.float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* 7 h 00 */
+.reveil {
+  --c: var(--sommeil);
+  background: var(--sommeil-tint);
+  color: var(--ink);
+  padding: 48px 20px 60px;
+}
+
+.reveil .texte {
+  color: var(--muted);
+}
+
+.carteNuits {
+  margin-top: auto;
+  background: #fff;
+  border-radius: 28px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 24px 50px rgba(88, 104, 214, 0.18);
+}
+
+.nuitsTete {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.nuitsTitre {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.nuitsPeriode {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--sommeil);
+}
+
+.barres {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  align-items: end;
+  height: 140px;
+}
+
+.barres span {
+  background: var(--sommeil-surface);
+  border-radius: 10px;
+}
+
+.barres span:last-child {
+  background: var(--sommeil);
+}
+
+.jours {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--muted);
+  text-align: center;
+}
+
+.encart {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  background: var(--sommeil-tint);
+  border-radius: 18px;
+  padding: 12px 14px;
+}
+
+.encartPuce {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--sommeil);
+  flex: none;
+  margin-top: 6px;
+}
+
+.encartTexte {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--sommeil-ink);
+}
+
+/* 12 h 15 */
+.repas {
+  --c: var(--repas-surface);
+  background: var(--repas);
+}
+
+.repas .bouton {
+  --c: var(--repas-deep);
+}
+
+.visRepas {
+  margin-top: auto;
+  position: relative;
+}
+
+.carteAge {
+  background: #fff;
+  border-radius: 28px;
+  padding: 12px;
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.25);
+  color: var(--ink);
+}
+
+/* 13 h 05 */
+.sommeil {
+  --c: var(--sommeil-surface);
+  background: var(--sommeil);
+}
+
+.sommeil .bouton {
+  --c: var(--sommeil-deep);
+}
+
+.sommeil .ours {
+  right: -30px;
+  top: 20px;
+  width: 150px;
+  filter: drop-shadow(0 16px 20px rgba(0, 0, 0, 0.3));
+}
+
+.visSommeil {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: relative;
+}
+
+.carteJour {
+  background: #fff;
+  border-radius: 28px;
+  padding: 10px;
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.28);
+}
+
+.carteObservation {
+  color: var(--ink);
+}
+
+/* 16 h 30 : section sans gouttière, chaque bloc porte la sienne (.pad). */
+.eveil {
+  --c: var(--eveil-surface);
+  background: var(--eveil);
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.eveil .bouton {
+  --c: var(--eveil-deep);
+  margin: 0 20px;
+}
+
+.eveil .ours {
+  top: 20px;
+  width: 150px;
+}
+
+.pad {
+  padding: 0 20px;
+}
+
+.eveil .h2 {
+  padding: 0 130px 0 20px;
+}
+
+.cubes {
+  margin: 4px 20px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.cube {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.cube > span:last-child {
+  font-size: 12px;
+  font-weight: 800;
+  color: #fff;
+  text-align: center;
+  line-height: 1.1;
+}
+
+.visEveil {
+  margin: auto 20px 0;
+  position: relative;
+}
+
+.carteJeu {
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.28);
+  border: 10px solid #fff;
+  background: #fff;
+}
+
+.carteJeu img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  display: block;
+  border-radius: 18px;
+}
+
+.soir {
+  padding: 0 20px;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--eveil-surface);
+}
+
+/* Le foyer */
+.foyer {
+  background: var(--coral);
+  color: #fff;
+  padding: 48px 20px 60px;
+  justify-content: center;
+}
+
+.eyebrow {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--coral-surface);
+}
+
+.visFoyer {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ---------- Desktop ---------- */
+
+@media (min-width: 900px) {
+  .sec {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    /* Pas de column-gap : dans le handoff, le gap en ligne de chaque section l'emporte sur le 64px. */
+    row-gap: 16px;
+    align-content: center;
+    padding: 96px 56px;
+  }
+  .sec > * {
+    grid-column: 1;
+  }
+  .sec > .vis {
+    grid-column: 2;
+    grid-row: 1 / span 8;
+    align-self: center;
+    margin-top: 0;
+    max-width: 460px;
+    width: 100%;
+    justify-self: end;
+    position: relative;
+    z-index: 1;
+  }
+  .h2 {
+    max-width: 14ch;
+    font-size: 48px;
+  }
+  .h2Ours,
+  .eveil .h2 {
+    padding-right: 0;
+  }
+  .texte {
+    font-size: 19px;
+  }
+  .time {
+    font-size: 150px;
+  }
+  .time span {
+    font-size: 76px;
+  }
+  /* Section Éveil : la gouttière de la grille remplace celle des blocs. */
+  .pad,
+  .soir,
+  .eveil .h2,
+  .cubes,
+  .visEveil {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .eveil .bouton {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .ours {
+    display: none;
+  }
+  .oursIn {
+    display: block;
+  }
+  .nowrap {
+    white-space: nowrap;
+  }
+  .carteNuits {
+    box-shadow: 0 30px 60px rgba(88, 104, 214, 0.28);
+  }
+
+  /* Hero */
+  .hero h1 {
+    font-size: 64px;
+    max-width: 14ch;
+  }
+  .chapeau {
+    font-size: 19px;
+    max-width: 44ch;
+  }
+  .dl {
+    display: none;
+  }
+  .hero > .vis {
+    height: 620px;
+    max-width: 520px;
+    justify-self: center;
+  }
+  .heroOurs {
+    width: min(400px, 100%);
+    margin-left: max(-200px, -50%);
+  }
+  .cercle1 {
+    left: 20px;
+    bottom: 140px;
+    width: 200px;
+    height: 200px;
+  }
+  .cercle2 {
+    right: -40px;
+    bottom: 260px;
+    width: 240px;
+    height: 240px;
+  }
+  .cercle3 {
+    left: 160px;
+    bottom: -80px;
+    width: 280px;
+    height: 280px;
+  }
+  .bulle {
+    top: auto;
+    bottom: 290px;
+    left: -10px;
+    border-radius: 22px 22px 6px 22px;
+    max-width: 170px;
+    font-size: 18px;
+  }
+}

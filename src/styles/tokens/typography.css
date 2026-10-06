@@ -1,0 +1,60 @@
+/* ========================================================================
+   Ourson — Typography tokens (v1 « le monde de l'ourson »)
+   Three families:
+     • Bryndan Write (--font-brand)   — the « ourson » wordmark / brand name ONLY.
+     • Baloo 2       (--font-display) — screen titles, buttons, strong numbers.
+     • Nunito        (--font-ui)      — 100% of UI text & body.
+   `--font-sans` is kept as a legacy alias of the UI face so older component
+   code keeps working. Min mobile size is 11px; tap targets ≥ 44px.
+   ======================================================================== */
+
+:root {
+  /* ---- Families -------------------------------------------------------- */
+  --font-brand: var(--font-bryndan), "Comic Sans MS", cursive;
+  --font-display: var(--font-baloo), system-ui, sans-serif;
+  --font-ui: var(--font-nunito), system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sans: var(--font-ui); /* legacy alias → UI/body face       */
+  --brand: var(--font-brand);
+  --display: var(--font-display);
+  --ui: var(--font-ui); /* short aliases used by the hi-fi files */
+
+  /* ---- Weights --------------------------------------------------------- */
+  --weight-regular: 400;
+  --weight-medium: 600;
+  --weight-semibold: 700;
+  --weight-bold: 800; /* Baloo 2 titles/buttons, bold UI   */
+  --weight-black: 900;
+
+  /* ---- Brand display (Bryndan Write) ----------------------------------- */
+  --type-wordmark-size: 36px; /* "ourson" wordmark                 */
+  --type-greeting-size: 22px; /* "Coucou Manu !"                   */
+  --type-recipe-title-size: 23px; /* recipe name over a photo          */
+
+  /* ---- Display scale (Baloo 2, weight 800) ----------------------------- */
+  --type-screen-title-size: 26px; /* écran title ("Repas", "Sommeil")  */
+  --type-hero-title-size: 23px; /* hero-card title                   */
+  --type-section-size: 18px; /* section heads                     */
+  --type-card-title-size: 16px; /* card / list-item name             */
+  --type-stat-size: 30px; /* big numerals (stats, timers)      */
+
+  /* ---- UI / body scale (Nunito) ---------------------------------------- */
+  --type-body-size: 14px; /* default body                      */
+  --type-body-line: 20px;
+  --type-body-weight: var(--weight-medium);
+  --type-meta-size: 12px; /* meta / supporting                 */
+  --type-label-size: 13px; /* bold labels & chips               */
+  --type-label-weight: var(--weight-bold);
+  --type-micro-size: 11px; /* micro labels (min mobile)         */
+
+  /* ---- Letter spacing -------------------------------------------------- */
+  --tracking-tight: -0.02em; /* large Baloo titles                */
+  --tracking-normal: 0;
+  --tracking-label: 0.04em; /* uppercase micro-labels            */
+}
+
+/* Placeholders des champs (theme.ts · colors.faint) — impossible en style inline. */
+input::placeholder,
+textarea::placeholder {
+  color: var(--faint);
+  opacity: 1;
+}

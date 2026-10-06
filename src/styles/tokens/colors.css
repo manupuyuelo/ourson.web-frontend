@@ -1,0 +1,157 @@
+/* ========================================================================
+   Ourson — Color tokens (v1 « le monde de l'ourson »)
+   A warm, coral-led nursery palette lifted by four pastel "patch" tints
+   (yellow / coral / blue / green) that echo the patchwork-bear mascot and
+   map to the three product pillars:
+     • Marque (onboarding, Accueil, Profil) → coral
+     • Repas → ocre   • Sommeil → indigo   • Éveil → green   (+ sun yellow)
+   Source de vérité : src/theme/theme.ts (resync 2026-10-05).
+   Neutrals are warm (never grey); hairlines are peachy. No dark mode.
+   Semantic + a few legacy aliases are kept so components keep resolving.
+   ======================================================================== */
+
+:root {
+  /* ---- Brand core ------------------------------------------------------ */
+  --coral: #ff5436; /* v1 primary — CTAs, active tab, links        */
+  --coral-deep: #e8542f; /* pressed / darker coral                      */
+  --coral-bright: #ff6b57; /* lighter coral accent                        */
+  --coral-busy: #ffa995; /* CTA en cours d'action / désactivé           */
+  --coral-surface: #ffcdbe;
+  --coral-tint: #ffe3db;
+  --coral-ink: #9a3318;
+  --ourson-coral: #ff5436; /* legacy alias                                */
+  --ourson-coral-press: #e8542f;
+  --ourson-coral-bright: #ff6b57;
+  --ourson-yellow: #f0a93a; /* sunshine accent / hero                      */
+  --ourson-cream: #fff1e6; /* peachy chrome surface (tab bars, headers)   */
+
+  /* ---- Pillar palettes (each: base · deep · surface · tint · ink) ------ */
+  --repas: #9e6512;
+  --repas-deep: #7a4e0e;
+  --repas-surface: #f6dda8;
+  --repas-tint: #fbefd8;
+  --repas-ink: #6b4508;
+  --repas-busy: #d8b884;
+  --sommeil: #5868d6;
+  --sommeil-deep: #4453c0;
+  --sommeil-surface: #cfd6f6;
+  --sommeil-tint: #e6eafb;
+  --sommeil-ink: #2e3a78;
+  --eveil: #3e9a59;
+  --eveil-deep: #2e7d49;
+  --eveil-surface: #c9ebcf;
+  --eveil-tint: #e4f2e4;
+  --eveil-ink: #235c34;
+  --sun: #f0a93a;
+  --sun-tint: #fcebce;
+  --sun-ink: #9a6b16;
+
+  /* ---- Pastel "patchwork" washes (mascot + gradient corners) ----------- */
+  --ourson-wash-yellow: var(--sun);
+  --ourson-wash-coral: var(--coral-bright);
+  --ourson-wash-blue: var(--sommeil);
+  --ourson-wash-green: var(--eveil);
+
+  /* ---- Neutrals & surfaces (warm) -------------------------------------- */
+  --ink: #2a201c; /* warm near-black text                        */
+  --muted: #7c7068; /* secondary text                              */
+  --faint: #a99a8e; /* tertiary / micro text                       */
+  --bg: #fff8f1; /* warm off-white page                         */
+  --card: #ffffff;
+  --line: #f1e7dd; /* peachy hairline (never grey)                */
+  --cream: #fff1e6;
+
+  /* ---- Secondary tints (theme.ts, valeurs telles quelles) -------------- */
+  --sun-ink-soft: #8a5e18; /* texte des encarts « attention »             */
+  --sun-icon-warn: #b07818;
+  --fav-icon: #c58a1e;
+  --grip: #eadfd4;
+  --dashed: #e3d4c7;
+  --heart-border: #efe0d6;
+  --heart-idle: #d7bdb0;
+  --nav-inactive: #d9b7a6;
+  --progress-track: #fce2d8;
+  --day-past-bg: #f3ece5;
+  --day-past-ink: #c7b8ac;
+  --home-question: #a06a4e;
+  --scrim: rgba(30, 16, 10, 0.5);
+  --imgslot: #f4dec9;
+  --imgslot-blue: #d8e0f2;
+  --imgslot-greeny: #d7ebd9;
+  --imgslot-sun: #fbe6c4;
+  /* Sommeil */
+  --sommeil-nap: #9aa3e6;
+  --sommeil-track: #f4f1f8;
+  --sommeil-seg-bg: #efecf5;
+  --sommeil-grid: #e8e3f0;
+  --sommeil-dots: #e1dce8;
+  --sommeil-info-border: #cdd4f4;
+  --sommeil-body: #4e4856;
+  --sommeil-future: #f8f6fa;
+  --sommeil-future-dark: #f2eff6;
+  --sun-deep-ink: #8a6420;
+  /* Personnes & pistes Éveil */
+  --mamie-tint: #f3e4f7;
+  --mamie-ink: #7a3e8c;
+  --mamie-edge: #b77fc9;
+  --sky-tint: #dceef4;
+  --sky-ink: #2a6478;
+  --sky-edge: #5aa6c0;
+  --eveil-seg-bg: #eef1ea;
+
+  /* ========================================================================
+     SEMANTIC ALIASES — prefer these in components
+     ======================================================================== */
+  --color-primary: var(--coral);
+  --color-on-primary: #ffffff;
+  --color-primary-container: var(--coral-tint);
+  --color-on-primary-container: var(--coral-ink);
+
+  --text-heading: var(--ink);
+  --text-body: var(--ink);
+  --text-muted: var(--muted);
+  --text-accent: var(--coral-deep);
+  --text-on-image: #ffffff;
+
+  --surface-page: var(--bg);
+  --surface-card: var(--card);
+  --surface-chrome: var(--ourson-cream); /* header bars / tab strips    */
+  --surface-chip: var(--coral-tint);
+  --surface-raised: #ffffff;
+
+  --border-soft: var(--line); /* peachy hairline             */
+  --border-default: var(--line);
+  --focus-ring: var(--coral);
+
+  /* ---- Legacy aliases still read by a few components (repointed to v1) -- */
+  --m3-error: #c0432a;
+  --m3-on-error: #ffffff;
+  --m3-elevation-1: #fff3ec; /* filled-card tonal surface               */
+  --m3-backdrop: rgba(40, 28, 20, 0.45);
+  --m3-on-surface-variant: var(--muted);
+  --m3-surface-disabled: rgba(42, 32, 28, 0.08);
+
+  /* ---- Signature dashboard wash (4-corner pastel radial field) --------- */
+  --gradient-dashboard:
+    radial-gradient(541px 720px at 4% 100%, rgba(88, 104, 214, 0.18) 0%, rgba(255, 255, 255, 0) 100%),
+    radial-gradient(545px 721px at 97% 0%, rgba(255, 84, 54, 0.18) 0%, rgba(255, 255, 255, 0) 100%),
+    radial-gradient(545px 721px at 97% 100%, rgba(62, 154, 89, 0.18) 0%, rgba(255, 255, 255, 0) 100%),
+    radial-gradient(551px 722px at 0% 0%, rgba(240, 169, 58, 0.2) 0%, rgba(255, 255, 255, 0) 100%); /* @kind color */
+
+  /* ---- Profil header wash ---------------------------------------------- */
+  --gradient-profil: linear-gradient(180deg, #f6e9df 0%, var(--bg) 100%); /* @kind color */
+
+  /* ---- Sommeil — carte d'état / minuteur ------------------------------- */
+  --gradient-wake-window: linear-gradient(152deg, #6a78e4 0%, #4a57c4 100%); /* @kind color */
+  --gradient-sleep-timer: linear-gradient(160deg, #5a68dc 0%, #3c49ae 100%); /* @kind color */
+
+  /* ---- Hero / accueil warm wash ---------------------------------------- */
+  --gradient-hero: linear-gradient(180deg, #ffd8c4 0%, #fff1e6 60%, var(--bg) 100%); /* @kind color */
+
+  /* ---- Header warm wash (yellow chrome behind the bear) ---------------- */
+  --gradient-header: radial-gradient(
+    551px 600px at 100% 100%,
+    rgba(240, 169, 58, 0.4) 0%,
+    rgba(240, 169, 58, 0.1) 100%
+  ); /* @kind color */
+}

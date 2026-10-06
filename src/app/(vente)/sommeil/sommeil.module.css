@@ -1,0 +1,412 @@
+/* Page Sommeil : compléments au gabarit Pilier.module.css. */
+
+.hero {
+  background: var(--sommeil);
+}
+
+.hero .heroVis {
+  margin-top: 16px;
+}
+
+/* Ourson du hero : un peu plus grand et plus décalé que le gabarit, flottement incliné.
+   Sélecteurs à deux classes pour primer sur Pilier.module.css quel que soit l'ordre de chargement. */
+.hero .bear {
+  --r: -4deg;
+  right: -28px;
+  width: 140px;
+  filter: drop-shadow(0 16px 20px rgba(0, 0, 0, 0.3));
+}
+
+.tint {
+  background: var(--sommeil-tint);
+}
+
+/* Carte « Ses 7 dernières nuits » */
+.nuits {
+  background: #fff;
+  color: var(--ink);
+  border-radius: 28px;
+  padding: 18px 18px 14px;
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.28);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.nuits .tete {
+  padding: 0;
+  align-items: baseline;
+}
+
+.barres {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+  align-items: end;
+  height: 130px;
+}
+
+.nuit {
+  --bar: var(--sommeil-surface);
+  --dot: var(--sommeil-ink);
+  --jour: var(--muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  height: 100%;
+  justify-content: flex-end;
+}
+
+.auj {
+  --bar: var(--sommeil);
+  --dot: #fff;
+  --jour: var(--sommeil);
+}
+
+.nuitDuree {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.nuitPiste {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.barre {
+  width: 100%;
+  max-width: 30px;
+  height: var(--h);
+  border-radius: 10px;
+  background: var(--bar);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.barre span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--dot);
+}
+
+.nuitJour {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--jour);
+}
+
+.legende {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.legende > span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.carre {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  background: var(--sommeil);
+}
+
+.point {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--sommeil-ink);
+}
+
+/* Cartes blanches des sections */
+.carte {
+  background: #fff;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  box-shadow: 0 12px 30px rgba(88, 104, 214, 0.14);
+}
+
+.carteNuit {
+  padding: 16px 14px;
+}
+
+.carteSuivi {
+  padding: 14px;
+}
+
+.carte.carteJours {
+  padding: 16px 14px 12px;
+  gap: 4px;
+}
+
+.tete {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 4px;
+}
+
+.teteSimple {
+  flex-wrap: nowrap;
+  gap: 0;
+}
+
+.teteJours {
+  padding: 0 2px 8px;
+}
+
+.teteTitre {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+  white-space: nowrap;
+}
+
+.teteSimple .teteTitre {
+  white-space: normal;
+}
+
+.teteMeta {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--sommeil);
+  white-space: nowrap;
+}
+
+.ligne {
+  padding: 0 4px;
+}
+
+.reveil {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--sommeil-tint);
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--sommeil-ink);
+}
+
+.reveilDuree {
+  font-weight: 800;
+}
+
+/* Sieste en cours : point pulsant */
+.enCours {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pulse {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--sommeil);
+  display: block;
+}
+
+.pulse::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--sommeil);
+  animation: oPulse 1.6s ease-out infinite;
+}
+
+.cta {
+  background: var(--sommeil);
+  color: #fff;
+  border-radius: 20px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 17px;
+  box-shadow: 0 10px 24px rgba(88, 104, 214, 0.35);
+}
+
+.jour {
+  margin-top: 10px;
+}
+
+/* Encart sources */
+.sources {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: #fff;
+  border-radius: 18px;
+  padding: 14px 16px;
+  max-width: 44ch;
+}
+
+.sourcesIcone {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: #fff;
+  color: var(--sommeil);
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+
+.sourcesTexte {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.45;
+  color: var(--sommeil-ink);
+}
+
+/* Essai 7 jours */
+.essai {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 16px 18px;
+  box-shadow: 0 8px 22px rgba(42, 32, 28, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.essaiTete {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.essaiTitre {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 17px;
+  line-height: 1.15;
+}
+
+.essaiGrille {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.essaiCol {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.essaiLabel {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.essaiApres .essaiLabel {
+  color: var(--sommeil);
+}
+
+.jauge {
+  height: 10px;
+  border-radius: 30px;
+  background: var(--sommeil-tint);
+  overflow: hidden;
+}
+
+.jaugeAvant,
+.jaugeApres {
+  height: 100%;
+  border-radius: 30px;
+}
+
+.jaugeAvant {
+  width: 55%;
+  background: var(--sommeil-surface);
+}
+
+.jaugeApres {
+  width: 88%;
+  background: var(--sommeil);
+}
+
+.essaiValeur {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 16px;
+}
+
+.essaiApres .essaiValeur {
+  color: var(--sommeil-deep);
+}
+
+/* Toute la famille */
+.foyer {
+  background: var(--coral);
+  color: #fff;
+}
+
+/* Le style inline du handoff (16ch) l'emporte sur le max-width desktop du gabarit (14ch). */
+h2.foyerTitre {
+  max-width: 16ch;
+}
+
+.foyerTexte {
+  max-width: 44ch;
+}
+
+.foyer .notifs {
+  gap: 14px;
+  color: var(--ink);
+}
+
+@media (min-width: 900px) {
+  .hero .heroVis {
+    margin-top: 0;
+  }
+  .hero .bear {
+    width: var(--bear-dk-w, 200px);
+    right: auto;
+  }
+}
+
+/* Les modules CSS renomment les animations : keyframes déclarées localement. */
+@keyframes oPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}

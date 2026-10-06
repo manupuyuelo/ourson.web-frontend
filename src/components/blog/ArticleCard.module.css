@@ -1,0 +1,157 @@
+.une,
+.carte,
+.une:hover,
+.carte:hover {
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.une {
+  background: #fff;
+  border-radius: 28px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 18px 40px rgba(42, 32, 28, 0.08);
+}
+
+.carte {
+  background: #fff;
+  border-radius: 22px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.imgUne,
+.img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  display: block;
+  background: var(--tint);
+}
+
+.imgUne {
+  border-radius: 20px;
+}
+
+.img {
+  border-radius: 16px;
+}
+
+.txtUne {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 8px 8px;
+}
+
+.txt {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 6px 8px;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.pastilleUne,
+.pastille {
+  background: var(--tint);
+  color: var(--deep);
+  border-radius: 30px;
+}
+
+.pastilleUne {
+  padding: 5px 12px;
+}
+
+.pastille {
+  padding: 4px 11px;
+}
+
+.date {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.h2,
+.h3,
+.h3Lie {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+}
+
+.h2 {
+  font-size: 26px;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+.h3 {
+  font-size: 19px;
+  line-height: 1.1;
+  text-wrap: pretty;
+}
+
+.h3Lie {
+  font-size: 18px;
+  line-height: 1.1;
+  text-wrap: pretty;
+}
+
+.descUne,
+.desc {
+  margin: 0;
+  font-weight: 600;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+.descUne {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.desc {
+  font-size: 15px;
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  line-clamp: 3;
+  overflow: hidden;
+}
+
+.lire {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--deep);
+}
+
+@media (min-width: 900px) {
+  .une {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 32px;
+    padding: 16px;
+  }
+
+  .h2 {
+    font-size: 32px;
+  }
+}

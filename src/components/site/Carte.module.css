@@ -1,0 +1,251 @@
+.carte {
+  width: 100%;
+  color: var(--ink);
+}
+
+.blanche {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  box-shadow: 0 8px 22px rgba(42, 32, 28, 0.08);
+}
+
+.titre {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.micro {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pastille {
+  display: inline-flex;
+  align-self: flex-start;
+  background: var(--repas-tint);
+  color: var(--repas-ink);
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 30px;
+  padding: 4px 10px;
+  white-space: nowrap;
+}
+
+/* notif */
+.notif {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 14px 16px;
+  box-shadow: 0 10px 24px rgba(42, 32, 28, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.notifIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  flex: none;
+}
+
+.notifBody {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.notifMeta {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.notifText {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+/* prochain */
+.prochain {
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.prochain .titre {
+  line-height: 1.2;
+}
+
+/* parts */
+.parts {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.muted {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.filet {
+  height: 1px;
+  background: var(--line);
+}
+
+.enfant {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.enfantCentre {
+  align-items: center;
+}
+
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 16px;
+  flex: none;
+}
+
+.enfantTexte {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.enfantNom {
+  font-weight: 800;
+  font-size: 15px;
+}
+
+.enfantNote {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+/* jour */
+.jour {
+  background: var(--gradient-wake-window);
+  color: #fff;
+  border-radius: 22px;
+  padding: 20px;
+  box-shadow: 0 12px 28px rgba(88, 104, 214, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.jourTitre {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 1.1;
+}
+
+.jourTexte {
+  font-size: 15px;
+  line-height: 1.45;
+  opacity: 0.95;
+}
+
+/* observation */
+.observation {
+  background: #fff;
+  border: 1px solid var(--sommeil-info-border);
+  border-radius: 22px;
+  padding: 16px 18px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  box-shadow: 0 8px 22px rgba(42, 32, 28, 0.06);
+}
+
+.puce {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--sommeil);
+  flex: none;
+  margin-top: 6px;
+}
+
+.observationTexte {
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--sommeil-body);
+}
+
+/* essai */
+.essai {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--sommeil-tint);
+  color: var(--sommeil-ink);
+  border-radius: 30px;
+  padding: 8px 14px;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.essai span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--sommeil);
+}
+
+/* premiere */
+.premiere {
+  overflow: hidden;
+}
+
+.photo {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: var(--sun-tint);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--sun-ink);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.premiereBas {
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.premiereBas > span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--sun);
+}

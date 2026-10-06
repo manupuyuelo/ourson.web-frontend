@@ -1,0 +1,44 @@
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px 28px;
+  padding: 24px 20px 40px;
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.footer a,
+.footer button {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.footer a[aria-current="page"] {
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.footer button {
+  border: 0;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+/* Pages de vente : pied de page desktop uniquement, sans filet (la fin de page fait office de clôture). */
+.vente {
+  display: none;
+  gap: 28px;
+  padding: 24px 56px 40px;
+  border-top: 0;
+}
+
+@media (min-width: 900px) {
+  .vente {
+    display: flex;
+  }
+}
