@@ -58,7 +58,7 @@ export default function Accueil() {
           Les trois questions phares de 0 à 3 ans. On vous aide dans votre vie de parent heure par heure.
         </p>
         <div className={`oDrop ${s.dl}`} style={{ "--d": ".55s" }} data-dl-hero>
-          <Telecharger />
+          <Telecharger emplacement="hero" />
         </div>
         <div className={`${s.vis} ${s.heroVis}`}>
           <div className={`oDrop ${s.cercle} ${s.cercle1}`} style={{ "--d": ".7s", "--dur": ".8s" }} />

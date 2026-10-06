@@ -144,7 +144,7 @@ export function Header() {
             </a>
           </div>
           <div className={s.rule} />
-          {open && <Telecharger />}
+          {open && <Telecharger emplacement="menu" />}
         </div>
       </dialog>
     </header>

@@ -15,14 +15,14 @@ export function Flottants() {
     return (
       <div className={s.barre}>
         <div className={s.barreInner}>
-          <Telecharger appareil={appareil} flottant />
+          <Telecharger appareil={appareil} flottant emplacement="cartel" />
         </div>
       </div>
     );
   }
   return (
     <div className={s.qr}>
-      <Telecharger appareil="desktop" flottant />
+      <Telecharger appareil="desktop" flottant emplacement="cartel" />
     </div>
   );
 }

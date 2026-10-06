@@ -78,6 +78,17 @@ test("iPad en paysage : badge App Store en cartel, pas de QR", async ({ browser,
   await ctx.close();
 });
 
+test("clic vers un store : événement ourson_store dans le dataLayer", async ({ page, isMobile }) => {
+  test.skip(isMobile, "vérifié en desktop");
+  await page.route(/googletagmanager\.com/, (r) => r.fulfill({ body: "", contentType: "text/javascript" }));
+  await page.goto("/nutrition");
+  await page.locator("#telecharger").getByRole("link", { name: "Ourson sur l’App Store" }).click();
+  const evenement = await page.evaluate(() =>
+    (window.dataLayer ?? []).find((d) => Object(d).event === "ourson_store"),
+  );
+  expect(evenement).toEqual({ event: "ourson_store", store: "app_store", emplacement: "fin" });
+});
+
 test("menu mobile : ouverture et fermeture", async ({ page, isMobile }) => {
   test.skip(!isMobile, "menu burger mobile");
   await page.goto("/nutrition");

@@ -18,7 +18,7 @@ export function FinDePage({ page }: Props) {
         Besoin d’un coup de patte&#8239;?
       </h2>
       <div id="telecharger" className={s.telecharger}>
-        <Telecharger />
+        <Telecharger emplacement="fin" />
       </div>
       <div className={s.liens}>
         {autres.map((p) => (
