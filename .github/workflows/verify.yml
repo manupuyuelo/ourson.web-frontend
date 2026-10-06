@@ -52,14 +52,15 @@ jobs:
         if: ${{ !cancelled() && steps.install.outcome == 'success' }}
         run: yarn test
 
-      # Le build échoue si une route cesse d'être statique : le site doit rester 100 % SSG.
+      # Le build échoue si une route cesse d'être statique : le site doit rester SSG.
+      # Seule exception voulue : /app, qui lit le user-agent pour rediriger le QR vers le bon store.
       - name: build
         id: build
         if: ${{ !cancelled() && steps.install.outcome == 'success' }}
         run: |
           yarn build | tee build.log
-          if grep -E '^[├└┌│ ]+ƒ ' build.log; then
-            echo "::error::Une route est devenue dynamique (ƒ) : le site doit rester statique."
+          if grep -E '^[├└┌│ ]+ƒ ' build.log | grep -vE 'ƒ /app$'; then
+            echo "::error::Une route est devenue dynamique (ƒ) : le site doit rester statique (seule /app l'est, volontairement)."
             exit 1
           fi
 
