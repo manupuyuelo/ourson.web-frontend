@@ -63,7 +63,7 @@ yarn dev           # http://localhost:3000
   - écran tactile : badge du store de l'appareil, à toutes les largeurs ;
   - ordinateur : QR (généré au build, `/qr.svg`), qui pointe vers `/app`.
 - **Cookies et mesure :** Consent Mode v2 avancé.
-  - Tout est refusé par défaut dans le `<head>`, puis GTM se charge.
+  - Tout est refusé par défaut dans le `<head>`. GTM se charge à la première interaction du visiteur ou après 3 s, pour ne pas bloquer le démarrage sur les téléphones modestes (rien n'est perdu : le `dataLayer` met en file d'attente).
   - Le bandeau « Miam, des cookies ! » propose deux finalités : audience et publicité.
   - Le choix est conservé 6 mois.
   - Chaque clic vers un store pousse l'événement `ourson_store`, branché dans GTM (`GA4 - Événement - clic_store`).

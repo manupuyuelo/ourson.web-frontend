@@ -35,9 +35,11 @@ test("Consent Mode avancé : refus par défaut avant GTM, puis le choix", async 
   await page.goto("/", { waitUntil: "domcontentloaded" });
   const accepter = page.getByRole("button", { name: "Miam, j’accepte" });
   await expect(accepter).toBeVisible();
-  // GTM se charge après l'hydratation : on attend son événement avant de lire l'ordre.
+  // GTM se charge à la première interaction ou après 3 s : on attend son événement avant de lire l'ordre.
   await expect
-    .poll(() => page.evaluate(() => (window.dataLayer ?? []).some((d) => Object(d).event === "gtm.js")))
+    .poll(() => page.evaluate(() => (window.dataLayer ?? []).some((d) => Object(d).event === "gtm.js")), {
+      timeout: 10_000,
+    })
     .toBe(true);
   // Ordre du dataLayer : consent default (script du <head>) avant l'événement gtm.js.
   const ordre = await page.evaluate(() =>
