@@ -7,7 +7,20 @@ import type {
   WebSite,
   WithContext,
 } from "schema-dts";
+import type { Metadata } from "next";
 import { SITE } from "./site";
+
+/**
+ * Open Graph complet d'une page. Next fusionne les métadonnées en surface : un `openGraph`
+ * déclaré par une page remplace entièrement celui du layout, d'où ce helper.
+ */
+export const og = (url: string, extra: NonNullable<Metadata["openGraph"]> = {}): Metadata["openGraph"] => ({
+  type: "website",
+  locale: SITE.locale,
+  siteName: SITE.name,
+  url,
+  ...extra,
+});
 
 const abs = (path: string) => new URL(path, SITE.url).toString();
 

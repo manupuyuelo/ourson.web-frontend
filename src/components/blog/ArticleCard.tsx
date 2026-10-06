@@ -23,8 +23,14 @@ export function ArticleCard({ article: a, variante, eager }: Props) {
   const Titre = une ? "h2" : "h3";
 
   return (
-    // oxlint-disable-next-line typescript/no-unsafe-type-assertion -- les routes typées refusent un `${string}` (il pourrait contenir « / »).
-    <Link href={a.href as Route} className={une ? s.une : s.carte} style={couleurs(a.rubrique)}>
+    <Link
+      // oxlint-disable-next-line typescript/no-unsafe-type-assertion -- les routes typées refusent un `${string}` (il pourrait contenir « / »).
+      href={a.href as Route}
+      // La grille compte jusqu'à 58 cartes : on ne précharge pas chaque article qui défile.
+      prefetch={variante === "grille" ? false : null}
+      className={une ? s.une : s.carte}
+      style={couleurs(a.rubrique)}
+    >
       <CloudinaryImage
         src={a.image}
         repli={oursDeRubrique(a.rubrique)}

@@ -1,9 +1,6 @@
-"use client";
-
 import Image from "next/image";
-import { useRef } from "react";
-import { Icon } from "@/components/ds";
 import { JEUX, SOIR, type CarteTag } from "@/lib/data";
+import { CarrouselBoutons } from "./CarrouselBoutons";
 import s from "./Carrousel.module.css";
 
 const COULEURS: Record<CarteTag, [tint: string, ink: string, dot: string]> = {
@@ -15,19 +12,19 @@ const COULEURS: Record<CarteTag, [tint: string, ink: string, dot: string]> = {
 
 type Props = { set: "jeux" | "soir"; label: string };
 
+/** Rendu serveur ; seuls les boutons précédent / suivant sont un îlot client. */
 export function Carrousel({ set, label }: Props) {
-  const piste = useRef<HTMLUListElement>(null);
   const items = set === "soir" ? SOIR : JEUX;
-  const defiler = (sens: 1 | -1) => piste.current?.scrollBy({ left: sens * 264, behavior: "smooth" });
+  const id = `carrousel-${set}`;
 
   return (
     <div className={s.carrousel}>
-      <ul ref={piste} className={s.piste} aria-label={label}>
+      <ul id={id} className={s.piste} aria-label={label}>
         {items.map((it) => {
           const [tint, ink, dot] = COULEURS[it.tag];
           return (
             <li key={it.title} className={s.carte} style={{ "--tint": tint, "--ink-c": ink, "--dot": dot }}>
-              <Image src={it.src} alt="" sizes="238px" />
+              <Image src={it.src} alt="" sizes="238px" placeholder="blur" />
               <div className={s.texte}>
                 <span className={s.tag}>{it.tag}</span>
                 <h3 className={s.titre}>{it.title}</h3>
@@ -36,14 +33,7 @@ export function Carrousel({ set, label }: Props) {
           );
         })}
       </ul>
-      <div className={s.boutons}>
-        <button type="button" aria-label="Précédent" onClick={() => defiler(-1)}>
-          <Icon name="chevronLeft" size={20} />
-        </button>
-        <button type="button" aria-label="Suivant" onClick={() => defiler(1)}>
-          <Icon name="chevronRight" size={20} />
-        </button>
-      </div>
+      <CarrouselBoutons piste={id} />
     </div>
   );
 }

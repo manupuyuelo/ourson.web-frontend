@@ -16,7 +16,8 @@
   width: auto;
 }
 
-/* Avant détection de l'appareil : même encombrement qu'un badge sur mobile, bloc QR sur desktop. */
+/* Avant détection de l'appareil (rendu statique) : on réserve la place selon le type de pointeur,
+   bien plus fiable que la largeur (iPad paysage ≥ 900 px, petite fenêtre d'ordinateur…). */
 .pending {
   height: 72px;
 }
@@ -39,7 +40,7 @@
   display: none;
 }
 
-@media (min-width: 900px) {
+@media (hover: hover) and (pointer: fine) {
   .pending {
     display: none;
   }

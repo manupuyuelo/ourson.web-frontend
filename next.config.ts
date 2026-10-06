@@ -19,11 +19,18 @@ const csp = [
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
+  experimental: {
+    // Turbopack : regroupe le CSS par route au lieu d'un gros fichier partagé chargé partout.
+    cssChunking: "graph",
+  },
   typedRoutes: true,
   pageExtensions: ["ts", "tsx", "md", "mdx"],
   images: {
     formats: ["image/avif", "image/webp"],
-    qualities: [75, 90],
+    qualities: [75],
+    // srcset plus courts : colonne de 430 px max en mobile, 1140 px en desktop (écrans 2x et 3x compris).
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
+    imageSizes: [64, 96, 128, 256, 384],
     remotePatterns: [{ protocol: "https", hostname: "res.cloudinary.com", pathname: "/djfrwyodt/**" }],
   },
   async redirects() {
@@ -31,6 +38,12 @@ const nextConfig: NextConfig = {
       { source: "/demo", destination: "/", permanent: true },
       { source: "/blog/toutes-les-sections", destination: "/blog", permanent: true },
       { source: "/suppression-compte", destination: "/confidentialite#suppression", permanent: true },
+      // Ancien slug accentué : Next ne sert pas un paramètre statique non ASCII, l'article passe en ASCII.
+      {
+        source: "/blog/sommeil/strategies-gerer-troubles-sommeil-pouss%C3%A9es-dentaires",
+        destination: "/blog/sommeil/strategies-gerer-troubles-sommeil-poussees-dentaires",
+        permanent: true,
+      },
     ];
   },
   async headers() {

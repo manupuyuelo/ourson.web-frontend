@@ -52,6 +52,10 @@ test("redirections des anciennes URLs", async ({ request }) => {
   for (const [from, to] of [
     ["/demo", "/"],
     ["/blog/toutes-les-sections", "/blog"],
+    [
+      "/blog/sommeil/strategies-gerer-troubles-sommeil-pouss%C3%A9es-dentaires",
+      "/blog/sommeil/strategies-gerer-troubles-sommeil-poussees-dentaires",
+    ],
   ] as const) {
     const res = await request.get(from, { maxRedirects: 0 });
     expect(res.status()).toBe(308);

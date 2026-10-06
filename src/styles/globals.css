@@ -53,12 +53,6 @@ button {
   outline-offset: 3px;
 }
 
-input::placeholder,
-textarea::placeholder {
-  color: var(--faint);
-  opacity: 1;
-}
-
 .srOnly {
   position: absolute;
   width: 1px;

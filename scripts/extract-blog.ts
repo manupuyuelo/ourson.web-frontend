@@ -7,7 +7,7 @@ import path from "node:path";
 
 const ORIGIN = "https://www.ourson.app";
 const OUT_DIR = path.join(import.meta.dirname, "..", "src", "content", "blog");
-const RUBRIQUES = ["nutrition", "sommeil", "activites"] as const;
+const RUBRIQUES = new Set(["nutrition", "sommeil", "activites"]);
 
 // Fenêtre de dates attribuée aux articles jusque-là non publiés.
 const NEW_FROM = Date.parse("2026-09-15T08:00:00Z");
@@ -68,7 +68,7 @@ const failures: string[] = [];
 
 for (const item of list) {
   const rubrique = item.tags[0];
-  if (!RUBRIQUES.includes(rubrique as (typeof RUBRIQUES)[number])) {
+  if (!rubrique || !RUBRIQUES.has(rubrique)) {
     failures.push(`${item.slug} : rubrique inconnue ${rubrique}`);
     continue;
   }

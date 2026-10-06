@@ -42,3 +42,6 @@ next-env.d.ts
 
 # captures de comparaison visuelle
 /.captures/
+
+# lighthouse ci
+/.lighthouseci/

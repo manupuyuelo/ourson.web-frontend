@@ -1,7 +1,9 @@
 // Assemble les captures handoff / v2 côte à côte, en tranches : node scripts/compare-captures.ts <mobile|desktop> <page> <échelle> <hauteur>
 import sharp from "sharp";
 import { mkdirSync } from "node:fs";
-const [proj, nom, scaleArg, chunkArg] = process.argv.slice(2) as [string, string, string, string];
+const [proj, nom, scaleArg = "0.5", chunkArg = "1400"] = process.argv.slice(2);
+if (!proj || !nom)
+  throw new Error("Usage : node scripts/compare-captures.ts <mobile|desktop> <page> [échelle] [hauteur]");
 const scale = Number(scaleArg);
 const chunk = Number(chunkArg);
 const dir = `.captures/${proj}`;

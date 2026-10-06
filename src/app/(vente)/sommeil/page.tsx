@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { og } from "@/lib/seo";
 import Image from "next/image";
 import { DayTimeline, h, Icon, SleepRow, TimelineAxis, TimelineLegend } from "@/components/ds";
 import { FinDePage } from "@/components/layout/FinDePage";
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
   description:
     "Notez le coucher et chaque réveil en un geste, même à 3 h du matin. Ourson vous montre ce qui l'aide à mieux dormir, la nuit comme à la sieste.",
   alternates: { canonical: "/sommeil" },
-  openGraph: { url: "/sommeil" },
+  openGraph: og("/sommeil"),
 };
 
 // Ses 7 dernières nuits : jour, durée (h), nombre de réveils. La dernière est « aujourd'hui ».

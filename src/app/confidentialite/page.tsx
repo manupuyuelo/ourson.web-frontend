@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { og } from "@/lib/seo";
 import type { ReactNode } from "react";
 import { Footer } from "@/components/layout/Footer";
 import { SITE } from "@/lib/site";
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
   description:
     "Les données collectées par l’application Ourson, leur utilisation, leur stockage et leur protection, vos droits et la suppression de votre compte.",
   alternates: { canonical: "/confidentialite" },
-  openGraph: { url: "/confidentialite" },
+  openGraph: og("/confidentialite"),
 };
 
 const DONNEES = [

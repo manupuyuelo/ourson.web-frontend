@@ -95,5 +95,9 @@ export function Carte(props: Props) {
           </div>
         </div>
       );
+    default: {
+      const inconnu: never = props;
+      return inconnu;
+    }
   }
 }

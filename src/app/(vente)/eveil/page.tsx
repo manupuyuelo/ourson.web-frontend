@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { og } from "@/lib/seo";
 import Image from "next/image";
 import cacheCacheFoulard from "@/assets/echantillons/eveil/jeux/cache_cache_foulard.jpg";
 import deuxPaniers from "@/assets/echantillons/eveil/jeux/deux_paniers.jpg";
@@ -8,6 +9,7 @@ import p from "@/components/layout/Pilier.module.css";
 import { Carrousel } from "@/components/site/Carrousel";
 import { Carte } from "@/components/site/Carte";
 import { OURS } from "@/lib/ours";
+import ouEsTuDoudou from "@/assets/echantillons/eveil/histoires/ou_es_tu_doudou.jpg";
 import { HistoirePerso } from "./HistoirePerso";
 import s from "./eveil.module.css";
 
@@ -18,7 +20,7 @@ export const metadata: Metadata = {
   description:
     "Ourson suit ses progrès et vous propose chaque jour une activité qui l'aide là où il en est, avec ce que vous avez à la maison. Et le soir, une comptine et une histoire.",
   alternates: { canonical: "/eveil" },
-  openGraph: { url: "/eveil" },
+  openGraph: og("/eveil"),
 };
 
 const PISTES: { id: Track; label: string; sub: string; rot: number }[] = [
@@ -55,6 +57,7 @@ export default function EveilPage() {
           <div className={s.photo}>
             <Image
               src={cacheCacheFoulard}
+              placeholder="blur"
               alt=""
               sizes="(min-width: 900px) 460px, 370px"
               loading="eager"
@@ -176,7 +179,11 @@ export default function EveilPage() {
           </div>
         </div>
         <div className={`oReveal ${p.vis}`} style={{ "--r": "1.5deg" }}>
-          <HistoirePerso />
+          <HistoirePerso
+            illustration={
+              <Image src={ouEsTuDoudou} alt="" sizes="(min-width: 900px) 480px, 390px" placeholder="blur" />
+            }
+          />
         </div>
       </section>
 

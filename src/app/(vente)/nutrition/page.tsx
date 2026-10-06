@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { og } from "@/lib/seo";
 import Image, { type StaticImageData } from "next/image";
 import { Fragment } from "react";
 import { DivChip, DivHead, Icon, ShopItem, type IconName, type ShopItemProps } from "@/components/ds";
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
   title: "Nutrition : un seul plat pour toute la famille",
   description: CHAPEAU,
   alternates: { canonical: "/nutrition" },
-  openGraph: { url: "/nutrition" },
+  openGraph: og("/nutrition"),
 };
 
 type Rayon = { icone: IconName; nom: string; articles: ShopItemProps[] };
@@ -110,7 +111,7 @@ export default function NutritionPage() {
           className={`oDrop ${p.vis} ${p.carteVisuel} ${s.heroVis}`}
           style={{ "--d": ".45s", "--dur": ".8s" }}
         >
-          <Age sizes="(min-width: 900px) 452px, (min-width: 430px) 362px, calc(100vw - 68px)" />
+          <Age eager sizes="(min-width: 900px) 452px, (min-width: 430px) 362px, calc(100vw - 68px)" />
         </div>
         <Image
           src={OURS.repas}
@@ -118,7 +119,6 @@ export default function NutritionPage() {
           className={`${p.bear} ${p.wave}`}
           sizes="(min-width: 900px) 200px, 130px"
           loading="eager"
-          fetchPriority="high"
         />
       </section>
 
@@ -242,6 +242,7 @@ export default function NutritionPage() {
               <div className={s.platPhoto}>
                 <Image
                   src={plat.src}
+                  placeholder="blur"
                   alt=""
                   fill
                   sizes="(min-width: 900px) 330px, (min-width: 430px) 177px, calc(50vw - 38px)"

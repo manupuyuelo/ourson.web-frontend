@@ -1,22 +1,21 @@
 "use client";
 
-import Image from "next/image";
-import { useState } from "react";
-import ouEsTuDoudou from "@/assets/echantillons/eveil/histoires/ou_es_tu_doudou.jpg";
+import { useState, type ReactNode } from "react";
 import { HISTOIRE, fill } from "@/lib/data";
 import s from "./eveil.module.css";
 
 // Première page de « Où es-tu, doudou ? », réécrite avec le prénom et le doudou saisis.
 const [texte, conseil] = HISTOIRE[0] ?? ["", ""];
 
-export function HistoirePerso() {
+/** `illustration` est rendue côté serveur : l'îlot client ne porte que les champs et le texte. */
+export function HistoirePerso({ illustration }: { illustration: ReactNode }) {
   const [prenom, setPrenom] = useState("Léa");
   const [doudou, setDoudou] = useState("Pompon");
 
   return (
     <>
       <div className={s.histoire}>
-        <Image src={ouEsTuDoudou} alt="" sizes="(min-width: 900px) 480px, 390px" />
+        {illustration}
         <div className={s.histoireCorps}>
           <div className={s.histoireHaut}>
             <div className={s.histoireTitre}>Où es-tu, doudou ?</div>

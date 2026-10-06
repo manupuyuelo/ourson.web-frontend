@@ -11,6 +11,9 @@
     "react/react-in-jsx-scope": "off",
     "react/rules-of-hooks": "error",
     "react/exhaustive-deps": "warn",
+    // Créer un nouvel objet par élément dans un map est l'idiome voulu (index du blog, données) ;
+    // la règle vise les boucles chaudes, absentes d'un site statique.
+    "oxc/no-map-spread": "off",
     // Imports à effet de bord voulus : feuilles de style globales, augmentation de types, "server-only".
     "import/no-unassigned-import": ["warn", { "allow": ["**/*.css", "server-only", "react"] }]
   },

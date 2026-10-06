@@ -13,9 +13,9 @@ export default defineConfig({
     { name: "mobile", use: { ...devices["iPhone 15"], browserName: "chromium" } },
     { name: "desktop", use: { ...devices["Desktop Chrome"], viewport: { width: 1440, height: 900 } } },
   ],
-  // Teste le build de production, comme en ligne.
+  // Teste le build de production, comme en ligne. En CI, le build est fait par l'étape précédente.
   webServer: {
-    command: `yarn build && yarn start -p ${PORT}`,
+    command: process.env.E2E_SKIP_BUILD ? `yarn start -p ${PORT}` : `yarn build && yarn start -p ${PORT}`,
     url: `http://localhost:${PORT}`,
     reuseExistingServer: !process.env.CI,
     timeout: 300_000,

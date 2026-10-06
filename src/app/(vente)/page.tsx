@@ -121,7 +121,7 @@ export default function Accueil() {
         <div className={`${s.vis} ${s.visRepas}`}>
           <Image src={OURS.repas} alt="" className={`${s.oursIn} ${s.wave}`} sizes="220px" />
           <div className={`oReveal ${s.carteAge}`} style={{ "--r": "-2deg" }}>
-            <Age compact sizes="(min-width: 900px) 436px, calc(100vw - 64px)" />
+            <Age compact sizes="(min-width: 900px) 436px, (min-width: 430px) 366px, calc(100vw - 64px)" />
           </div>
         </div>
         <Link href="/nutrition" className={`oReveal ${s.bouton}`}>
@@ -194,7 +194,12 @@ export default function Accueil() {
             sizes="220px"
           />
           <div className={`oReveal ${s.carteJeu}`} style={{ "--r": "-2.5deg" }}>
-            <Image src={jeu} alt="" sizes="(min-width: 900px) 440px, calc(100vw - 60px)" />
+            <Image
+              src={jeu}
+              alt=""
+              sizes="(min-width: 900px) 440px, (min-width: 430px) 370px, calc(100vw - 60px)"
+              placeholder="blur"
+            />
           </div>
         </div>
         <div className={s.soir}>Le soir : une histoire, une berceuse.</div>

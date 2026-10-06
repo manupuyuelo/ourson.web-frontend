@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { BlogListe } from "@/components/blog/BlogListe";
 import { TEXTES } from "@/components/blog/rubrique";
 import { RUBRIQUES, RUBRIQUE_KEYS, isRubrique } from "@/lib/blog";
-import { JsonLd, filAriane } from "@/lib/seo";
+import { JsonLd, filAriane, og } from "@/lib/seo";
 
 export const dynamicParams = false;
 
@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: PageProps<"/blog/[rubrique]">
     title: `${label} · Le blog`,
     description: `Les articles du blog d'Ourson sur ${TEXTES[rubrique].sujet} des 0-3 ans.`,
     alternates: { canonical: `/blog/${rubrique}` },
-    openGraph: { url: `/blog/${rubrique}` },
+    openGraph: og(`/blog/${rubrique}`),
   };
 }
 

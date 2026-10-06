@@ -1,0 +1,7 @@
+#!/bin/sh
+# Ourson web — formate et lint les seuls fichiers indexés (rapide). Même logique PATH que le pre-push.
+if ! command -v yarn >/dev/null 2>&1; then
+  echo "pre-commit : yarn introuvable dans ce PATH, ignoré (la CI vérifiera)."
+  exit 0
+fi
+exec yarn --silent lint-staged

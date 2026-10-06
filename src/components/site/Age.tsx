@@ -5,10 +5,15 @@ import { useState } from "react";
 import { AGES } from "@/lib/data";
 import s from "./Age.module.css";
 
-type Props = { compact?: boolean; sizes?: string };
+type Props = {
+  compact?: boolean;
+  sizes?: string;
+  /** Au-dessus de la ligne de flottaison : la première photo est l'élément LCP. */
+  eager?: boolean;
+};
 
 /** Le même plat décliné par âge : photo en fondu entre trois états. */
-export function Age({ compact = false, sizes = "(min-width: 900px) 460px, 100vw" }: Props) {
+export function Age({ compact = false, sizes = "(min-width: 430px) 366px, 100vw", eager = false }: Props) {
   const [i, setI] = useState(0);
   return (
     <div className={compact ? `${s.age} ${s.compact}` : s.age}>
@@ -20,6 +25,8 @@ export function Age({ compact = false, sizes = "(min-width: 900px) 460px, 100vw"
             alt={k === i ? a.chip : ""}
             fill
             sizes={sizes}
+            placeholder="blur"
+            {...(eager && k === 0 ? { loading: "eager", fetchPriority: "high" } : {})}
             style={{ opacity: k === i ? 1 : 0 }}
           />
         ))}
