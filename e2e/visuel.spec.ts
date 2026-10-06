@@ -64,6 +64,8 @@ test.describe("non-régression visuelle", () => {
         await expect(page).toHaveScreenshot(`${format}-${nom}.png`, {
           fullPage: true,
           animations: "disabled",
+          // La hauteur de page peut varier d’1 px pendant le chargement : on laisse le temps de se stabiliser.
+          timeout: 15_000,
         });
         await ctx.close();
       });

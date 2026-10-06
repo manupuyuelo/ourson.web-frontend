@@ -92,7 +92,7 @@ export default async function ArticlePage({ params }: PageProps<"/blog/[rubrique
           src={a.image}
           repli={ours}
           alt={a.title}
-          sizes="(min-width: 900px) 1028px, (min-width: 430px) 390px, calc(100vw - 40px)"
+          sizes="(min-width: 900px) 1028px, (min-width: 600px) 560px, (min-width: 430px) 390px, calc(100vw - 40px)"
           width={1600}
           height={900}
           className={s.coverImg}

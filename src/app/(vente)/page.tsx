@@ -69,7 +69,7 @@ export default function Accueil() {
             alt=""
             className={`oDrop ${s.heroOurs}`}
             style={{ "--d": ".9s", "--dur": ".9s" }}
-            sizes="(min-width: 900px) 400px, 270px"
+            sizes="(min-width: 900px) 400px, (min-width: 600px) 340px, 270px"
             loading="eager"
             fetchPriority="high"
           />
@@ -133,7 +133,10 @@ export default function Accueil() {
             data-pause
           />
           <div className={`oReveal ${s.carteAge}`} style={{ "--r": "-2deg" }}>
-            <Age compact sizes="(min-width: 900px) 436px, (min-width: 430px) 366px, calc(100vw - 64px)" />
+            <Age
+              compact
+              sizes="(min-width: 900px) 436px, (min-width: 600px) 536px, (min-width: 430px) 366px, calc(100vw - 64px)"
+            />
           </div>
         </div>
         <Link href="/nutrition" className={`oReveal ${s.bouton}`}>
@@ -220,7 +223,7 @@ export default function Accueil() {
             <Image
               src={jeu}
               alt=""
-              sizes="(min-width: 900px) 440px, (min-width: 430px) 370px, calc(100vw - 60px)"
+              sizes="(min-width: 900px) 440px, (min-width: 600px) 540px, (min-width: 430px) 370px, calc(100vw - 60px)"
               placeholder="blur"
             />
           </div>
@@ -257,7 +260,7 @@ export default function Accueil() {
             <Image
               src={baleine}
               alt=""
-              sizes="(min-width: 900px) 460px, (min-width: 430px) 390px, calc(100vw - 40px)"
+              sizes="(min-width: 900px) 460px, (min-width: 600px) 560px, (min-width: 430px) 390px, calc(100vw - 40px)"
               placeholder="blur"
             />
             <div className={s.histoireCorps}>

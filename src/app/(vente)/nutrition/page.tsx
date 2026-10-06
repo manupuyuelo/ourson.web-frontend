@@ -112,7 +112,10 @@ export default function NutritionPage() {
           className={`oDrop ${p.vis} ${p.carteVisuel} ${s.heroVis}`}
           style={{ "--d": ".45s", "--dur": ".8s" }}
         >
-          <Age eager sizes="(min-width: 900px) 452px, (min-width: 430px) 362px, calc(100vw - 68px)" />
+          <Age
+            eager
+            sizes="(min-width: 900px) 452px, (min-width: 600px) 532px, (min-width: 430px) 362px, calc(100vw - 68px)"
+          />
         </div>
         <Image
           src={OURS.repas}
@@ -248,7 +251,7 @@ export default function NutritionPage() {
                   placeholder="blur"
                   alt=""
                   fill
-                  sizes="(min-width: 900px) 330px, (min-width: 430px) 177px, calc(50vw - 38px)"
+                  sizes="(min-width: 900px) 330px, (min-width: 600px) 180px, (min-width: 430px) 177px, calc(50vw - 38px)"
                 />
               </div>
               <div className={s.platCorps}>

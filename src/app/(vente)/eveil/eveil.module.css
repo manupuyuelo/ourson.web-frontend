@@ -406,3 +406,13 @@
 .nuit {
   --focus: #fff;
 }
+
+/* Tablette (600–899 px) : colonne élargie, tailles intermédiaires entre téléphone et desktop. */
+@media (600px <= width < 900px) {
+  .large {
+    padding-block: 72px;
+  }
+  .large.tight {
+    padding-top: 0;
+  }
+}

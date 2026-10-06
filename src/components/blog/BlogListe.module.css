@@ -86,3 +86,10 @@
     padding: 8px var(--g) 80px;
   }
 }
+
+/* Tablette (600–899 px) : colonne élargie, tailles intermédiaires entre téléphone et desktop. */
+@media (600px <= width < 900px) {
+  .h1 {
+    font-size: 52px;
+  }
+}

@@ -59,7 +59,7 @@ export default function EveilPage() {
               src={deuxPaniers}
               placeholder="blur"
               alt=""
-              sizes="(min-width: 900px) 460px, 370px"
+              sizes="(min-width: 900px) 460px, (min-width: 600px) 540px, 370px"
               loading="eager"
               fetchPriority="high"
             />
@@ -182,7 +182,12 @@ export default function EveilPage() {
         <div className={`oReveal ${p.vis}`} style={{ "--r": "1.5deg" }}>
           <HistoirePerso
             illustration={
-              <Image src={baleine} alt="" sizes="(min-width: 900px) 480px, 390px" placeholder="blur" />
+              <Image
+                src={baleine}
+                alt=""
+                sizes="(min-width: 900px) 480px, (min-width: 600px) 560px, 390px"
+                placeholder="blur"
+              />
             }
           />
         </div>

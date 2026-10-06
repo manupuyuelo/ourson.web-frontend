@@ -21,6 +21,13 @@ html {
   --g: max(20px, calc(50vw - 195px));
 }
 
+/* Tablette (iPad, foldables ouverts, téléphones en paysage) : colonne élargie à 560 px. */
+@media (600px <= width < 900px) {
+  :root {
+    --g: max(40px, calc(50vw - 280px));
+  }
+}
+
 @media (min-width: 900px) {
   :root {
     --g: max(56px, calc(50vw - 570px));

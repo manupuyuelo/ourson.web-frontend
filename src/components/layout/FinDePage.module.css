@@ -11,7 +11,7 @@
 
 .accueil {
   scroll-snap-align: start;
-  min-height: 100svh;
+  min-height: min(100svh, 780px);
   padding: 60px var(--g);
 }
 
@@ -75,5 +75,15 @@
   }
   .titre {
     font-size: 48px;
+  }
+}
+
+@media (600px <= width < 900px) {
+  .fin {
+    min-height: 0;
+    padding: 96px var(--g);
+  }
+  .titre {
+    font-size: 42px;
   }
 }

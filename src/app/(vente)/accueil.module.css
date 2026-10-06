@@ -16,6 +16,12 @@
   }
 }
 
+@media (600px <= width < 900px) {
+  :global(html):has(.snap) {
+    scroll-snap-type: none;
+  }
+}
+
 /* Copies locales de oWave / oFloat : un module CSS renomme les noms d'animation qu'il référence. */
 @keyframes wave {
   0%,
@@ -39,7 +45,9 @@
 
 .sec {
   scroll-snap-align: start;
-  min-height: 100svh;
+  /* Un écran par section, plafonné à la hauteur d'un grand iPhone : au-delà (Android très hauts,
+     Galaxy Z Fold fermé), le visuel poussé en bas laisserait un grand vide. */
+  min-height: min(100svh, 780px);
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -767,4 +775,57 @@
 .plein,
 .foyer {
   --focus: #fff;
+}
+
+/* ---------- Tablette (600–899 px) : colonne élargie, sections à la hauteur de leur contenu ---------- */
+
+@media (600px <= width < 900px) {
+  .sec {
+    min-height: 0;
+  }
+  .sec:not(.hero) {
+    padding-block: 72px;
+  }
+  .hero {
+    padding-top: 64px;
+  }
+  /* Visuels sous le texte, à distance fixe (et non plus poussés en bas d'écran). */
+  .sec > .vis {
+    margin-top: 24px;
+  }
+  /* Comme en desktop : une question par ligne. */
+  .h1 {
+    font-size: 48px;
+    max-width: 14ch;
+  }
+  .chapeau {
+    font-size: 18px;
+    max-width: 44ch;
+  }
+  .h2 {
+    font-size: 42px;
+  }
+  .texte {
+    font-size: 17px;
+  }
+  .time {
+    font-size: 110px;
+  }
+  .time span {
+    font-size: 58px;
+  }
+  /* Composition du hero (positions absolues prévues pour 390 px) : agrandie d'un bloc, centrée. */
+  .heroVis {
+    width: 390px;
+    max-width: 100%;
+    align-self: center;
+    zoom: 1.25;
+  }
+  .sec .ours {
+    width: 170px;
+  }
+  .h2Ours,
+  .eveil .h2 {
+    padding-right: 140px;
+  }
 }

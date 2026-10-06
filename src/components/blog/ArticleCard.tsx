@@ -5,10 +5,11 @@ import { CloudinaryImage } from "./CloudinaryImage";
 import { couleurs } from "./rubrique";
 import s from "./ArticleCard.module.css";
 
-/** Largeurs rendues des cartes de grille (colonne 430 px sous 900 px, 3 colonnes au-delà). */
+/** Largeurs rendues des cartes : colonne de 390 px (téléphone), 560 px (tablette, 2 colonnes dès 640), 3 colonnes au-delà de 900. */
 const SIZES_GRILLE =
-  "(min-width: 900px) 310px, (min-width: 640px) 170px, (min-width: 430px) 370px, calc(100vw - 60px)";
-const SIZES_UNE = "(min-width: 900px) 530px, (min-width: 430px) 370px, calc(100vw - 64px)";
+  "(min-width: 900px) 310px, (min-width: 640px) 262px, (min-width: 600px) 540px, (min-width: 430px) 370px, calc(100vw - 60px)";
+const SIZES_UNE =
+  "(min-width: 900px) 530px, (min-width: 600px) 536px, (min-width: 430px) 370px, calc(100vw - 64px)";
 
 type Props = {
   article: Article;
