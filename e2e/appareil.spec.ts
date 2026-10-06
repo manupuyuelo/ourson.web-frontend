@@ -60,6 +60,24 @@ test("cartel QR : visible en desktop, masqué en fin de page", async ({ page, is
   await expect(cartel).toHaveAttribute("aria-hidden", "true");
 });
 
+test("iPad en paysage : badge App Store en cartel, pas de QR", async ({ browser, isMobile }) => {
+  test.skip(isMobile, "un seul projet suffit");
+  const ctx = await browser.newContext({
+    userAgent:
+      "Mozilla/5.0 (iPad; CPU OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1",
+    viewport: { width: 1133, height: 744 },
+    isMobile: true,
+    hasTouch: true,
+  });
+  const page = await ctx.newPage();
+  await page.goto("/nutrition");
+  await expect(
+    page.locator('[data-cartel="ios"]').getByAltText("Télécharger dans l’App Store"),
+  ).toBeVisible();
+  await expect(page.locator('[data-cartel="desktop"]')).toHaveCount(0);
+  await ctx.close();
+});
+
 test("menu mobile : ouverture et fermeture", async ({ page, isMobile }) => {
   test.skip(!isMobile, "menu burger mobile");
   await page.goto("/nutrition");

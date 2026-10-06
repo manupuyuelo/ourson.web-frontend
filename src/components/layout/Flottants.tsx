@@ -5,23 +5,24 @@ import { useAppareil } from "@/lib/useAppareil";
 import s from "./Flottants.module.css";
 
 /**
- * Pages de vente : cartel mobile (badge du store, téléphones et tablettes, sous 900 px)
- * et cartel QR (dès 900 px, quel que soit l’appareil : un iPad en paysage le voit aussi).
+ * Pages de vente : sur un téléphone ou une tablette, le cartel du store de l'appareil, à toutes les
+ * largeurs (on ne fait pas scanner un QR à l'appareil qu'on tient). Sur ordinateur, le cartel QR dès 900 px.
  */
 export function Flottants() {
   const appareil = useAppareil();
-  return (
-    <>
-      {appareil && appareil !== "desktop" && (
-        <div className={s.barre}>
-          <div className={s.barreInner}>
-            <Telecharger appareil={appareil} flottant />
-          </div>
+  if (!appareil) return null;
+  if (appareil !== "desktop") {
+    return (
+      <div className={s.barre}>
+        <div className={s.barreInner}>
+          <Telecharger appareil={appareil} flottant />
         </div>
-      )}
-      <div className={s.qr}>
-        <Telecharger appareil="desktop" flottant />
       </div>
-    </>
+    );
+  }
+  return (
+    <div className={s.qr}>
+      <Telecharger appareil="desktop" flottant />
+    </div>
   );
 }
