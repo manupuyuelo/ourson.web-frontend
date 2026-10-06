@@ -26,11 +26,6 @@
   z-index: 50;
 }
 
-/* padding-bottom: 80px du handoff, en mobile comme en desktop (hauteur du cartel mobile + marge). */
-.espace {
-  height: 80px;
-}
-
 @media (min-width: 900px) {
   /* Tablette en paysage, foldable ouvert : calé en bas à gauche, comme le QR, loin du bandeau cookies. */
   .barre {
@@ -39,9 +34,5 @@
   }
   .qr {
     display: block;
-  }
-  /* Le cartel desktop s'efface en bas de page (fin et pied de page) : pas de place à lui réserver. */
-  .espace {
-    display: none;
   }
 }

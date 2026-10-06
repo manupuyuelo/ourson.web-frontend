@@ -74,11 +74,17 @@ test("refus : « Non merci » masque le bandeau, aussi après rechargement", asy
   expect(stocke).toMatchObject({ audience: false, pub: false });
 });
 
-test("le lien « Cookies » rouvre le détail avec le choix en cours", async ({ page }) => {
+test("le lien « Cookies » rouvre le détail avec le choix en cours", async ({ page, isMobile }) => {
   await page.goto("/blog", { waitUntil: "domcontentloaded" });
   await pageHydratee(page);
   await page.getByRole("button", { name: "Miam, j’accepte" }).click();
-  await page.getByRole("contentinfo").getByRole("link", { name: "Cookies" }).click();
+  // Pied de page en desktop ; sur téléphone, le même lien est dans le menu.
+  if (isMobile) {
+    await page.getByRole("button", { name: "Menu" }).click();
+    await page.locator("dialog#menu-mobile").getByRole("link", { name: "Cookies" }).click();
+  } else {
+    await page.getByRole("contentinfo").getByRole("link", { name: "Cookies" }).click();
+  }
   await expect(page.getByRole("button", { name: "Valider mes choix" })).toBeVisible();
   await expect(page.getByRole("switch", { name: "Mesure d’audience" })).toHaveAttribute(
     "aria-checked",

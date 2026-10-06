@@ -9,9 +9,16 @@
   background: var(--gradient-dashboard), var(--bg);
 }
 
+/* Téléphone : dernier écran de la page, exactement la hauteur visible sous l'en-tête (69 px). Le cartel
+   s'efface devant ce bloc : rien à réserver sous lui. */
+@media (width < 600px) {
+  .fin {
+    min-height: calc(100svh - 69px);
+  }
+}
+
 .accueil {
   scroll-snap-align: start;
-  min-height: min(100svh, 780px);
   padding: 60px var(--g);
 }
 
