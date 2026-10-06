@@ -1,6 +1,8 @@
 .carrousel {
   /* Le nombre de cartes visibles suit la largeur du carrousel, pas celle de l'écran. */
   container-type: inline-size;
+  /* La piste déborde jusqu'au bord de l'écran en mobile (gouttière fluide), de 20 px en desktop. */
+  --bord: var(--g);
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -12,9 +14,9 @@
   gap: 14px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  scroll-padding: 0 20px;
-  padding: 16px 20px 36px;
-  margin: -16px -20px -22px;
+  scroll-padding: 0 var(--bord);
+  padding: 16px var(--bord) 36px;
+  margin: -16px calc(-1 * var(--bord)) -22px;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
   list-style: none;
@@ -107,6 +109,7 @@
     width: calc((100% - 28px) / 3);
   }
   .piste {
+    --bord: 20px;
     clip-path: inset(-30px 20px -30px 20px);
   }
 }

@@ -5,7 +5,7 @@
 }
 
 .hero {
-  padding: 28px 20px 24px;
+  padding: 28px var(--g) 24px;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -84,7 +84,7 @@
 
 /* Couverture à cheval sur le hero. */
 .cover {
-  padding: 0 20px;
+  padding: 0 var(--g);
   background: linear-gradient(var(--tint) 50%, transparent 50%);
 }
 
@@ -100,7 +100,7 @@
 }
 
 .article {
-  padding: 32px 20px 48px;
+  padding: 32px var(--g) 48px;
   display: flex;
   flex-direction: column;
   gap: 18px;
@@ -154,7 +154,7 @@
 }
 
 .rel {
-  padding: 0 20px 56px;
+  padding: 0 var(--g) 56px;
   display: flex;
   flex-direction: column;
   gap: 16px;

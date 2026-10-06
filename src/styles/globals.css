@@ -14,7 +14,13 @@ html {
   background: var(--bg);
 }
 
-/* Desktop : fonds bord à bord, contenu centré sur 1140 px par une gouttière fluide (handoff : --g). */
+/* Fonds bord à bord à toutes les largeurs, contenu centré par une gouttière fluide (handoff : --g).
+   Mobile : 390 px de contenu au plus (colonne de 430 px du handoff, moins 2 × 20 px), sans bandes
+   latérales sur les grands téléphones (440 px) ni les tablettes en portrait. Desktop : 1140 px. */
+:root {
+  --g: max(20px, calc(50vw - 195px));
+}
+
 @media (min-width: 900px) {
   :root {
     --g: max(56px, calc(50vw - 570px));

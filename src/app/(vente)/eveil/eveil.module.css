@@ -16,7 +16,7 @@
 }
 
 .heroEveil > .ours {
-  right: -30px;
+  right: calc(var(--g) - 50px);
   top: 24px;
   width: 175px;
 }
@@ -210,12 +210,13 @@
   background: var(--eveil-tint);
 }
 
+/* Gouttière en marge (et non en padding) : elle ne doit pas rogner le max-width de l'intro. */
 .pad {
-  padding: 0 20px;
+  margin-inline: var(--g);
 }
 
 .marge {
-  margin: 0 20px;
+  margin: 0 var(--g);
 }
 
 .intro {
@@ -226,7 +227,7 @@
 }
 
 .total {
-  margin: 0;
+  margin-block: 0;
   font-family: var(--font-display);
   font-weight: 800;
   font-size: 16px;

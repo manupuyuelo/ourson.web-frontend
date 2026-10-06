@@ -1,5 +1,5 @@
 .hero {
-  padding: 44px 20px 24px;
+  padding: 44px var(--g) 24px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -39,8 +39,8 @@
   display: flex;
   gap: 8px;
   overflow-x: auto;
-  margin: 10px -20px 0;
-  padding: 0 20px 4px;
+  margin: 10px calc(-1 * var(--g)) 0;
+  padding: 0 var(--g) 4px;
   scrollbar-width: none;
 }
 
@@ -67,7 +67,7 @@
 }
 
 .corps {
-  padding: 8px 20px 56px;
+  padding: 8px var(--g) 56px;
   display: flex;
   flex-direction: column;
   gap: 24px;

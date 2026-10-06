@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 12px 20px;
+  padding: 12px var(--g);
   background: rgba(255, 248, 241, 0.85);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
@@ -83,7 +83,7 @@ a.logo:hover {
   z-index: 60;
   background: var(--bg);
   color: var(--ink);
-  padding: 12px 20px 40px;
+  padding: 12px var(--g) 40px;
   flex-direction: column;
   /* Invisible tant que le menu tient à l'écran ; utile en paysage sur petit téléphone. */
   overflow-y: auto;

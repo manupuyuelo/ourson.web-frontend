@@ -10,7 +10,7 @@
 }
 
 .sec {
-  padding: 56px 20px;
+  padding: 56px var(--g);
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -18,7 +18,7 @@
 }
 
 .hero {
-  padding: 48px 20px 64px;
+  padding: 48px var(--g) 64px;
   overflow: hidden;
   color: #fff;
 }
@@ -110,7 +110,8 @@
 
 .bear {
   position: absolute;
-  right: -24px;
+  /* Calé sur le bord du contenu, pas sur celui de l'écran (fonds pleine largeur). */
+  right: calc(var(--g) - 44px);
   top: 28px;
   width: 130px;
   height: auto;
