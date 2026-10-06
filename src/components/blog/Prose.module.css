@@ -1,0 +1,174 @@
+/* Corps des articles MDX. Couleurs de la rubrique via --c, --deep, --tint (définies sur l'article). */
+.prose {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.prose p {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.6;
+  font-weight: 600;
+  /* Le handoff n'équilibre que l'introduction. */
+  text-wrap: wrap;
+}
+
+/* 1er paragraphe = introduction. */
+.prose > p:first-child {
+  font-size: 18px;
+  font-weight: 700;
+  text-wrap: pretty;
+}
+
+.prose strong {
+  font-weight: 800;
+}
+
+.prose h2 {
+  margin: 20px 0 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 26px;
+  line-height: 1.05;
+  color: var(--deep);
+  text-wrap: wrap;
+}
+
+/* Items « **1. Titre.** texte » regroupés par lib/remark-points.ts. */
+.points {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Liste de conseils : encart blanc, pastilles claires. */
+.encadre {
+  background: #fff;
+  border-radius: 22px;
+  padding: 20px;
+  gap: 16px;
+}
+
+.encadre .num {
+  background: var(--tint);
+  color: var(--deep);
+}
+
+.point {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.num {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--c);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 16px;
+}
+
+/* Listes à puces : comme les puces du handoff (point de 8 px, sans encart). */
+.prose ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Listes numérotées markdown : encart blanc et pastilles teintées, comme les listes de conseils. */
+.prose ol {
+  margin: 0;
+  padding: 20px;
+  list-style: none;
+  background: #fff;
+  border-radius: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  counter-reset: item;
+}
+
+.prose li {
+  position: relative;
+  padding-left: 46px;
+  min-height: 32px;
+  font-size: 17px;
+  line-height: 1.6;
+  font-weight: 600;
+}
+
+.prose ul > li {
+  padding-left: 18px;
+  min-height: 0;
+}
+
+.prose ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c);
+}
+
+.prose ol > li {
+  counter-increment: item;
+}
+
+.prose ol > li::before {
+  content: counter(item);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--tint);
+  color: var(--deep);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 1;
+}
+
+/* « Conclusion » (toujours en fin d'article) : encart plein, le titre et les paragraphes qui suivent. */
+.prose h2.conclusion,
+.conclusion ~ * {
+  background: var(--c);
+  color: #fff;
+  padding-inline: 20px;
+}
+
+.prose h2.conclusion {
+  margin-top: 20px;
+  padding-top: 24px;
+  border-radius: 28px 28px 0 0;
+}
+
+.conclusion ~ * {
+  margin-top: -18px;
+  padding-top: 12px;
+}
+
+.prose > .conclusion ~ p {
+  font-weight: 700;
+}
+
+.conclusion ~ :last-child {
+  padding-bottom: 24px;
+  border-radius: 0 0 28px 28px;
+}

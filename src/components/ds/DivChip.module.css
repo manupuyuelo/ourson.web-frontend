@@ -1,0 +1,22 @@
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 8px 14px;
+  border-radius: 30px;
+  font-family: var(--font-ui);
+  font-weight: 800;
+  font-size: 13px;
+}
+
+.got {
+  background: var(--repas);
+  color: #fff;
+}
+
+.next {
+  background: var(--card);
+  border: 1.5px dashed var(--eveil);
+  color: var(--eveil);
+}

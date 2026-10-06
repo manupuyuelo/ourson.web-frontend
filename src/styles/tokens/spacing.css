@@ -1,0 +1,78 @@
+/* ========================================================================
+   Ourson — Spacing, radii, shadows (v1 « le monde de l'ourson »)
+   Generous and rounded: buttons are 20px (not pills), the signature card
+   surface is 20–22px, bottom sheets 28px, chips/pills 30px, inputs 4px.
+   Shadows are soft, warm and low-contrast — never harsh.
+   ======================================================================== */
+
+:root {
+  /* ---- Spacing scale (4px base) ---------------------------------------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px; /* card padding / screen gutter                         */
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+
+  /* ---- Screen gutters -------------------------------------------------- */
+  --gutter-screen: 20px; /* v1 screen left/right margin                    */
+
+  /* ---- Radii (v1) ------------------------------------------------------ */
+  --radius-xs: 4px; /* outlined inputs                                   */
+  --radius-sm: 12px; /* chrome / tab-strip corners                        */
+  --radius-md: 16px; /* small cards, icon vignettes, ghost buttons        */
+  --radius-lg: 20px; /* primary buttons + the signature card surface      */
+  --radius-card: 22px; /* meal / sleep / content cards                      */
+  --radius-xl: 26px; /* large hero cards                                  */
+  --radius-sheet: 28px; /* bottom sheets                                     */
+  --radius-pill: 30px; /* chips & pills                                     */
+  --radius-full: 999px; /* avatars, round icon buttons, search bar           */
+
+  /* ---- Control sizing -------------------------------------------------- */
+  --control-height: 40px; /* chips                                        */
+  --button-height: 52px; /* primary CTA                                  */
+  --tap-min: 44px; /* minimum touch target                         */
+
+  /* ---- Borders --------------------------------------------------------- */
+  --border-width: 1px;
+  --border-width-strong: 2px; /* coral checkbox                           */
+  --border-accent-width: 3px; /* active-tab coral underline               */
+
+  /* ---- Ombres — valeurs NATIVES de theme.ts · shadow.* (iOS shadowRadius r ≈ flou CSS 2r).
+     Ce sont elles qu'on voit dans l'app livrée, pas les chaînes CSS des anciens handoffs. */
+  --sh-tile: 0 2px 6px rgba(80, 40, 20, 0.05); /* tile : puces filtre, boutons ronds plats, tuiles */
+  --sh-step: 0 8px 0 rgba(80, 40, 20, 0.05); /* stepButton : boutons −/+ Sommeil (chute nette)  */
+  --sh-card: 0 4px 14px rgba(80, 50, 25, 0.1); /* card : cartes, boutons ronds d'en-tête, triptyque */
+  --sh-float: 0 7px 22px rgba(120, 70, 40, 0.14); /* float : posé sur photo                          */
+  --sh-hero-btn: 0 3px 10px rgba(0, 0, 0, 0.14); /* heroButton : bouton rond sur la photo du héro    */
+
+  --shadow-card: var(--sh-card);
+  --shadow-raised: var(--sh-float);
+  --shadow-overlay: var(--sh-float);
+  --shadow-fab: var(--sh-cta);
+
+  /* ---- CTA & sélection par accent ------------------------------------------ */
+  --sh-cta: 0 5px 14px rgba(255, 84, 54, 0.3); /* cta (marque)      */
+  --sh-cta-repas: 0 5px 14px rgba(158, 101, 18, 0.3); /* ctaRepas          */
+  --sh-cta-indigo: 0 5px 14px rgba(88, 104, 214, 0.3); /* ctaIndigo        */
+  --sh-cta-ink: 0 5px 14px rgba(46, 58, 120, 0.3); /* ctaSommeilInk     */
+  --sh-cta-green: 0 5px 14px rgba(62, 154, 89, 0.28); /* ctaGreen          */
+  --sh-segment: 0 4px 10px rgba(255, 84, 54, 0.28); /* segment (pouce du triptyque, chip filtre actif) */
+  --sh-segment-repas: 0 4px 10px rgba(158, 101, 18, 0.28);
+  --sh-selected-repas: 0 3px 8px rgba(158, 101, 18, 0.18);
+  --sh-sleep-card: 0 8px 24px rgba(74, 87, 196, 0.3); /* sleepCard         */
+  --sh-sheet: 0 -6px 28px rgba(0, 0, 0, 0.16); /* sheet             */
+  --sh-nav: 0 -6px 20px -12px rgba(180, 90, 50, 0.4);
+
+  /* ---- Rayons intermédiaires (theme.ts) -------------------------------- */
+  --radius-check: 6px; /* cases à cocher                                 */
+  --radius-icon: 17px; /* pastille d'icône des cartes d'accueil           */
+  --radius-search: 40px; /* champ de recherche                              */
+
+  /* ---- Layout (theme.ts · layout) -------------------------------------- */
+  --frame-width: 390px;
+  --frame-height: 844px;
+  --max-content: 560px;
+}

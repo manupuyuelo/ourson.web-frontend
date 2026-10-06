@@ -1,0 +1,55 @@
+.item {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.box {
+  width: 24px;
+  height: 24px;
+  flex: none;
+  border-radius: 8px;
+  border: 2px solid var(--faint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checked .box {
+  border-color: var(--repas);
+  background: var(--repas);
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
+}
+
+.label {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ink);
+}
+
+.checked .label {
+  color: var(--faint);
+  text-decoration: line-through;
+}
+
+.sub {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 11px;
+  color: var(--faint);
+  margin-top: 1px;
+}
+
+.qty {
+  font-family: var(--font-ui);
+  font-weight: 800;
+  font-size: 13px;
+  color: var(--muted);
+}

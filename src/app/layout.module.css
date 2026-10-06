@@ -1,0 +1,16 @@
+.page {
+  background: var(--bg);
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100svh;
+  /* clip et non hidden : hidden ferait du conteneur une zone de défilement et casserait l'en-tête collant. */
+  overflow-x: clip;
+}
+
+.col {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}

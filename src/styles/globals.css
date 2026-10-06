@@ -1,0 +1,87 @@
+@import "./tokens/colors.css";
+@import "./tokens/typography.css";
+@import "./tokens/spacing.css";
+@import "./motion.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  background: var(--bg);
+}
+
+/* Fonds bord à bord à toutes les largeurs, contenu centré par une gouttière fluide (handoff : --g).
+   Mobile : 390 px de contenu au plus (colonne de 430 px du handoff, moins 2 × 20 px), sans bandes
+   latérales sur les grands téléphones (440 px) ni les tablettes en portrait. Desktop : 1140 px. */
+:root {
+  --g: max(20px, calc(50vw - 195px));
+}
+
+/* Tablette (iPad, foldables ouverts, téléphones en paysage) : colonne élargie à 560 px. */
+@media (600px <= width < 900px) {
+  :root {
+    --g: max(40px, calc(50vw - 280px));
+  }
+}
+
+@media (min-width: 900px) {
+  :root {
+    --g: max(56px, calc(50vw - 570px));
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+img {
+  max-width: 100%;
+}
+
+a {
+  color: var(--coral-deep);
+}
+
+a:hover {
+  color: var(--coral);
+}
+
+button {
+  font: inherit;
+}
+
+:focus-visible {
+  /* --focus vaut #fff sur les sections à fond plein. */
+  outline: 3px solid var(--focus, var(--ink));
+  outline-offset: 3px;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

@@ -1,0 +1,350 @@
+/* Spécificités de la page Nutrition, en complément de Pilier.module.css.
+   Les surcharges sont préfixées par .nutrition pour l'emporter sur le gabarit sans dépendre de l'ordre. */
+
+.nutrition :is(h1, h2) {
+  text-wrap: balance;
+}
+
+.nutrition p {
+  text-wrap: pretty;
+}
+
+/* Hero */
+.hero {
+  background: var(--repas);
+}
+
+.nutrition .heroVis {
+  margin-top: 16px;
+}
+
+/* Courses */
+.tint {
+  background: var(--repas-tint);
+}
+
+.nutrition .courses {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 16px 18px 8px;
+  box-shadow: 0 12px 30px rgba(158, 101, 18, 0.14);
+  gap: 10px;
+}
+
+.coursesTete {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.coursesTitre {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+  white-space: nowrap;
+}
+
+.reste {
+  background: var(--repas-tint);
+  color: var(--repas-ink);
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 30px;
+  padding: 4px 10px;
+  white-space: nowrap;
+}
+
+.bascule {
+  display: flex;
+  background: var(--repas-tint);
+  border-radius: 30px;
+  padding: 4px;
+  gap: 4px;
+}
+
+.bascule span {
+  flex: 1;
+  text-align: center;
+  color: var(--repas-ink);
+  opacity: 0.7;
+  border-radius: 30px;
+  padding: 8px 0;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.bascule .actif {
+  background: #fff;
+  opacity: 1;
+}
+
+.rayon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.rayonIcone {
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  background: var(--repas-tint);
+  color: var(--repas-ink);
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+
+.micro {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Diversification */
+.nutrition .diversification {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 14px;
+  box-shadow: 0 12px 30px rgba(42, 32, 28, 0.1);
+  gap: 14px;
+}
+
+.aliments {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 4px;
+}
+
+.chips + .micro {
+  margin-top: 4px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.soleil {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  background: var(--sun-tint);
+  border-radius: 18px;
+  padding: 12px 14px;
+}
+
+.soleil span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--sun);
+  flex: none;
+  margin-top: 6px;
+}
+
+.soleil p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--sun-ink);
+}
+
+/* Catalogue (section pleine largeur) */
+.nutrition .catalogue {
+  background: var(--repas);
+  color: #fff;
+  gap: 18px;
+  /* .sec centre ses enfants sur desktop ; la section large garde l'alignement à gauche. */
+  align-items: stretch;
+}
+
+.catTete {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 640px;
+}
+
+.nutrition .sansMax {
+  max-width: none;
+}
+
+.catTexte {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 700;
+}
+
+.grille {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.plat {
+  border-radius: 22px;
+  overflow: hidden;
+  background: #fff;
+  padding: 6px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.platPhoto {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 17px;
+  overflow: hidden;
+  background: var(--repas-tint);
+}
+
+.platPhoto img {
+  object-fit: cover;
+}
+
+.platCorps {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 2px 6px 8px;
+}
+
+.tag {
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 30px;
+  padding: 3px 9px;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.tag::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex: none;
+}
+
+.famille {
+  background: var(--repas-tint);
+  color: var(--repas-ink);
+}
+
+.famille::before {
+  background: var(--repas);
+}
+
+.bebe {
+  background: var(--sun-tint);
+  color: var(--sun-ink);
+}
+
+.bebe::before {
+  background: var(--sun);
+}
+
+.platNom {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1.15;
+  text-wrap: pretty;
+}
+
+.sources {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 18px;
+  padding: 14px 16px;
+  max-width: 52ch;
+}
+
+.sourcesIcone {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: #fff;
+  color: var(--repas);
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+
+.sources p {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+/* Toute la famille */
+.foyer {
+  background: var(--coral);
+  color: #fff;
+}
+
+.nutrition .foyerH2 {
+  max-width: 16ch;
+}
+
+.foyerTexte {
+  max-width: 44ch;
+}
+
+.nutrition .notifs {
+  gap: 14px;
+  color: var(--ink);
+}
+
+@media (min-width: 900px) {
+  .nutrition .heroVis {
+    margin-top: 0;
+  }
+  .grille {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  /* Dans le handoff, le max-width:16ch en ligne l'emporte sur le 14ch des H2 desktop. */
+  .nutrition .foyerH2 {
+    max-width: 16ch;
+  }
+}
+
+/* Tablette (600–899 px) : colonne élargie, tailles intermédiaires entre téléphone et desktop. */
+@media (600px <= width < 900px) {
+  .grille {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Lien vers la page des sources : dans la couleur du texte de l'encart. */
+.sources a {
+  color: inherit;
+  font-weight: 800;
+  white-space: nowrap;
+  text-underline-offset: 2px;
+}

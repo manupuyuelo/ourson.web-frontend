@@ -1,0 +1,240 @@
+.wrap {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  color: var(--ink);
+}
+
+.badge {
+  display: block;
+  padding: 12px;
+}
+
+.badge img {
+  display: block;
+  height: 48px;
+  width: auto;
+}
+
+/* Avant détection de l'appareil (rendu statique) : on réserve la place selon le type de pointeur,
+   bien plus fiable que la largeur (iPad paysage ≥ 900 px, petite fenêtre d'ordinateur…). */
+.pending {
+  height: 72px;
+}
+
+.qr {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 22px 24px;
+  box-shadow: 0 12px 30px rgba(42, 32, 28, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: min(100%, 300px);
+  color: var(--ink);
+}
+
+.pendingQr {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pending {
+    display: none;
+  }
+  .pendingQr {
+    display: flex;
+  }
+}
+
+.qrTitle {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 20px;
+}
+
+.stores {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.stores a {
+  display: block;
+}
+
+.stores img {
+  display: block;
+  width: auto;
+}
+
+.apple {
+  height: 24px;
+}
+
+.android {
+  height: 20px;
+}
+
+.storesPetit {
+  margin-top: 4px;
+}
+
+.storesPetit .apple {
+  height: 22px;
+}
+
+.storesPetit .android {
+  height: 18px;
+}
+
+.dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--ink);
+}
+
+.code {
+  position: relative;
+  background: #fff;
+  padding: 10px;
+  border-radius: 12px;
+}
+
+.code > img:first-child {
+  display: block;
+  width: 180px;
+  height: 180px;
+}
+
+.icon {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 44px;
+  height: 44px;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  box-shadow: 0 0 0 4px #fff;
+}
+
+.hint {
+  font-size: 13px;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* ---------- Cartel flottant (mobile : barre du bas ; ordinateur : QR en bas à gauche) ---------- */
+
+.cartel {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 10px 10px 10px 12px;
+  box-shadow: 0 12px 30px rgba(42, 32, 28, 0.16);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  color: var(--ink);
+  transition:
+    opacity 0.3s ease,
+    transform 0.4s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+/* Un autre bloc de téléchargement est à l'écran : le cartel s'efface. */
+.masque {
+  opacity: 0;
+  transform: translateY(24px) scale(0.96);
+  pointer-events: none;
+}
+
+.cartelIcone {
+  width: 44px;
+  height: 44px;
+  border-radius: 11px;
+  flex: none;
+  display: block;
+}
+
+.cartelTitre {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 17px;
+  line-height: 1.1;
+}
+
+.cartelBadge {
+  display: block;
+  flex: none;
+}
+
+.cartelBadge img {
+  display: block;
+  height: 40px;
+  width: auto;
+}
+
+.cartelQr {
+  width: 340px;
+  padding: 14px 20px 14px 14px;
+  gap: 16px;
+  box-shadow: 0 12px 30px rgba(42, 32, 28, 0.12);
+}
+
+.cartelCode {
+  position: relative;
+  flex: none;
+}
+
+.cartelCode > img:first-child {
+  display: block;
+  width: 112px;
+  height: 112px;
+}
+
+.cartelCodeIcone {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 28px;
+  height: 28px;
+  transform: translate(-50%, -50%);
+  border-radius: 7px;
+  box-shadow: 0 0 0 3px #fff;
+}
+
+.cartelCorps {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.cartelTitreQr {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 19px;
+  line-height: 1.1;
+}
+
+.cartelConsigne {
+  font-size: 13px;
+  line-height: 1.4;
+  font-weight: 600;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+/* Mouvement réduit : simple fondu, sans translation. */
+@media (prefers-reduced-motion: reduce) {
+  .masque {
+    transform: none;
+  }
+}

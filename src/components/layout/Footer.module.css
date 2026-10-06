@@ -1,0 +1,36 @@
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px 28px;
+  padding: 24px var(--g) 40px;
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.footer a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.footer a[aria-current="page"] {
+  color: var(--ink);
+  font-weight: 800;
+}
+
+/* Pages de vente : pied de page desktop uniquement (en mobile, le cartel occupe le bas de l'écran). */
+.vente {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  /* Barre compacte, liens centrés dans sa hauteur. */
+  .footer {
+    align-items: center;
+    padding: 22px var(--g);
+  }
+  .vente {
+    display: flex;
+  }
+}

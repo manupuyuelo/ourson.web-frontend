@@ -1,0 +1,174 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px var(--g);
+  /* Presque opaque : le flou garde la profondeur sans laisser lire le contenu qui défile dessous
+     (le handoff était à .85, trop transparent pour la lisibilité du menu). */
+  background: rgba(255, 248, 241, 0.95);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border-bottom: 1px solid var(--line);
+}
+
+/* Sans flou d'arrière-plan, fond plein. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .header {
+    background: var(--bg);
+  }
+}
+
+.logo {
+  font-family: var(--font-brand);
+  font-size: 28px;
+  line-height: 1;
+  color: var(--coral);
+  text-decoration: none;
+}
+
+a.logo:hover {
+  color: var(--coral);
+}
+
+.nav {
+  display: none;
+  gap: 28px;
+  align-items: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 17px;
+}
+
+.nav a {
+  text-decoration: none;
+  white-space: nowrap;
+  color: var(--c);
+}
+
+/* Comme le handoff : seule la page active porte la bordure (elle la décale de 1,5 px). */
+.nav a[aria-current="page"] {
+  border-bottom: 3px solid var(--c);
+}
+
+.burger,
+.close {
+  width: 44px;
+  height: 44px;
+  margin-right: -8px;
+  border: 0;
+  background: transparent;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  color: var(--ink);
+}
+
+@media (min-width: 900px) {
+  .header {
+    padding: 14px var(--g);
+  }
+  .nav {
+    display: flex;
+  }
+  .burger {
+    display: none;
+  }
+}
+
+/* Menu mobile plein écran */
+.menu {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  border: 0;
+  z-index: 60;
+  background: var(--bg);
+  color: var(--ink);
+  padding: 12px var(--g) 40px;
+  flex-direction: column;
+  /* Invisible tant que le menu tient à l'écran ; utile en paysage sur petit téléphone. */
+  overflow-y: auto;
+}
+
+.menu[open] {
+  display: flex;
+  animation: oMenu 0.25s ease-out both;
+}
+
+.menu::backdrop {
+  background: var(--bg);
+}
+
+.menuTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.menuNav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 40px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 38px;
+  line-height: 1.1;
+}
+
+.menuNav a {
+  text-decoration: none;
+  color: var(--c);
+}
+
+.menuBottom {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.menuLinks {
+  display: flex;
+  flex-direction: column;
+}
+
+.menuLinks a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 700;
+  height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+.menuLinks a[aria-current="page"] {
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.rule {
+  height: 1px;
+  background: var(--line);
+}
+
+/* Les modules CSS renomment les animations : keyframes déclarées localement. */
+@keyframes oMenu {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

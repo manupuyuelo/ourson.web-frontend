@@ -1,0 +1,220 @@
+/* Couleurs de la rubrique de l'article : --c, --deep, --tint, --surface (voir components/blog/rubrique.ts). */
+.page {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero {
+  padding: 28px var(--g) 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: var(--tint);
+}
+
+.ariane {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.sep {
+  color: var(--muted);
+}
+
+.arianeBlog,
+.arianeRub {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-block: -12px;
+  text-decoration: none;
+}
+
+.arianeBlog,
+.arianeBlog:hover {
+  color: var(--muted);
+}
+
+.arianeRub,
+.arianeRub:hover {
+  color: var(--deep);
+}
+
+.h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 36px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.chapeau {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.45;
+  font-weight: 700;
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+.auteur {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.point {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--muted);
+}
+
+/* Couverture à cheval sur le hero. */
+.cover {
+  padding: 0 var(--g);
+  background: linear-gradient(var(--tint) 50%, transparent 50%);
+}
+
+.coverImg {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+  border-radius: 28px;
+  background: var(--surface);
+  box-shadow: 0 24px 50px color-mix(in srgb, var(--c) 18%, transparent);
+}
+
+.article {
+  padding: 32px var(--g) 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 720px;
+  width: 100%;
+  box-sizing: border-box;
+  align-self: center;
+}
+
+/* Encart vers la page du pilier. */
+.pilier,
+.pilier:hover {
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.pilier {
+  background: #fff;
+  border-radius: 22px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.pilierOurs {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  flex: none;
+}
+
+.pilierTxt {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.pilierTitre {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 1.1;
+}
+
+.pilierLien {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--deep);
+}
+
+.rel {
+  padding: 0 var(--g) 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.relHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.relH2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 22px;
+}
+
+.relTout,
+.relTout:hover {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--deep);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+@media (min-width: 900px) {
+  .hero {
+    padding: 72px var(--g) 32px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .h1 {
+    font-size: 54px;
+    max-width: 20ch;
+  }
+
+  .chapeau {
+    max-width: 52ch;
+  }
+
+  .cover {
+    padding: 0 var(--g);
+  }
+
+  .article {
+    padding: 48px 56px 64px;
+  }
+
+  .rel {
+    padding: 0 var(--g) 80px;
+  }
+}
+
+/* Tablette (600–899 px) : colonne élargie, tailles intermédiaires entre téléphone et desktop. */
+@media (600px <= width < 900px) {
+  .h1 {
+    font-size: 44px;
+  }
+}

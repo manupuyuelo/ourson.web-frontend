@@ -1,0 +1,95 @@
+.hero {
+  padding: 44px var(--g) 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--gradient-hero);
+}
+
+.eyebrow {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--coral);
+}
+
+.h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 42px;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  max-width: 14ch;
+}
+
+.chapeau {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.45;
+  font-weight: 700;
+  color: var(--muted);
+  text-wrap: pretty;
+  max-width: 44ch;
+}
+
+.filtres {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  margin: 10px calc(-1 * var(--g)) 0;
+  padding: 0 var(--g) 4px;
+  scrollbar-width: none;
+}
+
+.puce,
+.puce:hover {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 18px;
+  border-radius: 30px;
+  border: 2px solid var(--c);
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.puce[aria-current="page"] {
+  background: var(--c);
+  color: #fff;
+}
+
+.corps {
+  padding: 8px var(--g) 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+@media (min-width: 900px) {
+  .hero {
+    padding: 88px var(--g) 40px;
+  }
+
+  .h1 {
+    font-size: 64px;
+  }
+
+  .corps {
+    padding: 8px var(--g) 80px;
+  }
+}
+
+/* Tablette (600–899 px) : colonne élargie, tailles intermédiaires entre téléphone et desktop. */
+@media (600px <= width < 900px) {
+  .h1 {
+    font-size: 52px;
+  }
+}

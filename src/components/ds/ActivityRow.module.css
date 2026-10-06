@@ -1,0 +1,68 @@
+.row {
+  display: flex;
+  align-items: center;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+}
+
+.last {
+  border-bottom: 0;
+}
+
+.inner {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 10px 12px 14px;
+  min-height: 44px;
+}
+
+.thumb {
+  width: 58px;
+  height: 58px;
+  flex: none;
+  border-radius: 15px;
+  object-fit: cover;
+  background: var(--imgslot-greeny);
+}
+
+.compact .thumb {
+  width: 46px;
+  height: 46px;
+  border-radius: 13px;
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 15.5px;
+  color: var(--ink);
+}
+
+.meta {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 11.5px;
+  line-height: 16px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.hint {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: var(--sun-tint);
+  color: var(--sun-ink);
+  font-family: var(--font-ui);
+  font-weight: 800;
+  font-size: 11px;
+}

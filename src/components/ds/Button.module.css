@@ -1,0 +1,43 @@
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: 100%;
+  min-height: 52px;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.md {
+  padding: 16px;
+  border-radius: 20px;
+  font-size: 16px;
+}
+
+.sm {
+  padding: 14px;
+  border-radius: 18px;
+  font-size: 15px;
+}
+
+.primary {
+  background: var(--coral);
+  color: #fff;
+  box-shadow: var(--sh-cta);
+}
+
+.ghost {
+  background: var(--card);
+  color: var(--ink);
+  box-shadow: var(--sh-card);
+}
+
+.button:disabled {
+  opacity: 0.42;
+  cursor: default;
+  box-shadow: none;
+}

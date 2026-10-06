@@ -1,0 +1,232 @@
+.hero {
+  padding: 48px var(--g) 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--gradient-hero);
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--coral);
+}
+
+.h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 42px;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  max-width: 14ch;
+}
+
+.accroche {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 1.2;
+  color: var(--coral-deep);
+}
+
+.chapeau {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.5;
+  font-weight: 700;
+  color: var(--muted);
+  max-width: 60ch;
+}
+
+.corps {
+  padding: 8px var(--g) 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 760px;
+  width: 100%;
+}
+
+.carte {
+  background: #fff;
+  border-radius: 22px;
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.carte:first-child {
+  gap: 12px;
+}
+
+.corail {
+  background: var(--coral);
+  color: #fff;
+}
+
+.carte.corail {
+  padding: 24px 20px;
+  gap: 12px;
+}
+
+.corail a,
+.corail a:hover {
+  color: #fff;
+  font-weight: 800;
+}
+
+.h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 22px;
+  line-height: 1.1;
+}
+
+.texte {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.55;
+  font-weight: 600;
+}
+
+.corail .texte {
+  font-weight: 700;
+}
+
+.puces {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.puces li {
+  background: var(--coral-tint);
+  color: var(--ink);
+  border-radius: 30px;
+  padding: 8px 14px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.liste {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.liste li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+.liste li::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--coral);
+  flex: none;
+  margin-top: 9px;
+}
+
+.note {
+  margin: 8px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+/* Feuille « Suppression de compte » */
+.supprTete {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.supprTitre {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 26px;
+  line-height: 1;
+}
+
+.supprAccroche {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 18px;
+  line-height: 1.2;
+  color: var(--coral-deep);
+}
+
+.supprIntro {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.bloc {
+  background: #fff;
+  border-radius: 22px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 19px;
+  line-height: 1.1;
+}
+
+@media (min-width: 900px) {
+  .hero {
+    padding: 96px var(--g) 56px;
+  }
+
+  .h1 {
+    font-size: 64px;
+  }
+
+  /* Colonne de lecture alignée sur la gouttière gauche (704 px de texte). */
+  .corps {
+    padding: 24px 56px 80px var(--g);
+    max-width: calc(704px + var(--g));
+  }
+}
+
+/* Fond plein : anneau de focus blanc (handoff, accessibilité). */
+.corail {
+  --focus: #fff;
+}
+
+/* Tablette (600–899 px) : colonne élargie, tailles intermédiaires entre téléphone et desktop. */
+@media (600px <= width < 900px) {
+  .h1 {
+    font-size: 52px;
+  }
+}

@@ -1,0 +1,47 @@
+/* Cartel mobile : fixé en bas, pages de vente uniquement. */
+.barre {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  padding: 0 20px calc(14px + env(safe-area-inset-bottom));
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+}
+
+.barreInner {
+  pointer-events: auto;
+  width: 100%;
+  max-width: 420px;
+}
+
+/* Cartel QR, en bas à gauche de la fenêtre, hors de la colonne de contenu. */
+.qr {
+  display: none;
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: 50;
+}
+
+/* padding-bottom: 80px du handoff, en mobile comme en desktop (hauteur du cartel mobile + marge). */
+.espace {
+  height: 80px;
+}
+
+@media (min-width: 900px) {
+  /* Tablette en paysage, foldable ouvert : calé en bas à gauche, comme le QR, loin du bandeau cookies. */
+  .barre {
+    justify-content: flex-start;
+    padding-left: 16px;
+  }
+  .qr {
+    display: block;
+  }
+  /* Le cartel desktop s'efface en bas de page (fin et pied de page) : pas de place à lui réserver. */
+  .espace {
+    display: none;
+  }
+}

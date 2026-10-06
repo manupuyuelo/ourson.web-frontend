@@ -1,0 +1,88 @@
+# Porte principale : ce que `yarn verify` fait en local (pre-push), plus le build de production,
+# les tests de bout en bout et un budget Lighthouse. Joué sur chaque PR et sur main.
+# Les portes sont des étapes SÉPARÉES pour que l'onglet Checks nomme celle qui est rouge.
+name: verify
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verify-${{ github.head_ref || github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  verify:
+    # Runner épinglé, à monter délibérément (même raison que dans ourson-app).
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: yarn
+
+      # Porte à part entière : Yarn 1 échoue si yarn.lock ne correspond plus à package.json.
+      - name: Installer les dépendances
+        id: install
+        run: yarn install --frozen-lockfile
+
+      # `!cancelled() && install réussie` : les portes tournent même si une AUTRE a échoué,
+      # mais pas après une annulation ni sur un node_modules absent.
+      - name: typecheck
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: yarn typecheck
+
+      - name: lint
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: yarn lint
+
+      - name: format:check
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: yarn format:check
+
+      - name: tests unitaires (dont la validation des 59 articles MDX)
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: yarn test
+
+      # Le build échoue si une route cesse d'être statique : le site doit rester SSG.
+      # Seule exception voulue : /app, qui lit le user-agent pour rediriger le QR vers le bon store.
+      - name: build
+        id: build
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: |
+          yarn build | tee build.log
+          if grep -E '^[├└┌│ ]+ƒ ' build.log | grep -vE 'ƒ /app$'; then
+            echo "::error::Une route est devenue dynamique (ƒ) : le site doit rester statique (seule /app l'est, volontairement)."
+            exit 1
+          fi
+
+      - name: Installer Chromium (Playwright)
+        id: chromium
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        run: npx playwright install --with-deps chromium
+
+      # Réutilise le build ci-dessus : la commande webServer de Playwright ne fait que `next start`.
+      - name: tests e2e (Playwright)
+        if: ${{ !cancelled() && steps.chromium.outcome == 'success' }}
+        run: yarn test:e2e
+        env:
+          E2E_SKIP_BUILD: "1"
+
+      # Lighthouse ne tourne pas ici : sur les machines partagées de GitHub (2 cœurs), ses mesures de
+      # performance varient trop pour servir de porte. À lancer en local : yarn lighthouse.
+
+      - name: rapport Playwright
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: test-results/
+          retention-days: 7

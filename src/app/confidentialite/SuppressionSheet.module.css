@@ -1,0 +1,107 @@
+/* Mobile : feuille du bas. Le <dialog> n'a pas de padding : seul le voile (::backdrop) le cible au clic. */
+.feuille {
+  width: 100%;
+  max-width: 430px;
+  max-height: 90svh;
+  margin: auto auto 0;
+  padding: 0;
+  border: 0;
+  border-radius: 28px 28px 0 0;
+  background: var(--bg);
+  color: var(--ink);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.feuille[open] {
+  animation: oSheet 0.32s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+}
+
+.feuille::backdrop {
+  background: rgba(42, 32, 28, 0.42);
+  animation: oFade 0.2s ease-out both;
+}
+
+.contenu {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 10px 20px max(40px, env(safe-area-inset-bottom));
+}
+
+.poignee {
+  align-self: center;
+  width: 40px;
+  height: 5px;
+  border-radius: 3px;
+  background: var(--line);
+}
+
+.entete {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.fermer {
+  width: 44px;
+  height: 44px;
+  margin: -4px -8px 0 0;
+  flex: none;
+  border: 0;
+  background: transparent;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  color: var(--ink);
+}
+
+/* Desktop : fenêtre centrée. */
+@media (min-width: 900px) {
+  .feuille {
+    max-width: 600px;
+    /* Le voile du handoff a 40 px de marge : la fenêtre ne touche jamais les bords. */
+    max-height: min(90svh, calc(100svh - 80px));
+    margin: auto;
+    border-radius: 28px;
+  }
+
+  .contenu {
+    padding: 16px 32px 32px;
+  }
+}
+
+/* Les modules CSS renomment les animations : keyframes déclarées localement. */
+@keyframes oSheet {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@keyframes oFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Mouvement réduit : fondu court, sans translation. */
+@media (prefers-reduced-motion: reduce) {
+  .feuille[open] {
+    animation: oFadeCourt 0.2s ease-out both !important;
+  }
+}
+
+@keyframes oFadeCourt {
+  from {
+    opacity: 0;
+  }
+}

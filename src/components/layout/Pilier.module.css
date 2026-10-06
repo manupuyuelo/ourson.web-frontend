@@ -1,0 +1,253 @@
+/* Gabarit commun des pages piliers (Nutrition, Sommeil, Éveil) — classes dk* du handoff.
+   Variables par page : --bear-dk-w / --bear-dk-left (ourson desktop), --hero-dk-pb (réserve sous le hero).
+   .tight : section collée à la précédente (Éveil « Ce soir, au choix ») ; elle et la précédente
+   perdent la hauteur minimale desktop. */
+
+.page {
+  --o-in-y: 40px;
+  --o-drop-y: 50px;
+  --o-drop-s: 0.92;
+}
+
+.sec {
+  padding: 56px var(--g);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+}
+
+.hero {
+  padding: 48px var(--g) 64px;
+  overflow: hidden;
+  color: #fff;
+}
+
+.txt {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.heroTxt {
+  gap: 14px;
+  padding-right: 90px;
+}
+
+.vis {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.eyebrow {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--c, var(--coral));
+}
+
+.h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 42px;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+}
+
+.h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 36px;
+  line-height: 1;
+}
+
+.chapeau {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.45;
+  font-weight: 700;
+}
+
+.texte {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* Sur fond plein, le texte passe en blanc gras. */
+.plein .texte {
+  color: inherit;
+  font-weight: 700;
+}
+
+.puces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.puces span {
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 30px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.carteVisuel {
+  background: #fff;
+  border-radius: 28px;
+  padding: 14px;
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.25);
+  color: var(--ink);
+}
+
+.bear {
+  position: absolute;
+  /* Calé sur le bord du contenu, pas sur celui de l'écran (fonds pleine largeur). */
+  right: calc(var(--g) - 44px);
+  top: 28px;
+  width: 130px;
+  height: auto;
+  filter: drop-shadow(0 16px 20px rgba(0, 0, 0, 0.25));
+}
+
+.wave {
+  animation: oWave 5s ease-in-out 3;
+  transform-origin: bottom center;
+}
+
+.float {
+  animation: oFloat 4s ease-in-out 4;
+}
+
+@media (min-width: 900px) {
+  .sec {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    /* Pas de column-gap : dans le handoff, le gap: 16px en ligne l'emporte sur le 72px du README. */
+    row-gap: 16px;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    min-height: min(760px, calc(100svh - 72px));
+    padding: 96px var(--g);
+  }
+  .sec:first-of-type {
+    min-height: min(calc(100svh - 72px), 920px);
+  }
+  .sec:has(+ .tight),
+  .wide.tight {
+    min-height: 0;
+  }
+  .sec > .txt {
+    grid-column: 1;
+  }
+  .sec > .vis {
+    grid-column: 2;
+    max-width: 480px;
+    width: 100%;
+    justify-self: end;
+    margin-top: 0;
+  }
+  .flip > .txt {
+    grid-column: 2;
+  }
+  .flip > .vis {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+  }
+  .h1 {
+    font-size: 64px;
+    max-width: 13ch;
+  }
+  .h2 {
+    font-size: 48px;
+    max-width: 14ch;
+  }
+  /* Comme .dkSec .dkLead du handoff : les sections pleine largeur (.dkWide) gardent 16px. */
+  .sec:not(.wide) .chapeau,
+  .sec:not(.wide) .texte {
+    font-size: 19px;
+  }
+  .bear {
+    width: var(--bear-dk-w, 200px);
+    right: auto;
+    left: var(--bear-dk-left, var(--g));
+    top: auto;
+    bottom: 0;
+  }
+  .sec > .heroTxt {
+    padding-right: 0;
+    padding-bottom: var(--hero-dk-pb, 200px);
+  }
+  /* Section pleine largeur (titre au-dessus, contenu en dessous). */
+  /* Section pleine largeur : contenu centré verticalement dans la même hauteur minimale. */
+  .wide {
+    display: flex;
+    min-height: min(760px, calc(100svh - 72px));
+    justify-content: center;
+  }
+}
+
+/* Les modules CSS renomment les animations : keyframes déclarées localement. */
+@keyframes oWave {
+  0%,
+  100% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+}
+
+@keyframes oFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--r, 0deg));
+  }
+  50% {
+    transform: translateY(-8px) rotate(var(--r, 0deg));
+  }
+}
+
+/* Fond plein : anneau de focus blanc (handoff, accessibilité). */
+.hero,
+.plein {
+  --focus: #fff;
+}
+
+/* Tablette (600–899 px) : colonne élargie, tailles intermédiaires entre téléphone et desktop. */
+@media (600px <= width < 900px) {
+  .sec {
+    padding: 72px var(--g);
+  }
+  .hero {
+    padding: 64px var(--g) 72px;
+  }
+  .heroTxt {
+    padding-right: 120px;
+  }
+  .h1 {
+    font-size: 52px;
+  }
+  .h2 {
+    font-size: 42px;
+  }
+  .chapeau {
+    font-size: 18px;
+  }
+  .texte {
+    font-size: 17px;
+  }
+  .bear {
+    width: 160px;
+  }
+}
