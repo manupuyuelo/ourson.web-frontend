@@ -17,7 +17,7 @@ export function Carte(props: Props) {
     case "notif":
       return (
         <div className={`${s.carte} ${s.notif}`}>
-          <Image src={appIcon} alt="" width={40} height={40} className={s.notifIcon} />
+          <Image src={appIcon} alt="" width={40} height={40} sizes="40px" className={s.notifIcon} />
           <div className={s.notifBody}>
             <div className={s.notifMeta}>Ourson · à l’instant</div>
             <div className={s.notifText}>{props.text}</div>

@@ -12,6 +12,7 @@ import playBlanc from "@/assets/stores/google-play-badge-blanc.svg";
 import appleLogo from "@/assets/stores/apple-logo-noir.svg";
 import androidLogo from "@/assets/stores/android-logo-noir.svg";
 import appIcon from "@/assets/icon.png";
+// Icône : `sizes` donne un srcset en largeurs, pour que les écrans ×3 reçoivent une image assez définie.
 import s from "./Telecharger.module.css";
 
 type Props = {
@@ -59,7 +60,7 @@ export function Telecharger({ sombre = false, appareil, flottant = false }: Prop
         <Stores />
         <div className={s.code}>
           <Image src="/qr.svg" alt={QR_ALT} width={180} height={180} unoptimized />
-          <Image src={appIcon} alt="" width={44} height={44} className={s.icon} />
+          <Image src={appIcon} alt="" width={44} height={44} sizes="44px" className={s.icon} />
         </div>
         <div className={s.hint}>{CONSIGNE}</div>
       </div>
@@ -91,7 +92,7 @@ function Cartel({ dev }: { dev: Appareil }) {
       <div className={classe} aria-hidden={masque || undefined} inert={masque} data-cartel={dev}>
         <div className={s.cartelCode}>
           <Image src="/qr.svg" alt={QR_ALT} width={112} height={112} unoptimized />
-          <Image src={appIcon} alt="" width={28} height={28} className={s.cartelCodeIcone} />
+          <Image src={appIcon} alt="" width={28} height={28} sizes="28px" className={s.cartelCodeIcone} />
         </div>
         <div className={s.cartelCorps}>
           <div className={s.cartelTitreQr}>Téléchargez l’app</div>
@@ -105,7 +106,7 @@ function Cartel({ dev }: { dev: Appareil }) {
   const ios = dev === "ios";
   return (
     <div className={classe} aria-hidden={masque || undefined} inert={masque} data-cartel={dev}>
-      <Image src={appIcon} alt="" width={44} height={44} className={s.cartelIcone} />
+      <Image src={appIcon} alt="" width={44} height={44} sizes="44px" className={s.cartelIcone} />
       <div className={s.cartelTitre}>Téléchargez l’app</div>
       <a
         href={ios ? SITE.appStoreUrl : SITE.playStoreUrl}
