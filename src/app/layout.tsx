@@ -28,7 +28,6 @@ export const metadata: Metadata = {
   description: SITE.description,
   applicationName: SITE.name,
   authors: [{ name: "L’équipe Ourson" }],
-  alternates: { canonical: "/" },
   // Repli pour les pages sans partage propre (404…) : l’ourson de l’accueil.
   openGraph: og({
     url: "/",

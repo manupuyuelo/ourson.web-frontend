@@ -31,6 +31,9 @@ describe("contenu du blog", () => {
     expect(existsSync(path.join(process.cwd(), "src/assets/blog", `${slug}.jpg`))).toBe(true);
     expect(a.date.getTime()).toBeLessThanOrEqual(Date.now() + 86_400_000);
     expect(a.href).toBe(`/blog/${a.rubrique}/${slug}`);
+    // Ce que Google affiche sans tronquer : sinon, ajouter un `seoTitle` court ou raccourcir.
+    expect(`${a.seoTitle ?? a.title} · Ourson`.length).toBeLessThanOrEqual(60);
+    expect(a.description.length).toBeLessThanOrEqual(160);
   });
 
   it.each(articles.map((a) => a.slug))("%s : le MDX compile et contient des intertitres", async (slug) => {

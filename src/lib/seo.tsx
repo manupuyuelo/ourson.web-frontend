@@ -138,19 +138,19 @@ export const billet = (a: {
   title: string;
   description: string;
   path: string;
-  image: string;
+  /** Couverture et image de partage 1200 × 630 : Google veut au moins 1200 px de large et plusieurs formats. */
+  images: string[];
   date: string;
-  author: string;
 }): WithContext<BlogPosting> => ({
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   headline: a.title,
   description: a.description,
-  image: abs(a.image),
+  image: a.images.map(abs),
   datePublished: a.date,
   dateModified: a.date,
   inLanguage: "fr-FR",
   mainEntityOfPage: abs(a.path),
-  author: { "@type": "Organization", name: a.author, url: SITE.url },
+  author: { "@id": `${SITE.url}/#organisation` },
   publisher: { "@id": `${SITE.url}/#organisation` },
 });

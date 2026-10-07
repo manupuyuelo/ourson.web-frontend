@@ -23,7 +23,8 @@ export async function generateMetadata({ params }: PageProps<"/blog/[rubrique]/[
   const { rubrique, slug } = await params;
   const a = await getArticle(rubrique, slug);
   if (!a) return {};
-  const titre = `${a.title} · Ourson`;
+  // Google tronque vers 60 caractères : titre court dans <title>, titre complet pour le partage et le h1.
+  const titre = `${a.seoTitle ?? a.title} · Ourson`;
   return {
     title: { absolute: titre },
     description: a.description,
@@ -31,7 +32,7 @@ export async function generateMetadata({ params }: PageProps<"/blog/[rubrique]/[
     openGraph: og(
       {
         url: a.href,
-        titre,
+        titre: a.title,
         description: a.description,
         image: partageArticle(a),
       },
@@ -138,9 +139,8 @@ export default async function ArticlePage({ params }: PageProps<"/blog/[rubrique
             title: a.title,
             description: a.description,
             path: a.href,
-            image: cover.src,
+            images: [cover.src, partageArticle(a).url],
             date,
-            author: a.author,
           }),
           filAriane([
             { name: "Accueil", path: "/" },

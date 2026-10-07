@@ -24,6 +24,8 @@ export const isRubrique = (v: string): v is Rubrique => v in RUBRIQUES;
 
 const Frontmatter = z.object({
   title: z.string().min(1),
+  /** Titre court pour Google (le <title>, « · Ourson » compris, tient en 60 caractères) ; sinon `title`. */
+  seoTitle: z.string().min(1).optional(),
   description: z.string().min(1),
   summary: z.string().min(1),
   rubrique: z.enum(RUBRIQUE_KEYS),
