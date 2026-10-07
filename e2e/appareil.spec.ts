@@ -90,6 +90,21 @@ test("cartel mobile : se masque encore après une navigation (le layout persiste
   await ctx.close();
 });
 
+test("cartel mobile masqué : les liens de fin de page restent cliquables", async ({ browser, isMobile }) => {
+  test.skip(!isMobile, "vérifié en viewport mobile");
+  const ctx = await browser.newContext({ userAgent: UA.ios, viewport: { width: 393, height: 659 } });
+  await ctx.addInitScript((c) => localStorage.setItem("ourson-cookies", c), CONSENTEMENT);
+  const page = await ctx.newPage();
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+  await pageHydratee(page);
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await expect(page.locator('[data-cartel="ios"]')).toHaveAttribute("aria-hidden", "true");
+  // Clic réel (pas de `force`) : échoue si le conteneur du cartel masqué capte encore les touches.
+  await page.locator('#telecharger ~ div a[href="/eveil"]').click({ timeout: 5000 });
+  await page.waitForURL("**/eveil");
+  await ctx.close();
+});
+
 test("cartel QR : visible en desktop, masqué en fin de page", async ({ page, isMobile }) => {
   test.skip(isMobile, "vérifié en desktop");
   await page.goto("/nutrition", { waitUntil: "domcontentloaded" });
