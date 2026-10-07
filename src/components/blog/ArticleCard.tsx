@@ -1,7 +1,8 @@
 import type { Route } from "next";
+import Image from "next/image";
 import Link from "next/link";
-import { RUBRIQUES, formatDate, oursDeRubrique, type Article } from "@/lib/blog";
-import { CloudinaryImage } from "./CloudinaryImage";
+import { RUBRIQUES, formatDate, type Article } from "@/lib/blog";
+import { couverture } from "@/lib/couvertures";
 import { couleurs } from "./rubrique";
 import s from "./ArticleCard.module.css";
 
@@ -18,7 +19,7 @@ type Props = {
   eager?: boolean;
 };
 
-export function ArticleCard({ article: a, variante, eager }: Props) {
+export async function ArticleCard({ article: a, variante, eager }: Props) {
   const une = variante === "une";
   const date = <time dateTime={a.date.toISOString()}>{formatDate(a.date)}</time>;
   const Titre = une ? "h2" : "h3";
@@ -32,15 +33,13 @@ export function ArticleCard({ article: a, variante, eager }: Props) {
       className={une ? s.une : s.carte}
       style={couleurs(a.rubrique)}
     >
-      <CloudinaryImage
-        src={a.image}
-        repli={oursDeRubrique(a.rubrique)}
+      <Image
+        src={await couverture(a.slug)}
         alt=""
         sizes={une ? SIZES_UNE : SIZES_GRILLE}
-        width={800}
-        height={500}
+        placeholder="blur"
         className={une ? s.imgUne : s.img}
-        eager={eager}
+        {...(eager ? ({ loading: "eager", fetchPriority: "high" } as const) : {})}
       />
       <div className={une ? s.txtUne : s.txt}>
         {variante === "lie" ? (

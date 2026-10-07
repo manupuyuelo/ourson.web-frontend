@@ -7,7 +7,7 @@ import { Age } from "@/components/site/Age";
 import { Carte } from "@/components/site/Carte";
 import { Telecharger } from "@/components/site/Telecharger";
 import { OURS } from "@/lib/ours";
-import { JsonLd, PARTAGE, application, meta } from "@/lib/seo";
+import { JsonLd, partage, application, meta } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 import jeu from "@/assets/echantillons/eveil/jeux/deux_paniers.jpg";
 import baleine from "@/assets/echantillons/eveil/histoires/la_baleine_qui_chante.jpg";
@@ -18,7 +18,7 @@ export const metadata: Metadata = meta({
   url: "/",
   titre: "Ourson, l’app des parents\u00a0: repas, sommeil, éveil",
   description: SITE.description,
-  image: PARTAGE.ourson,
+  image: partage("accueil"),
 });
 
 // Durée relative des 7 dernières nuits (hauteur des barres, en %).

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PARTAGE, meta } from "@/lib/seo";
+import { partage, meta } from "@/lib/seo";
 import type { ReactNode } from "react";
 import { Footer } from "@/components/layout/Footer";
 import { SITE } from "@/lib/site";
@@ -10,7 +10,7 @@ export const metadata: Metadata = meta({
   url: "/confidentialite",
   titre: "Règles de confidentialité · Ourson",
   description: "Données collectées, utilisation, stockage, vos droits et suppression de compte.",
-  image: PARTAGE.ourson,
+  image: partage("confidentialite"),
 });
 
 const DONNEES = [

@@ -8,24 +8,34 @@ import type {
   WithContext,
 } from "schema-dts";
 import type { Metadata } from "next";
+import images from "./partage.json";
 import { SITE, storePublie } from "./site";
 
-/** Image de partage : une vraie photo ou illustration, 1200 × 630, jamais de gabarit composé. */
+/** Image de partage d’une page : 1200 × 630, JPEG. */
 export type ImagePartage = { url: string; alt: string };
 
-export const PARTAGE = {
-  ourson: { url: "/og/ourson.jpg", alt: "L’ourson d’Ourson fait coucou de la patte." },
-  nutrition: {
-    url: "/og/nutrition.jpg",
-    alt: "Poêlée de betterave, boulgour et poulet au cumin, un plat pour toute la famille.",
-  },
-  sommeil: { url: "/og/sommeil.jpg", alt: "Illustration de l’histoire du soir « Bonne nuit, la lune »." },
-  eveil: { url: "/og/eveil.jpg", alt: "Illustration du jeu d’éveil « Deux paniers, deux copains »." },
-} as const satisfies Record<string, ImagePartage>;
+/**
+ * Images de partage composées dans la DA de chaque page (`yarn og`, voir `scripts/og-images.ts`).
+ * L’empreinte `?v=` change avec l’image : WhatsApp, Facebook ou Telegram la rechargent au lieu
+ * de resservir l’ancienne depuis leur cache.
+ */
+export const partage = (nom: keyof typeof images): ImagePartage => ({
+  url: `/og/${nom}.jpg?v=${images[nom].v}`,
+  alt: images[nom].alt,
+});
 
-/** Couverture Cloudinary recadrée en 1200 × 630 (JPEG, lisible par toutes les messageries). */
-export const couverturePartage = (src: string) =>
-  src.replace(/\/image\/upload\/(?:q_auto\/)?/, "/image/upload/c_fill,g_auto,w_1200,h_630,f_jpg,q_auto/");
+const parNom = new Map(Object.entries(images));
+
+/**
+ * Image de partage d’un article : sa composition (`public/og/blog/<slug>.jpg`), sinon, tant que
+ * `yarn og` n’a pas tourné, celle de sa rubrique (`partage.test.ts` le signale).
+ */
+export function partageArticle(a: { slug: string; rubrique: string }): ImagePartage {
+  const nom = parNom.has(`blog/${a.slug}`) ? `blog/${a.slug}` : `blog-${a.rubrique}`;
+  const img = parNom.get(nom);
+  if (!img) return partage("accueil");
+  return { url: `/og/${nom}.jpg?v=${img.v}`, alt: img.alt };
+}
 
 /**
  * Open Graph complet d’une page. Next fusionne les métadonnées en surface : un `openGraph`
@@ -136,7 +146,7 @@ export const billet = (a: {
   "@type": "BlogPosting",
   headline: a.title,
   description: a.description,
-  image: a.image,
+  image: abs(a.image),
   datePublished: a.date,
   dateModified: a.date,
   inLanguage: "fr-FR",

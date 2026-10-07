@@ -1,3 +1,4 @@
+import { existsSync } from "node:fs";
 import { compile } from "@mdx-js/mdx";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
@@ -24,9 +25,10 @@ describe("contenu du blog", () => {
     expect(dates).toEqual(dates.toSorted((a, b) => b - a));
   });
 
-  it.each(articles.map((a) => [a.slug, a] as const))("%s : slug, image et date valides", (slug, a) => {
+  it.each(articles.map((a) => [a.slug, a] as const))("%s : slug, couverture et date valides", (slug, a) => {
     expect(slug).toMatch(/^[a-z0-9]+(?:-[a-z0-9]+)*$/); // ASCII : Next ne sert pas un paramètre statique accentué
-    expect(a.image).toMatch(/^https:\/\/res\.cloudinary\.com\/djfrwyodt\/image\/upload\//);
+    // Couverture préparée par `yarn couverture <image> <slug>`.
+    expect(existsSync(path.join(process.cwd(), "src/assets/blog", `${slug}.jpg`))).toBe(true);
     expect(a.date.getTime()).toBeLessThanOrEqual(Date.now() + 86_400_000);
     expect(a.href).toBe(`/blog/${a.rubrique}/${slug}`);
   });

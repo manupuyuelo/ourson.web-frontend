@@ -16,6 +16,7 @@
     "lighthouse": "lhci autorun",
     "images": "node scripts/optimize-images.ts",
     "og": "node scripts/og-images.ts",
+    "couverture": "node scripts/couverture.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "postinstall": "node scripts/install-hooks.mjs"

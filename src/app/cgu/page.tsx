@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Footer } from "@/components/layout/Footer";
-import { PARTAGE, meta } from "@/lib/seo";
+import { partage, meta } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 // Même gabarit visuel que les règles de confidentialité.
 import s from "../confidentialite/confidentialite.module.css";
@@ -12,7 +12,7 @@ export const metadata: Metadata = meta({
   titre: "Conditions générales d’utilisation · Ourson",
   description:
     "Conditions d’utilisation de l’app et du site Ourson, mentions légales, contenus générés avec l’IA, foyer partagé et responsabilités.",
-  image: PARTAGE.ourson,
+  image: partage("cgu"),
 });
 
 /** Date d’entrée en vigueur : à mettre à jour à chaque modification des conditions. */

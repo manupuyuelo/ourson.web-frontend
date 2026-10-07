@@ -19,7 +19,9 @@ Next.js 16 (App Router, Turbopack, React Compiler), React 19, TypeScript 7, CSS 
 | `VISUEL=1 yarn test:e2e visuel`                                                                               | non-régression au pixel près (iPhone 15, 16 Pro Max, 1280, 1440). Références locales : `--update-snapshots` **avant** de modifier, puis comparer après |
 | `ECRANS=1 yarn test:e2e ecrans` (+ `CAPTURES=1` et `node scripts/planche-ecrans.ts <page>` pour les captures) | audit sur 24 formats (téléphones, foldables, tablettes, paysage, ordinateurs) et planche de relecture                                                  |
 | `yarn lighthouse`                                                                                             | budget Lighthouse (9 pages)                                                                                                                            |
-| `yarn images` / `yarn og`                                                                                     | régénère les images depuis le handoff / les images de partage 1200 × 630                                                                               |
+| `yarn test:e2e partage`                                                                                       | titre, description et image de partage de chaque URL du sitemap                                                                                        |
+| `yarn couverture <image> <slug>`                                                                              | prépare la couverture d’un article (1600 px max, JPEG léger)                                                                                           |
+| `yarn images` / `yarn og`                                                                                     | régénère les images depuis le handoff / les images de partage 1200 × 630 (dans la DA de chaque page, à partir des images du dépôt)                     |
 
 ## Organisation
 
@@ -27,12 +29,12 @@ Next.js 16 (App Router, Turbopack, React Compiler), React 19, TypeScript 7, CSS 
 - `src/app/blog/` : liste, rubriques (`nutrition`, `sommeil`, `activites`), articles `/blog/<rubrique>/<slug>` (URLs de l'ancien site, à conserver).
 - `src/app/confidentialite/` (+ feuille `#suppression`, lien donné aux stores), `src/app/cgu/` (CGU et mentions légales), `src/app/sources/` (sources institutionnelles).
 - `src/app/app/route.ts` : cible du QR, redirige vers le store de l'appareil (vers `/` tant que les liens sont à `#`). `src/app/qr.svg/` : le QR, généré au build.
-- `src/content/blog/*.mdx` : articles. Frontmatter validé par zod (`src/lib/blog.ts`) ; publier = ajouter un fichier. Les listes « **1. Titre** : texte » sont mises en forme par `src/lib/remark-points.ts`.
+- `src/content/blog/*.mdx` : articles. Frontmatter validé par zod (`src/lib/blog.ts`) ; publier = ajouter le fichier, sa couverture (`yarn couverture <image> <slug>` → `src/assets/blog/<slug>.jpg`, obligatoire : sans elle le build échoue), puis `yarn og` pour son image de partage. Les listes « **1. Titre** : texte » sont mises en forme par `src/lib/remark-points.ts`.
 - `src/components/ds/` : composants du design system Ourson portés du handoff. `components/site/` (Telecharger, Carte, Age, Carrousel), `components/layout/` (Header, Footer, FinDePage, Flottants, gabarit `Pilier.module.css`), `components/consent/` (bandeau et Consent Mode), `components/blog/`.
-- `src/lib/` : `site.ts` (URLs, e-mail, ID GTM), `seo.tsx` (`meta()`, `og()`, images `PARTAGE`, JSON-LD), `data.ts` (contenus des pages), `sources.ts`, `mesure.ts` (événements GTM), `device.ts` / `useAppareil.ts`, `useCartelMasque.ts`.
+- `src/lib/` : `site.ts` (URLs, e-mail, ID GTM), `seo.tsx` (`meta()`, `og()`, `partage()` / `partageArticle()`, JSON-LD), `partage.json` (manifeste des images de partage, écrit par `yarn og`), `couvertures.ts` (couvertures d’articles), `data.ts` (contenus des pages), `sources.ts`, `mesure.ts` (événements GTM), `device.ts` / `useAppareil.ts`, `useCartelMasque.ts`.
 - `src/styles/` : tokens (`tokens/*.css`), `globals.css`, `motion.css`.
-- `e2e/` : `smoke`, `appareil`, `ecrans` (audit multi-formats), `visuel` (non-régression), `captures` (comparaison avec le handoff).
-- `scripts/` : images, images de partage, planches, comparaison de captures, hooks Git.
+- `e2e/` : `smoke`, `appareil`, `ecrans` (audit multi-formats), `visuel` (non-régression), `partage` (titre, description et image de partage de chaque URL), `captures` (comparaison avec le handoff).
+- `scripts/` : images, images de partage, couvertures d’articles, planches, comparaison de captures, hooks Git.
 
 ## Règles à respecter
 
@@ -44,9 +46,19 @@ Next.js 16 (App Router, Turbopack, React Compiler), React 19, TypeScript 7, CSS 
 - **Statique avant tout** : la détection d'appareil se fait côté client (`useAppareil`) ; pendant le rendu serveur, la place est réservée pour éviter tout décalage.
 - **Consentement** (Consent Mode v2 avancé) : le script du `<head>` (`components/consent/config.ts`) refuse tout par défaut, avant GTM. GTM se charge à la première interaction ou après 3 s (`Gtm.tsx`) pour ne pas bloquer le démarrage sur les téléphones modestes ; ce qui est poussé avant dans le dataLayer est traité à son arrivée. Deux finalités : audience (`analytics_storage`) et publicité (`ad_*`). Choix dans `localStorage['ourson-cookies']`, 6 mois ; incrémenter `CONSENT_VERSION` pour le redemander. Tout lien `#cookies` rouvre le bandeau. Un nouveau domaine tiers doit être ajouté à la CSP (`next.config.ts`) et soumis au consentement.
 - **Mesure** : chaque clic vers un store pousse `ourson_store` (`store`, `emplacement`) via `src/lib/mesure.ts`.
-- **Images** : `next/image` avec `sizes` qui couvre les trois paliers ; image LCP en `eager` + `fetchPriority="high"`. Pas de gabarit composé pour le partage : une vraie image par page.
+- **Images** : `next/image` avec `sizes` qui couvre les trois paliers ; image LCP en `eager` + `fetchPriority="high"`. Partage : une image 1200 × 630 par page, composée dans la DA de son hero (`yarn og`, `scripts/og-images.ts`) ; ourson et couleur dans le carré central (vignettes WhatsApp), JPEG < 300 Ko, URL versionnée par `src/lib/partage.json` (à régénérer quand un titre de hero change). Chaque article a la sienne (couverture, titre, ourson de la rubrique) : **publier un article = lancer `yarn og`**, sinon `partage.test.ts` échoue. Une page sans image déclarée hérite de celle de l’Accueil (layout).
 - **Animations** en boucle (`data-boucle`) : quelques cycles seulement, en pause hors écran. Mouvement réduit respecté.
 - **Accessibilité** : focus visible (`--focus`, blanc sur fond plein), contrastes du handoff conservés tels quels (choix assumé).
+
+## Ajouter ou modifier une page
+
+À chaque page ajoutée ou modifiée, article compris :
+
+1. **Métadonnées** : `meta({ url, titre, description, image })` (`src/lib/seo.tsx`). Titre et description propres à la page (description d’au moins 50 caractères), titre avec la marque (« … · Ourson »).
+2. **Couverture** (article) : `yarn couverture <image> <slug>`. Toutes les images vivent dans le dépôt, aucune n’est servie par un service tiers.
+3. **Image de partage** : une page lambda ajoute sa composition dans `scripts/og-images.ts` (sur le modèle de `simple()` ou `pilier()`) et la déclare avec `partage("<nom>")`. Un article n’a rien à déclarer. Dans les deux cas, lancer **`yarn og`**, puis relire l’image dans `public/og/`. À relancer aussi quand un titre de hero ou d’article change.
+4. **Sitemap** : ajouter la page fixe dans `src/app/sitemap.ts`.
+5. **Vérifier** : `yarn verify` contrôle que chaque `page.tsx` déclare son image, que chaque page fixe est au sitemap et que chaque article a son image (`src/lib/partage.test.ts`). `yarn test:e2e partage` lit le HTML du build pour toutes les URLs du sitemap : titre, description, `og:*`, image unique à la page, servie, en JPEG de moins de 300 Ko.
 
 ## Points ouverts
 
