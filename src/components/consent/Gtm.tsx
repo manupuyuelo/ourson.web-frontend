@@ -2,7 +2,7 @@ import Script from "next/script";
 import { SITE } from "@/lib/site";
 
 /** Délai maximal avant le chargement de GTM sans interaction du visiteur. */
-export const GTM_DELAI_MS = 3000;
+const GTM_DELAI_MS = 3000;
 
 /**
  * GTM (Consent Mode v2 avancé) : le consentement par défaut, tout refusé, est posé avant par
