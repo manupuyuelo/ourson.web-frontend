@@ -66,7 +66,7 @@ const couleurs = (p: Pilier["id"]) =>
 export default function Sources() {
   return (
     <>
-      <main>
+      <main id="contenu">
         <section className={c.hero} aria-labelledby="sources-titre">
           <p className={c.eyebrow}>Sources</p>
           <h1 id="sources-titre" className={c.h1}>

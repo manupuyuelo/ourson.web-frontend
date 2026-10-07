@@ -48,7 +48,7 @@ Next.js 16 (App Router, Turbopack, React Compiler), React 19, TypeScript 7, CSS 
 - **Mesure** : chaque clic vers un store pousse `ourson_store` (`store`, `emplacement`) via `src/lib/mesure.ts`.
 - **Images** : `next/image` avec `sizes` qui couvre les trois paliers ; image LCP en `eager` + `fetchPriority="high"`. Partage : une image 1200 × 630 par page, composée dans la DA de son hero (`yarn og`, `scripts/og-images.ts`) ; ourson et couleur dans le carré central (vignettes WhatsApp), JPEG < 300 Ko, URL versionnée par `src/lib/partage.json` (à régénérer quand un titre de hero change). Chaque article a la sienne (couverture, titre, ourson de la rubrique) : **publier un article = lancer `yarn og`**, sinon `partage.test.ts` échoue. Une page sans image déclarée hérite de celle de l’Accueil (layout).
 - **Animations** en boucle (`data-boucle`) : quelques cycles seulement, en pause hors écran. Mouvement réduit respecté.
-- **Accessibilité** : focus visible (`--focus`, blanc sur fond plein), contrastes du handoff conservés tels quels (choix assumé).
+- **Accessibilité** : focus visible (`--focus`, blanc sur fond plein), lien « Aller au contenu », contrastes du handoff conservés tels quels (choix assumé). Les boucles d’animation (9 à 16 s, sans bouton pause) dépassent les 5 s du critère WCAG 2.2.2 : choix assumé, compensé par l’arrêt automatique, la pause hors écran et le mouvement réduit.
 
 ## Ajouter ou modifier une page
 

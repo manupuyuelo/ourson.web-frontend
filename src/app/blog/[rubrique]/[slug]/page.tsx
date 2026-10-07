@@ -90,7 +90,8 @@ export default async function ArticlePage({ params }: PageProps<"/blog/[rubrique
       <div className={s.cover}>
         <Image
           src={cover}
-          alt={a.title}
+          // Décorative : le titre est déjà dans le h1 juste au-dessus.
+          alt=""
           sizes="(min-width: 900px) 1028px, (min-width: 600px) 560px, (min-width: 430px) 390px, calc(100vw - 40px)"
           placeholder="blur"
           className={s.coverImg}

@@ -59,6 +59,11 @@
   display: flex;
   flex-direction: column;
   gap: 14px;
+  /* Écran bas (téléphone en paysage, zoom 200 %) : la carte défile au lieu de sortir de l’écran
+     (WCAG 1.4.10). L’ourson, hors de la carte, peut dépasser en haut sans gêner. */
+  max-height: calc(100svh - 24px - env(safe-area-inset-bottom));
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .titre {
@@ -145,7 +150,9 @@
   appearance: none;
   border: 0;
   background: none;
-  padding: 6px 0;
+  /* Cible de 40 px de haut sans décaler la mise en page (marges négatives). */
+  padding: 13px 0;
+  margin: -7px 0;
   font: inherit;
   color: var(--ink);
   cursor: pointer;
@@ -157,7 +164,8 @@
 .savoir:hover {
   color: var(--muted);
   text-decoration: none;
-  padding: 6px 0;
+  padding: 13px 0;
+  margin: -7px 0;
 }
 
 /* Desktop : en bas à droite (le cartel QR est à gauche). */

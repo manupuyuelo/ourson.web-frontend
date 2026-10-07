@@ -73,7 +73,7 @@ function Liste({ items }: { items: readonly string[] }) {
 export default function Confidentialite() {
   return (
     <>
-      <main>
+      <main id="contenu">
         <section className={s.hero} aria-labelledby="conf-titre">
           <p className={s.eyebrow}>Confidentialité</p>
           <h1 id="conf-titre" className={s.h1}>

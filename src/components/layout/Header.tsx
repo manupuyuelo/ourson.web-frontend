@@ -35,6 +35,14 @@ export function Header() {
     document.documentElement.style.overflow = open ? "hidden" : "";
   }, [open]);
 
+  // Fenêtre agrandie menu ouvert : le burger disparaît dès 900 px, le menu se ferme avec lui.
+  useEffect(() => {
+    const desktop = matchMedia("(min-width: 900px)");
+    const fermer = () => desktop.matches && setOpen(false);
+    desktop.addEventListener("change", fermer);
+    return () => desktop.removeEventListener("change", fermer);
+  }, []);
+
   return (
     <header className={s.header}>
       {pathname === "/" ? (

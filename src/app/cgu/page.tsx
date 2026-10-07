@@ -55,7 +55,7 @@ function Liste({ items }: { items: readonly ReactNode[] }) {
 export default function Cgu() {
   return (
     <>
-      <main>
+      <main id="contenu">
         <section className={s.hero} aria-labelledby="cgu-titre">
           <p className={s.eyebrow}>Conditions</p>
           <h1 id="cgu-titre" className={s.h1}>

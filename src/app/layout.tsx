@@ -60,6 +60,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script dangerouslySetInnerHTML={{ __html: CONSENT_SCRIPT }} />
       </head>
       <body>
+        <a href="#contenu" className={s.evitement}>
+          Aller au contenu
+        </a>
         <div className={s.page}>
           <div className={s.col}>
             <Header />
