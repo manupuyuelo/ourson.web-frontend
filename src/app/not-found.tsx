@@ -8,7 +8,7 @@ export const metadata: Metadata = { title: "Page introuvable", robots: { index: 
 
 export default function NotFound() {
   return (
-    <main className={s.nf}>
+    <main id="contenu" className={s.nf}>
       <Image
         src={OURS.accueil}
         alt=""

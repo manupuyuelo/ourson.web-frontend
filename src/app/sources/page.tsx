@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { Footer } from "@/components/layout/Footer";
-import { PARTAGE, meta } from "@/lib/seo";
+import { partage, meta } from "@/lib/seo";
 import { SOURCES_EVEIL, SOURCES_REPAS, SOURCES_SOMMEIL, type Source } from "@/lib/sources";
 import c from "../confidentialite/confidentialite.module.css";
 import s from "./sources.module.css";
@@ -12,7 +12,7 @@ export const metadata: Metadata = meta({
   titre: "Nos sources · Ourson",
   description:
     "Les recommandations officielles et les études scientifiques sur lesquelles s’appuient les repères d’Ourson\u00a0: repas, sommeil et éveil des 0-3 ans.",
-  image: PARTAGE.ourson,
+  image: partage("sources"),
 });
 
 type Pilier = {
@@ -66,7 +66,7 @@ const couleurs = (p: Pilier["id"]) =>
 export default function Sources() {
   return (
     <>
-      <main>
+      <main id="contenu">
         <section className={c.hero} aria-labelledby="sources-titre">
           <p className={c.eyebrow}>Sources</p>
           <h1 id="sources-titre" className={c.h1}>

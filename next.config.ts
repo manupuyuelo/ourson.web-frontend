@@ -8,11 +8,14 @@ const dev = process.env.NODE_ENV === "development";
 
 const csp = [
   "default-src 'self'",
-  // 'unsafe-inline' : un nonce rendrait toutes les pages dynamiques. GTM est chargé dès l'arrivée
-  // (Consent Mode v2 avancé), avec les domaines de mesure GA4 et de conversion Google Ads.
+  // 'unsafe-inline' : choix recommandé par Next pour un site statique (guide « Content Security Policy »,
+  // « Without Nonces »). Next insère dans chaque page des scripts en ligne dont le contenu varie, donc
+  // impossibles à autoriser par empreinte, et un nonce rendrait toutes les pages dynamiques.
+  // GTM (chargé à la première interaction ou après 3 s, Consent Mode v2 avancé) amène les domaines
+  // de mesure GA4 et de conversion Google Ads.
   `script-src 'self' 'unsafe-inline'${dev ? " 'unsafe-eval'" : ""} https://www.googletagmanager.com https://www.googleadservices.com https://googleads.g.doubleclick.net`,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: https://res.cloudinary.com https://www.googletagmanager.com https://*.google-analytics.com https://www.google.com https://www.google.fr https://googleads.g.doubleclick.net https://*.doubleclick.net",
+  "img-src 'self' data: https://www.googletagmanager.com https://*.google-analytics.com https://www.google.com https://www.google.fr https://googleads.g.doubleclick.net https://*.doubleclick.net",
   "font-src 'self'",
   "connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://www.google.com https://www.google.fr https://googleads.g.doubleclick.net https://*.doubleclick.net https://www.googleadservices.com",
   "frame-src https://www.googletagmanager.com https://td.doubleclick.net",
@@ -40,7 +43,6 @@ const nextConfig: NextConfig = {
     // srcset plus courts : colonne de 430 px max en mobile, 1140 px en desktop (écrans 2x et 3x compris).
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
     imageSizes: [64, 96, 128, 256, 384],
-    remotePatterns: [{ protocol: "https", hostname: "res.cloudinary.com", pathname: "/djfrwyodt/**" }],
   },
   async redirects() {
     return [
@@ -64,6 +66,8 @@ const nextConfig: NextConfig = {
           { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          // Isole la fenêtre des pages ouvertes depuis le site (et inversement) ; sans effet sur GTM et GA4.
+          { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
           {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(), geolocation=(), browsing-topics=()",

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PARTAGE, meta } from "@/lib/seo";
+import { partage, meta } from "@/lib/seo";
 import Link from "next/link";
 import Image from "next/image";
 import cacheCacheFoulard from "@/assets/echantillons/eveil/jeux/cache_cache_foulard.jpg";
@@ -21,7 +21,7 @@ export const metadata: Metadata = meta({
   titre: "Éveil de bébé\u00a0: jalons, jeux et histoires · Ourson",
   description:
     "Une idée de jeu par jour adaptée à son âge, ses jalons suivis pas à pas, des comptines et des histoires qui reprennent son prénom.",
-  image: PARTAGE.eveil,
+  image: partage("eveil"),
 });
 
 const PISTES: { id: Track; label: string; sub: string; rot: number }[] = [

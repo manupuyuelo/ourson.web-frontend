@@ -24,7 +24,9 @@ yarn dev           # http://localhost:3000
 | `CAPTURES=1 HANDOFF_URL=http://localhost:3200 yarn test:e2e captures`                                               | captures v2 / handoff côte à côte (puis `node scripts/compare-captures.ts`)                                                      |
 | `yarn lighthouse`                                                                                                   | budget Lighthouse local (rapports dans `.lighthouseci/`)                                                                         |
 | `yarn images [dossier-handoff]`                                                                                     | régénère les images sources depuis le handoff (seulement celles importées dans `src/`)                                           |
-| `yarn og [dossier-handoff]`                                                                                         | régénère les images de partage 1200 × 630 dans `public/og/`                                                                      |
+| `yarn couverture <image> <slug>`                                                                                    | prépare la couverture d’un article dans `src/assets/blog/`                                                                       |
+| `yarn test:e2e partage`                                                                                             | titre, description et image de partage de chaque URL du sitemap                                                                  |
+| `yarn og`                                                                                                           | régénère les images de partage 1200 × 630 dans `public/og/`                                                                      |
 
 ## Portes de qualité
 
@@ -69,7 +71,8 @@ yarn dev           # http://localhost:3000
   - Le bandeau « Miam, des cookies ! » propose deux finalités : audience et publicité.
   - Le choix est conservé 6 mois.
   - Chaque clic vers un store pousse l'événement `ourson_store`, branché dans GTM (`GA4 - Événement - clic_store`).
-- **Partage :** une vraie image 1200 × 630 par page (`public/og/`), la couverture Cloudinary recadrée pour les articles. Aucun gabarit composé.
+- **Partage :** une image 1200 × 630 par page et par article (`public/og/`), composée dans la DA de la page (`yarn og`).
+- **Images :** toutes dans le dépôt et servies par `next/image` (AVIF/WebP). Couvertures d’articles dans `src/assets/blog/<slug>.jpg` (`yarn couverture`), sans service tiers.
 - **Typographie française :** apostrophe courbe et espaces insécables, vérifiées par un test (hors articles MDX).
 - **Performance :**
   - CSS intégré à la page (`experimental.inlineCss`) ;

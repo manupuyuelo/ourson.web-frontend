@@ -6,7 +6,7 @@ import { PauseHorsEcran } from "@/components/layout/PauseHorsEcran";
 export default function VenteLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <main>{children}</main>
+      <main id="contenu">{children}</main>
       <Footer />
       <Flottants />
       <PauseHorsEcran />

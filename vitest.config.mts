@@ -25,5 +25,12 @@ export default defineConfig({
     include: ["src/**/*.test.{ts,tsx}"],
     environment: "node",
     css: { modules: { classNameStrategy: "non-scoped" } },
+    // jsdom ne calcule pas le CSS : next/image croit le parent d’une image `fill` sans position
+    // ni hauteur. Faux positif propre aux tests (les tests visuels couvrent le vrai rendu) ;
+    // tout autre message reste affiché.
+    onConsoleLog: (log) =>
+      !/^Image with src ".*" has "fill" and (parent element with invalid "position"|a height value of 0)/.test(
+        log,
+      ),
   },
 });

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { Button, Switch } from "@/components/ds";
 import { OURS } from "@/lib/ours";
 import { enregistrer, lire, useConsentement, type Consentement } from "./consent";
@@ -26,6 +26,7 @@ export function ConsentBanner() {
   const racine = useRef<HTMLDialogElement>(null);
   const declencheur = useRef<HTMLElement | null>(null);
   const minuteur = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const id = useId();
 
   useEffect(() => {
     const ouvrir = () => {
@@ -59,7 +60,12 @@ export function ConsentBanner() {
       setRouvert(false);
       setSortie(false);
       setDetail(false);
-      declencheur.current?.focus();
+      // Le déclencheur a pu disparaître (lien « Cookies » du menu mobile, fermé au clic) :
+      // le focus revient alors au bouton du menu plutôt que de retomber sur la page.
+      const cible = declencheur.current;
+      // getClientRects() est vide pour un élément non rendu (menu fermé), sur tous les navigateurs.
+      if (cible?.isConnected && cible.getClientRects().length > 0) cible.focus();
+      else document.querySelector<HTMLElement>('[aria-controls="menu-mobile"]')?.focus();
       declencheur.current = null;
     }, SORTIE_MS);
   }, []);
@@ -133,20 +139,25 @@ export function ConsentBanner() {
             <div className={s.ligne}>
               <div className={s.ligneTexte}>
                 <div className={s.ligneTitre}>Mesure d’audience</div>
-                <div className={s.ligneDesc}>
+                <div className={s.ligneDesc} id={`${id}-audience`}>
                   Pour compter les visites et voir ce qui plaît (Google Analytics).
                 </div>
               </div>
-              <Switch value={audience} onChange={setAudience} label="Mesure d’audience" />
+              <Switch
+                value={audience}
+                onChange={setAudience}
+                label="Mesure d’audience"
+                describedBy={`${id}-audience`}
+              />
             </div>
             <div className={s.ligne}>
               <div className={s.ligneTexte}>
                 <div className={s.ligneTitre}>Publicité</div>
-                <div className={s.ligneDesc}>
+                <div className={s.ligneDesc} id={`${id}-pub`}>
                   Pour savoir si nos annonces sur d’autres sites vous ont menés jusqu’ici.
                 </div>
               </div>
-              <Switch value={pub} onChange={setPub} label="Publicité" />
+              <Switch value={pub} onChange={setPub} label="Publicité" describedBy={`${id}-pub`} />
             </div>
           </div>
         )}

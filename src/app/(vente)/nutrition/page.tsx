@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PARTAGE, meta } from "@/lib/seo";
+import { partage, meta } from "@/lib/seo";
 import Link from "next/link";
 import Image, { type StaticImageData } from "next/image";
 import { Fragment } from "react";
@@ -25,7 +25,7 @@ export const metadata: Metadata = meta({
   titre: "Un seul plat pour toute la famille · Ourson",
   description:
     "Une cuisson, une part par âge\u00a0: purée lisse dès 4 mois, morceaux fondants dès 10 mois. Liste de courses et diversification suivies.",
-  image: PARTAGE.nutrition,
+  image: partage("nutrition"),
 });
 
 type Rayon = { icone: IconName; nom: string; articles: ShopItemProps[] };

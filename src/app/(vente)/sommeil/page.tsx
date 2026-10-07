@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PARTAGE, meta } from "@/lib/seo";
+import { partage, meta } from "@/lib/seo";
 import Link from "next/link";
 import Image from "next/image";
 import { DayTimeline, h, Icon, SleepRow, TimelineAxis, TimelineLegend } from "@/components/ds";
@@ -14,7 +14,7 @@ export const metadata: Metadata = meta({
   titre: "Nuits et siestes de bébé, au bon moment · Ourson",
   description:
     "Notez coucher et réveil d’un geste. Ourson repère ce qui aide votre enfant à dormir et vous dit quand viendra la prochaine sieste.",
-  image: PARTAGE.sommeil,
+  image: partage("sommeil"),
 });
 
 // Ses 7 dernières nuits : jour, durée (h), nombre de réveils. La dernière est « aujourd’hui ».

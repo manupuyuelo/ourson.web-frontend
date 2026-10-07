@@ -5,7 +5,7 @@ import { Header } from "@/components/layout/Header";
 import { ConsentBanner } from "@/components/consent/ConsentBanner";
 import { Gtm } from "@/components/consent/Gtm";
 import { CONSENT_SCRIPT } from "@/components/consent/config";
-import { JsonLd, PARTAGE, og, organisation, siteWeb } from "@/lib/seo";
+import { JsonLd, partage, og, organisation, siteWeb } from "@/lib/seo";
 import { SITE } from "@/lib/site";
 import "@/styles/globals.css";
 import s from "./layout.module.css";
@@ -28,13 +28,12 @@ export const metadata: Metadata = {
   description: SITE.description,
   applicationName: SITE.name,
   authors: [{ name: "L’équipe Ourson" }],
-  alternates: { canonical: "/" },
   // Repli pour les pages sans partage propre (404…) : l’ourson de l’accueil.
   openGraph: og({
     url: "/",
     titre: "Ourson, l’app des parents\u00a0: repas, sommeil, éveil",
     description: SITE.description,
-    image: PARTAGE.ourson,
+    image: partage("accueil"),
   }),
   twitter: { card: "summary_large_image" },
   formatDetection: { telephone: false },
@@ -60,6 +59,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script dangerouslySetInnerHTML={{ __html: CONSENT_SCRIPT }} />
       </head>
       <body>
+        <a href="#contenu" className={s.evitement}>
+          Aller au contenu
+        </a>
         <div className={s.page}>
           <div className={s.col}>
             <Header />

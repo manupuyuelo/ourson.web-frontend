@@ -4,8 +4,6 @@ import path from "node:path";
 import { cache } from "react";
 import { parse } from "yaml";
 import { z } from "zod";
-import type { StaticImageData } from "next/image";
-import { OURS } from "./ours";
 
 const DIR = path.join(process.cwd(), "src", "content", "blog");
 
@@ -24,16 +22,14 @@ export type Rubrique = (typeof RUBRIQUE_KEYS)[number];
 
 export const isRubrique = (v: string): v is Rubrique => v in RUBRIQUES;
 
-/** Ourson de repli quand l’image Cloudinary ne charge pas. */
-export const oursDeRubrique = (r: Rubrique): StaticImageData => OURS[RUBRIQUES[r].pilier];
-
 const Frontmatter = z.object({
   title: z.string().min(1),
+  /** Titre court pour Google (le <title>, « · Ourson » compris, tient en 60 caractères) ; sinon `title`. */
+  seoTitle: z.string().min(1).optional(),
   description: z.string().min(1),
   summary: z.string().min(1),
   rubrique: z.enum(RUBRIQUE_KEYS),
   date: z.coerce.date(),
-  image: z.url(),
   author: z.string().min(1),
 });
 

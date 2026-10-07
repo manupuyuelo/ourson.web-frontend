@@ -4,12 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArticleCard } from "@/components/blog/ArticleCard";
-import { CloudinaryImage } from "@/components/blog/CloudinaryImage";
 import { TEXTES, couleurs } from "@/components/blog/rubrique";
 import g from "@/components/blog/Grille.module.css";
 import prose from "@/components/blog/Prose.module.css";
-import { RUBRIQUES, formatDate, getArticle, getArticles, oursDeRubrique } from "@/lib/blog";
-import { JsonLd, billet, couverturePartage, filAriane, og } from "@/lib/seo";
+import { RUBRIQUES, formatDate, getArticle, getArticles } from "@/lib/blog";
+import { couverture } from "@/lib/couvertures";
+import { OURS } from "@/lib/ours";
+import { JsonLd, billet, filAriane, og, partageArticle } from "@/lib/seo";
 import s from "./page.module.css";
 
 export const dynamicParams = false;
@@ -22,18 +23,18 @@ export async function generateMetadata({ params }: PageProps<"/blog/[rubrique]/[
   const { rubrique, slug } = await params;
   const a = await getArticle(rubrique, slug);
   if (!a) return {};
-  const titre = `${a.title} · Ourson`;
+  // Google tronque vers 60 caractères : titre court dans <title>, titre complet pour le partage et le h1.
+  const titre = `${a.seoTitle ?? a.title} · Ourson`;
   return {
     title: { absolute: titre },
     description: a.description,
     alternates: { canonical: a.href },
-    // Image de partage : la couverture de l’article recadrée en 1200 × 630.
     openGraph: og(
       {
         url: a.href,
-        titre,
+        titre: a.title,
         description: a.description,
-        image: { url: couverturePartage(a.image), alt: a.title },
+        image: partageArticle(a),
       },
       {
         type: "article",
@@ -52,7 +53,7 @@ export default async function ArticlePage({ params }: PageProps<"/blog/[rubrique
   const { default: Contenu }: { default: MDXContent } = await import(`@/content/blog/${a.slug}.mdx`);
   const r = RUBRIQUES[a.rubrique];
   const textes = TEXTES[a.rubrique];
-  const ours = oursDeRubrique(a.rubrique);
+  const cover = await couverture(a.slug);
   const aLire = (await getArticles())
     .filter((x) => x.rubrique === a.rubrique && x.slug !== a.slug)
     .slice(0, 3);
@@ -88,15 +89,15 @@ export default async function ArticlePage({ params }: PageProps<"/blog/[rubrique
       </section>
 
       <div className={s.cover}>
-        <CloudinaryImage
-          src={a.image}
-          repli={ours}
-          alt={a.title}
+        <Image
+          src={cover}
+          // Décorative : le titre est déjà dans le h1 juste au-dessus.
+          alt=""
           sizes="(min-width: 900px) 1028px, (min-width: 600px) 560px, (min-width: 430px) 390px, calc(100vw - 40px)"
-          width={1600}
-          height={900}
+          placeholder="blur"
           className={s.coverImg}
-          eager
+          loading="eager"
+          fetchPriority="high"
         />
       </div>
 
@@ -106,7 +107,7 @@ export default async function ArticlePage({ params }: PageProps<"/blog/[rubrique
         </div>
 
         <Link href={r.href} className={s.pilier}>
-          <Image src={ours} alt="" sizes="64px" className={s.pilierOurs} />
+          <Image src={OURS[r.pilier]} alt="" sizes="64px" className={s.pilierOurs} />
           <span className={s.pilierTxt}>
             <span className={s.pilierTitre}>{textes.pilierTitre}</span>
             <span className={s.pilierLien}>{textes.pilierLien}</span>
@@ -138,9 +139,8 @@ export default async function ArticlePage({ params }: PageProps<"/blog/[rubrique
             title: a.title,
             description: a.description,
             path: a.href,
-            image: a.image,
+            images: [cover.src, partageArticle(a).url],
             date,
-            author: a.author,
           }),
           filAriane([
             { name: "Accueil", path: "/" },
