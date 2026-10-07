@@ -12,7 +12,6 @@
 }
 
 .barreInner {
-  pointer-events: auto;
   width: 100%;
   max-width: 420px;
 }

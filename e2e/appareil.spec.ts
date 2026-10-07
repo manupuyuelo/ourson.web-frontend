@@ -52,6 +52,59 @@ test("cartel mobile : masqué sur le hero et en fin de page, visible entre les d
   await ctx.close();
 });
 
+// Bandeau cookies déjà réglé : il ne doit pas intercepter les clics de navigation.
+const CONSENTEMENT = JSON.stringify({
+  audience: false,
+  pub: false,
+  date: new Date().toISOString(),
+  version: 1,
+});
+
+test("cartel mobile : se masque encore après une navigation (le layout persiste)", async ({
+  browser,
+  isMobile,
+}) => {
+  test.skip(!isMobile, "vérifié en viewport mobile");
+  const ctx = await browser.newContext({ userAgent: UA.ios, viewport: { width: 390, height: 844 } });
+  await ctx.addInitScript((c) => localStorage.setItem("ourson-cookies", c), CONSENTEMENT);
+  const page = await ctx.newPage();
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+  await pageHydratee(page);
+  const cartel = page.locator('[data-cartel="ios"]');
+  await page.locator("#telecharger").scrollIntoViewIfNeeded();
+  await expect(cartel).toHaveAttribute("aria-hidden", "true");
+
+  await page.locator('#telecharger ~ div a[href="/eveil"]').click();
+  await page.waitForURL("**/eveil");
+  await page.locator("#telecharger").scrollIntoViewIfNeeded();
+  await expect(cartel).toHaveAttribute("aria-hidden", "true");
+
+  await page.getByRole("link", { name: "Ourson, accueil" }).first().click();
+  await page.waitForURL((url) => url.pathname === "/");
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await expect(cartel).toHaveAttribute("aria-hidden", "true");
+  await page.locator("#repas").scrollIntoViewIfNeeded();
+  await expect(cartel).not.toHaveAttribute("aria-hidden", "true");
+  await page.locator("#telecharger").scrollIntoViewIfNeeded();
+  await expect(cartel).toHaveAttribute("aria-hidden", "true");
+  await ctx.close();
+});
+
+test("cartel mobile masqué : les liens de fin de page restent cliquables", async ({ browser, isMobile }) => {
+  test.skip(!isMobile, "vérifié en viewport mobile");
+  const ctx = await browser.newContext({ userAgent: UA.ios, viewport: { width: 393, height: 659 } });
+  await ctx.addInitScript((c) => localStorage.setItem("ourson-cookies", c), CONSENTEMENT);
+  const page = await ctx.newPage();
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+  await pageHydratee(page);
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await expect(page.locator('[data-cartel="ios"]')).toHaveAttribute("aria-hidden", "true");
+  // Clic réel (pas de `force`) : échoue si le conteneur du cartel masqué capte encore les touches.
+  await page.locator('#telecharger ~ div a[href="/eveil"]').click({ timeout: 5000 });
+  await page.waitForURL("**/eveil");
+  await ctx.close();
+});
+
 test("cartel QR : visible en desktop, masqué en fin de page", async ({ page, isMobile }) => {
   test.skip(isMobile, "vérifié en desktop");
   await page.goto("/nutrition", { waitUntil: "domcontentloaded" });

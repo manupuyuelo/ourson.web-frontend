@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { Telecharger } from "@/components/site/Telecharger";
 import { useAppareil } from "@/lib/useAppareil";
 import s from "./Flottants.module.css";
@@ -10,19 +11,21 @@ import s from "./Flottants.module.css";
  */
 export function Flottants() {
   const appareil = useAppareil();
+  // Le layout des pages de vente persiste d’une page à l’autre : le cartel repart de zéro à chaque page.
+  const page = usePathname();
   if (!appareil) return null;
   if (appareil !== "desktop") {
     return (
       <div className={s.barre}>
         <div className={s.barreInner}>
-          <Telecharger appareil={appareil} flottant emplacement="cartel" />
+          <Telecharger key={page} appareil={appareil} flottant emplacement="cartel" />
         </div>
       </div>
     );
   }
   return (
     <div className={s.qr}>
-      <Telecharger appareil="desktop" flottant emplacement="cartel" />
+      <Telecharger key={page} appareil="desktop" flottant emplacement="cartel" />
     </div>
   );
 }

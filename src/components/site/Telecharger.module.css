@@ -145,6 +145,8 @@
 /* ---------- Cartel flottant (mobile : barre du bas ; ordinateur : QR en bas à gauche) ---------- */
 
 .cartel {
+  /* Seul le cartel visible capte les touches : masqué, il laisse passer vers la page (.masque). */
+  pointer-events: auto;
   background: #fff;
   border: 1px solid var(--line);
   border-radius: 22px;
