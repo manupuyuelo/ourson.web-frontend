@@ -200,8 +200,10 @@
   line-height: 1;
 }
 
-/* Réserve la place de l'ourson coupé en haut à droite (mobile). */
-.h2Ours {
+/* Réserve la place de l'ourson coupé en haut à droite (mobile). Le paragraphe aussi : quand le titre
+   tient sur deux lignes (iPhone 15, 16 Pro), sa première ligne passe à hauteur de l'ourson. */
+.h2Ours,
+.h2Ours + .texte {
   padding-right: 110px;
 }
 
@@ -672,6 +674,7 @@
     font-size: 48px;
   }
   .h2Ours,
+  .h2Ours + .texte,
   .eveil .h2 {
     padding-right: 0;
   }
@@ -833,6 +836,7 @@
     display: block;
   }
   .h2Ours,
+  .h2Ours + .texte,
   .eveil .h2 {
     padding-right: 0;
   }

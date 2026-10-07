@@ -21,6 +21,14 @@
   width: 175px;
 }
 
+/* Téléphone : « L’accompagner » (environ 7,15 em) doit tenir dans la colonne du hero (100vw − 2 × 20 px
+   de gouttière − 90 px réservés à l'ourson), sinon il passe sous l'ourson. 42 px dès que la place suffit. */
+@media (width < 600px) {
+  .heroEveil h1 {
+    font-size: min(42px, calc((100vw - 130px) / 7.15));
+  }
+}
+
 .photo {
   border-radius: 28px;
   overflow: hidden;

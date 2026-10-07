@@ -3,7 +3,7 @@ import { mkdirSync } from "node:fs";
 
 // Audit de mise en page sur toute la gamme d'écrans : téléphones, foldables, tablettes, paysage, ordinateurs.
 // ECRANS=1 yarn test:e2e ecrans. Contrôles bloquants : pas de défilement horizontal, pas de texte hors écran, pas de grand vide
-// dans une section, un seul bloc de téléchargement visible. CAPTURES=1 enregistre aussi les pages
+// dans une section, pas d'ourson sur un texte, un seul bloc de téléchargement visible. CAPTURES=1 enregistre aussi les pages
 // dans .captures/ecrans/ (puis node scripts/planche-ecrans.ts <page>).
 
 const IPAD_UA =
@@ -121,7 +121,40 @@ function mesurer() {
     return { titre, vide: Math.round(max) };
   });
 
+  // Oursons posés en absolu (coupés au bord, ou sur un visuel) : aucun ne doit recouvrir une ligne de texte.
+  // Le rectangle de l'image est resserré pour ignorer le transparent du PNG ; on compare aux lignes de texte
+  // elles-mêmes (Range), et non à la boîte de l'élément, pour ne pas compter la place réservée en padding.
+  const oursSurTexte = [...document.querySelectorAll("main img[data-boucle]")]
+    .filter((img) => visible(img) && getComputedStyle(img).position === "absolute")
+    .flatMap((img) => {
+      const b = img.getBoundingClientRect();
+      const ours = {
+        left: b.left + b.width * 0.15,
+        right: b.right - b.width * 0.15,
+        top: b.top + b.height * 0.1,
+        bottom: b.bottom - b.height * 0.1,
+      };
+      const section = img.closest("section");
+      if (!section) return [];
+      return [...section.querySelectorAll("h1, h2, p")]
+        .filter((el) => visible(el))
+        .filter((el) => {
+          const r = document.createRange();
+          r.selectNodeContents(el);
+          return [...r.getClientRects()].some(
+            (l) =>
+              l.width > 0 &&
+              l.left < ours.right &&
+              l.right > ours.left &&
+              l.top < ours.bottom &&
+              l.bottom > ours.top,
+          );
+        })
+        .map((el) => `${el.tagName} « ${(el.textContent ?? "").trim().slice(0, 40)} »`);
+    });
+
   return {
+    oursSurTexte,
     defilementHorizontal: document.documentElement.scrollWidth - largeur,
     horsEcran,
     vides,
@@ -152,6 +185,7 @@ for (const [format, options] of FORMATS) {
 
         expect(m.defilementHorizontal, "défilement horizontal").toBeLessThanOrEqual(0);
         expect(m.horsEcran, "textes hors écran").toEqual([]);
+        expect(m.oursSurTexte, "ourson sur le texte").toEqual([]);
         expect(
           m.vides.filter((v) => v.vide > VIDE_MAX),
           `vides de plus de ${VIDE_MAX} px`,
