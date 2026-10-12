@@ -14,11 +14,11 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/blog/[rubrique]">): Promise<Metadata> {
   const { rubrique } = await params;
   if (!isRubrique(rubrique)) return {};
-  const { label } = RUBRIQUES[rubrique];
+  const { titre, sujet } = TEXTES[rubrique];
   return meta({
     url: `/blog/${rubrique}`,
-    titre: `${label} · Le blog d’Ourson`,
-    description: `Les articles du blog d’Ourson sur ${TEXTES[rubrique].sujet} des 0-3\u00a0ans.`,
+    titre: `${titre} · Le blog d’Ourson`,
+    description: `Conseils pratiques et repères sur ${sujet} des 0-3\u00a0ans\u00a0: des articles courts, sourcés, pour les parents et tout le foyer.`,
     image: partage(`blog-${rubrique}`),
   });
 }
