@@ -23,7 +23,6 @@ export function Age({ compact = false, sizes = "(min-width: 430px) 366px, 100vw"
             key={a.chip}
             src={a.src}
             alt={k === i ? a.chip : ""}
-            fill
             sizes={sizes}
             placeholder="blur"
             {...(eager && k === 0 ? { loading: "eager", fetchPriority: "high" } : {})}

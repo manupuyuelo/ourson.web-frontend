@@ -9,7 +9,7 @@ import s from "./sources.module.css";
 
 export const metadata: Metadata = meta({
   url: "/sources",
-  titre: "Nos sources · Ourson",
+  titre: "Nos sources institutionnelles · Ourson",
   description:
     "Les recommandations officielles et les études scientifiques sur lesquelles s’appuient les repères d’Ourson\u00a0: repas, sommeil et éveil des 0-3 ans.",
   image: partage("sources"),

@@ -12,22 +12,25 @@ export function couleurs(r: Rubrique): CSSProperties {
   };
 }
 
-/** Textes propres à chaque rubrique (« À lire aussi », encart vers le pilier — repris des titres de l’Accueil). */
+/** Textes propres à chaque rubrique (titre de la page, « À lire aussi », encart vers le pilier — repris des titres de l’Accueil). */
 export const TEXTES = {
   nutrition: {
     sujet: "la nutrition",
+    titre: "Repas des tout-petits\u00a0: nos conseils",
     toute: "Toute la nutrition →",
     pilierTitre: "Un plat. Toute la tablée.",
     pilierLien: "Tout sur la nutrition dans Ourson →",
   },
   sommeil: {
     sujet: "le sommeil",
+    titre: "Sommeil de bébé\u00a0: nos conseils",
     toute: "Tout le sommeil →",
     pilierTitre: "La sieste, au bon moment.",
     pilierLien: "Tout sur le sommeil dans Ourson →",
   },
   activites: {
     sujet: "l’éveil",
+    titre: "Jeux et éveil de bébé\u00a0: nos idées",
     toute: "Tout l’éveil →",
     pilierTitre: "Ses jalons, un jeu par jour.",
     pilierLien: "Tout sur l’éveil dans Ourson →",
