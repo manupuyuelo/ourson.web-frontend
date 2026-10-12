@@ -14,13 +14,16 @@ export const metadata: Metadata = meta({
 });
 
 const DONNEES = [
-  "Adresse e-mail",
+  "Adresse e-mail et prénom",
   "Mot de passe (hashé de manière sécurisée)",
-  "Prénom et âge des enfants",
-  "Nombre d’enfants",
-  "Taille du foyer",
-  "Régime alimentaire parental",
-  "Données de suivi du sommeil",
+  "Prénom, date de naissance et sexe des enfants, et leur terme de naissance si vous le renseignez",
+  "Allergies, régime et aliments refusés, des enfants comme des adultes du foyer",
+  "Membres du foyer et leur rôle (parent, nounou, grand-parent), adresses e-mail des proches que vous invitez",
+  "Repas planifiés et préférences de menu",
+  "Données de sommeil : dodos, réveils, et l’adulte qui a couché l’enfant ou noté son réveil",
+  "Éveil : activités faites, jalons, « premières fois », et les photos et notes que vous y ajoutez",
+  "Données techniques des notifications et de l’appareil (détaillées plus bas)",
+  "Mesure d’usage et rapports d’erreurs (détaillés plus bas)",
 ];
 
 const UTILISATIONS = [
@@ -35,6 +38,8 @@ const SUPPRIMEES = [
   "Le prénom et l’âge de vos enfants",
   "Les informations nutritionnelles, de sommeil et d’activités enregistrées",
   "Les préférences de votre foyer",
+  "Vos jetons de notification et les notifications en attente",
+  "Vos mesures d’usage et enregistrements de session (PostHog)",
 ];
 
 const Mail = () => <a href={`mailto:${SITE.email}`}>{SITE.email}</a>;
@@ -104,17 +109,66 @@ export default function Confidentialite() {
 
           <Section id="stockage" titre="Stockage des données">
             <p className={s.texte}>
-              Toutes les données personnelles sont stockées dans une base sécurisée hébergée par Supabase.
-              Nous utilisons également Firebase Analytics afin de comprendre l’usage de l’app et améliorer les
-              fonctionnalités proposées.
+              Toutes les données personnelles sont stockées dans une base sécurisée hébergée par Supabase,
+              dans l’Union européenne (Paris). Chaque foyer ne voit que ses propres données. Les photos des
+              «&nbsp;premières fois&nbsp;» sont rangées dans un espace privé, que seuls les membres du foyer
+              peuvent ouvrir, par un lien temporaire.
+            </p>
+          </Section>
+
+          <Section id="mesure" titre="Mesure d’usage et suivi des erreurs">
+            <p className={s.texte}>
+              Pour comprendre quelles fonctionnalités servent et améliorer l’app, nous mesurons son usage avec
+              PostHog, hébergé dans l’Union européenne&nbsp;: écrans ouverts et actions faites, rattachés à
+              l’identifiant technique de votre compte. Ces mesures ne contiennent jamais un prénom, une
+              adresse e-mail, un texte que vous avez saisi ni l’identifiant d’un enfant, et votre adresse IP
+              n’est pas conservée. Des enregistrements de session peuvent être réalisés, avec tous les textes,
+              champs et images masqués.
+            </p>
+            <p className={s.texte}>
+              Cette mesure est active par défaut. Vous pouvez la désactiver à tout moment dans l’application,
+              Profil › Votre compte › «&nbsp;Aider à améliorer Ourson&nbsp;» (enregistrements de session
+              compris).
+            </p>
+            <p className={s.texte}>
+              Pour corriger les pannes, les erreurs techniques de l’application sont signalées à Sentry,
+              hébergé dans l’Union européenne&nbsp;: un rapport décrit l’erreur et l’écran concerné, rattaché
+              à l’identifiant technique de votre compte, sans adresse IP, sans e-mail ni prénom.
+            </p>
+          </Section>
+
+          <Section id="notifications" titre="Notifications">
+            <p className={s.texte}>
+              Pour vous envoyer les notifications que vous avez choisies, nous conservons le jeton de
+              notification de votre appareil, sa plateforme, sa langue et son fuseau horaire, et deux
+              informations techniques&nbsp;: si l’appareil affiche les notifications, et les catégories que
+              vous y avez coupées. Elles ne servent qu’à savoir s’il faut envoyer, et ne sont jamais
+              transmises à un outil d’analyse.
+            </p>
+            <p className={s.texte}>
+              Chaque notification destinée à votre foyer passe par une file d’envoi, conservée 30&nbsp;jours
+              au plus. Elle peut porter le prénom de l’adulte qui en est à l’origine (par exemple&nbsp;: un
+              réveil noté)&nbsp;; ce prénom est effacé à la suppression de son compte. Pour la même raison,
+              l’app retient quel adulte a noté la fin d’un dodo&nbsp;: c’est ce qui permet de savoir qui a
+              l’enfant et de prévenir les autres membres du foyer.
             </p>
           </Section>
 
           <Section id="partage" titre="Partage de données">
             <p className={s.texte}>
-              Les données ne sont jamais revendues à des tiers. Elles ne sont partagées qu’en interne pour des
-              fins d’analyse et d’amélioration du service.
+              Les données ne sont jamais revendues à des tiers. Elles sont partagées avec les proches que vous
+              invitez dans votre foyer, et confiées, pour le seul fonctionnement du service, à nos
+              sous-traitants&nbsp;:
             </p>
+            <Liste
+              items={[
+                "Supabase (hébergement des données, Union européenne)",
+                "PostHog (mesure d’usage, Union européenne)",
+                "Sentry (suivi des erreurs, Union européenne)",
+                "OVHcloud et Resend (envoi des e-mails de connexion et d’invitation)",
+                "Expo, Apple et Google (acheminement des notifications vers votre appareil)",
+              ]}
+            />
           </Section>
 
           <Section id="securite" titre="Sécurité">
@@ -189,9 +243,10 @@ export default function Confidentialite() {
               Comment supprimer votre compte&#8239;?
             </h3>
             <p className={s.texte}>
-              Depuis l’application, accédez à la page Paramètres, puis cliquez sur «&nbsp;Supprimer mon
+              Depuis l’application, ouvrez Profil › Votre compte, puis touchez «&nbsp;Supprimer mon
               compte&nbsp;». Un message de confirmation vous sera affiché, et toutes vos données personnelles
-              seront supprimées de manière définitive.
+              seront supprimées de manière définitive, y compris vos mesures d’usage et vos enregistrements de
+              session chez PostHog.
             </p>
           </section>
 
