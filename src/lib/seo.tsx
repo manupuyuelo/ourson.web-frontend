@@ -104,6 +104,8 @@ export const siteWeb = (): WithContext<WebSite> => ({
   "@type": "WebSite",
   "@id": `${SITE.url}/#site`,
   name: SITE.name,
+  // « Ourson » seul est un nom commun : les variantes aident Google à retenir le nom du site plutôt que le domaine.
+  alternateName: ["Ourson app", "ourson.app"],
   url: SITE.url,
   inLanguage: "fr-FR",
   publisher: { "@id": `${SITE.url}/#organisation` },
