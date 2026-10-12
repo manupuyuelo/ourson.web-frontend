@@ -20,8 +20,8 @@ const DONNEES = [
   "Allergies, régime et aliments refusés, des enfants comme des adultes du foyer",
   "Membres du foyer et leur rôle (parent, nounou, grand-parent), adresses e-mail des proches que vous invitez",
   "Repas planifiés et préférences de menu",
-  "Données de sommeil : dodos, réveils, et l’adulte qui a couché l’enfant ou noté son réveil",
-  "Éveil : activités faites, jalons, « premières fois », et les photos et notes que vous y ajoutez",
+  "Données de sommeil\u00a0: dodos, réveils, et l’adulte qui a couché l’enfant ou noté son réveil",
+  "Éveil\u00a0: activités faites, jalons, «\u00a0premières fois\u00a0», et les photos et notes que vous y ajoutez",
   "Données techniques des notifications et de l’appareil (détaillées plus bas)",
   "Mesure d’usage et rapports d’erreurs (détaillés plus bas)",
 ];
