@@ -251,7 +251,6 @@ export default function NutritionPage() {
                   src={plat.src}
                   placeholder="blur"
                   alt=""
-                  fill
                   sizes="(min-width: 900px) 330px, (min-width: 600px) 180px, (min-width: 430px) 177px, calc(50vw - 38px)"
                 />
               </div>
