@@ -195,6 +195,14 @@
   gap: 10px;
 }
 
+/* Bloc plein (« Besoin d’aide ? ») : déclaré après `.corail`, `.bloc` lui reprenait son fond blanc,
+   et le texte blanc disparaissait. */
+.bloc.corail {
+  background: var(--coral);
+  padding: 24px 20px;
+  gap: 12px;
+}
+
 .h3 {
   margin: 0;
   font-family: var(--font-display);

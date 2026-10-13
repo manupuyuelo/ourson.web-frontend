@@ -33,13 +33,21 @@ const UTILISATIONS = [
 ];
 
 const SUPPRIMEES = [
-  "Votre adresse e-mail",
-  "Votre mot de passe (hashé)",
-  "Le prénom et l’âge de vos enfants",
-  "Les informations nutritionnelles, de sommeil et d’activités enregistrées",
-  "Les préférences de votre foyer",
+  "Votre adresse e-mail, votre prénom et votre mot de passe (hashé)",
+  "Vos allergies et vos réglages",
   "Vos jetons de notification et les notifications en attente",
   "Vos mesures d’usage et enregistrements de session (PostHog)",
+  "Si vous êtes le dernier membre du foyer\u00a0: le foyer, les enfants et toutes leurs données (repas, dodos, jalons, souvenirs et photos)",
+];
+
+// Ce qui s’efface sans supprimer le compte (libellés de l’app, `ourson-app`).
+const PARTIELLES = [
+  "Un dodo\u00a0: touchez-le dans Sommeil, puis «\u00a0Supprimer ce dodo\u00a0»",
+  "Un souvenir du carnet\u00a0: ouvrez-le dans Éveil, puis «\u00a0Supprimer ce souvenir\u00a0»\u202f; sa photo seule, avec «\u00a0Retirer\u00a0»",
+  "Un enfant et tout son historique, pour tout le foyer\u00a0: Profil, son prénom, puis «\u00a0Supprimer cet enfant\u00a0»",
+  "Allergies, régimes et aliments refusés\u00a0: Profil › Repas",
+  "Votre place dans le foyer\u00a0: Profil › Nos proches, puis «\u00a0Quitter le foyer\u00a0»",
+  "La mesure d’usage, arrêtée pour la suite\u00a0: Profil › Votre compte, «\u00a0Aider à améliorer Ourson\u00a0»",
 ];
 
 const Mail = () => <a href={`mailto:${SITE.email}`}>{SITE.email}</a>;
@@ -234,8 +242,8 @@ export default function Confidentialite() {
           }
         >
           <p className={s.supprIntro}>
-            Chez Ourson, nous croyons que chaque utilisateur doit pouvoir supprimer son compte et les données
-            associées facilement et de manière sécurisée.
+            Chez Ourson, nous croyons que chaque utilisateur doit pouvoir supprimer son compte, ou une partie
+            de ses données, facilement et de manière sécurisée.
           </p>
 
           <section className={s.bloc} aria-labelledby="suppr-comment">
@@ -263,9 +271,27 @@ export default function Confidentialite() {
               Données conservées
             </h3>
             <p className={s.texte}>
-              Aucune donnée personnelle identifiable n’est conservée après suppression. Certaines données
-              statistiques anonymisées (non liées à votre compte) peuvent être conservées à des fins d’analyse
-              globale d’usage.
+              Si d’autres adultes partagent votre foyer, il continue sans vous&nbsp;: les enfants, leurs
+              repas, leurs dodos et leurs souvenirs restent à ces membres, qui peuvent les supprimer à leur
+              tour.
+            </p>
+            <p className={s.texte}>
+              Aucune autre donnée personnelle identifiable n’est conservée après suppression. Certaines
+              données statistiques anonymisées (non liées à votre compte) peuvent être conservées à des fins
+              d’analyse globale d’usage.
+            </p>
+          </section>
+
+          <section className={s.bloc} aria-labelledby="suppr-partielle">
+            <h3 id="suppr-partielle" className={s.h3}>
+              Supprimer une partie de vos données
+            </h3>
+            <p className={s.texte}>
+              Sans supprimer votre compte, vous pouvez effacer depuis l’application&nbsp;:
+            </p>
+            <Liste items={PARTIELLES} />
+            <p className={s.texte}>
+              Un dodo, un souvenir ou un enfant supprimé l’est de manière définitive, pour tout le foyer.
             </p>
           </section>
 
@@ -274,8 +300,9 @@ export default function Confidentialite() {
               Besoin d’aide&#8239;?
             </h3>
             <p className={s.texte}>
-              Si vous ne parvenez pas à supprimer votre compte depuis l’application, vous pouvez nous écrire à{" "}
-              <Mail /> en précisant l’adresse e-mail utilisée pour créer votre compte.
+              Pour supprimer votre compte, ou toute donnée que vous ne parvenez pas à effacer depuis
+              l’application, écrivez-nous à <Mail /> depuis l’adresse e&#8209;mail de votre compte, en
+              précisant les données concernées. Nous traitons votre demande dans un délai d’un mois.
             </p>
           </section>
         </SuppressionSheet>
