@@ -11,6 +11,17 @@
   "packageRules": [
     { "groupName": "next", "matchPackageNames": ["next", "@next/**"] },
     { "groupName": "react", "matchPackageNames": ["react", "react-dom", "@types/react", "@types/react-dom"] },
-    { "groupName": "oxc", "matchPackageNames": ["oxlint", "oxlint-tsgolint", "oxfmt"] }
+    { "groupName": "oxc", "matchPackageNames": ["oxlint", "oxlint-tsgolint", "oxfmt"] },
+    {
+      "description": "engines.node exprime le minimum réel : on ne le monte qu’à la main, quand le code l’exige",
+      "matchDepTypes": ["engines"],
+      "enabled": false
+    },
+    {
+      "description": "Une majeure de Node se choisit à la main : Renovate ne monte que les mineures et correctifs de .nvmrc",
+      "matchManagers": ["nvm"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    }
   ]
 }
