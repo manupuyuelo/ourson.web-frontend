@@ -14,6 +14,8 @@ async function avecStoresPublies() {
       appStoreUrl: "https://apps.apple.com/app/id1",
       playStoreUrl: "https://play.google.com/store/apps/details?id=app.ourson",
     },
+    STORES_OUVERTS: true,
+    storePublie: (url: string) => url.startsWith("https://"),
   }));
   return (await import("./Telecharger")).Telecharger;
 }

@@ -6,10 +6,13 @@ export const SITE = {
   email: "contact@ourson.app",
   locale: "fr_FR",
   gtmId: "GTM-M4VH94M",
-  // TODO(stores) : à renseigner dès que les fiches sont publiques.
-  appStoreUrl: "#",
-  playStoreUrl: "#",
+  // Liens définitifs (les mêmes que dans l’app, `ourson-app/src/lib/links.ts`).
+  appStoreUrl: "https://apps.apple.com/app/id6822294870",
+  playStoreUrl: "https://play.google.com/store/apps/details?id=com.addedsugarsas.ourson",
 } as const;
+
+// TODO(stores) : passer à `true` quand les fiches sont publiques. D’ici là, badges sans lien et mention « Bientôt ».
+export const STORES_OUVERTS = false;
 
 export type Pilier = "repas" | "sommeil" | "eveil";
 
@@ -19,5 +22,5 @@ export const PILIERS = {
   eveil: { label: "Éveil", href: "/eveil", lien: "L’éveil →" },
 } as const satisfies Record<Pilier, { label: string; href: string; lien: string }>;
 
-/** Une fiche de store est publiée quand son lien est renseigné (sinon « Bientôt », sans lien). */
-export const storePublie = (url: string) => url.startsWith("https://");
+/** Une fiche de store est publiée quand les stores sont ouverts et son lien renseigné (sinon « Bientôt », sans lien). */
+export const storePublie = (url: string) => STORES_OUVERTS && url.startsWith("https://");

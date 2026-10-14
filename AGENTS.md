@@ -28,7 +28,7 @@ Next.js 16 (App Router, Turbopack, React Compiler), React 19, TypeScript 7, CSS 
 - `src/app/(vente)/` : pages de vente (Accueil, `nutrition`, `sommeil`, `eveil`). Leur layout ajoute les cartels de téléchargement flottants (`Flottants`), le pied de page et la pause des animations hors écran. Le pied de page (`Footer`) n'existe qu'en desktop : sur téléphone et tablette, ses liens sont dans le menu.
 - `src/app/blog/` : liste, rubriques (`nutrition`, `sommeil`, `activites`), articles `/blog/<rubrique>/<slug>` (URLs de l'ancien site, à conserver).
 - `src/app/confidentialite/` (+ feuille `#suppression`, lien donné aux stores), `src/app/cgu/` (CGU et mentions légales), `src/app/sources/` (sources institutionnelles).
-- `src/app/app/route.ts` : cible du QR, redirige vers le store de l'appareil (vers `/` tant que les liens sont à `#`). `src/app/qr.svg/` : le QR, généré au build.
+- `src/app/app/route.ts` : cible du QR, redirige vers le store de l'appareil (vers `/` tant que `STORES_OUVERTS` vaut `false`). `src/app/qr.svg/` : le QR, généré au build.
 - `src/content/blog/*.mdx` : articles. Frontmatter validé par zod (`src/lib/blog.ts`) : `seoTitle` court quand le titre dépasse 51 caractères (le `<title>` tient en 60 avec « · Ourson »), description de 160 caractères au plus ; publier = ajouter le fichier, sa couverture (`yarn couverture <image> <slug>` → `src/assets/blog/<slug>.jpg`, obligatoire : sans elle le build échoue), puis `yarn og` pour son image de partage. Les listes « **1. Titre** : texte » sont mises en forme par `src/lib/remark-points.ts`.
 - `src/components/ds/` : composants du design system Ourson portés du handoff. `components/site/` (Telecharger, Carte, Age, Carrousel), `components/layout/` (Header, Footer, FinDePage, Flottants, gabarit `Pilier.module.css`), `components/consent/` (bandeau et Consent Mode), `components/blog/`.
 - `src/lib/` : `site.ts` (URLs, e-mail, ID GTM), `seo.tsx` (`meta()`, `og()`, `partage()` / `partageArticle()`, JSON-LD), `partage.json` (manifeste des images de partage, écrit par `yarn og`), `couvertures.ts` (couvertures d’articles), `data.ts` (contenus des pages), `sources.ts`, `mesure.ts` (événements GTM), `device.ts` / `useAppareil.ts`, `useCartelMasque.ts`.
@@ -63,7 +63,7 @@ Next.js 16 (App Router, Turbopack, React Compiler), React 19, TypeScript 7, CSS 
 
 ## Points ouverts
 
-- Liens App Store / Google Play à renseigner dans `src/lib/site.ts` à la sortie de l'app (`TODO(stores)`). D'ici là, `storePublie()` affiche les badges sans lien avec la mention « Bientôt », et aucun `ourson_store` n'est envoyé.
+- Liens App Store / Google Play définitifs dans `src/lib/site.ts`, mais fiches pas encore publiques : passer `STORES_OUVERTS` à `true` à la sortie de l'app (`TODO(stores)`). D'ici là, `storePublie()` affiche les badges sans lien avec la mention « Bientôt », `/app` renvoie vers l'accueil et aucun `ourson_store` n'est envoyé.
 - Section « Cookies du site » de la Confidentialité à valider (`TODO(texte)`), CGU à relire (code postal, directeur de la publication, contenus IA).
 - Carte « Une première fois ! » (Éveil) : l'emplacement « Photo de l'enfant » attend une vraie photo.
 - Dans `ourson-app`, `LEGAL_URL` (`src/lib/links.ts`) doit pointer vers `/cgu`.

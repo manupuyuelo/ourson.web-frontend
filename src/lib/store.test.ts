@@ -14,7 +14,7 @@ describe("appareilDepuisUA", () => {
 });
 
 describe("destinationStore (route /app)", () => {
-  it("renvoie vers l’accueil tant que les liens des stores sont à « # »", () => {
+  it("renvoie vers l’accueil tant que les stores ne sont pas ouverts", () => {
     for (const ua of [IPHONE, ANDROID, MAC, ""]) expect(destinationStore(ua)).toBe("/");
   });
 });
