@@ -13,7 +13,7 @@
     { "groupName": "react", "matchPackageNames": ["react", "react-dom", "@types/react", "@types/react-dom"] },
     { "groupName": "oxc", "matchPackageNames": ["oxlint", "oxlint-tsgolint", "oxfmt"] },
     {
-      "description": "engines.node exprime le minimum réel : on ne le monte qu’à la main, quand le code l’exige",
+      "description": "engines.node fige la majeure de Node utilisée par Vercel (une plage ouverte la ferait monter seule) : on la monte à la main, avec .nvmrc",
       "matchDepTypes": ["engines"],
       "enabled": false
     },
