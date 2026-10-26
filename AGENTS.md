@@ -6,7 +6,7 @@ Ce fichier est la source unique des consignes (`CLAUDE.md` l'importe). Le bloc e
 
 ## Pile
 
-Next.js 16 (App Router, Turbopack, React Compiler), React 19, TypeScript 7, CSS Modules et tokens du design system (pas de Tailwind), MDX pour le blog, Yarn classic, oxlint et oxfmt, Vitest, Playwright, Node 24. Tout est statique (SSG) sauf la route `/app`. Hébergé sur Vercel (fonctions à Paris, `cdg1`).
+Next.js 16 (App Router, Turbopack, React Compiler), React 19, TypeScript 7, CSS Modules et tokens du design system (pas de Tailwind), MDX pour le blog, Yarn classic, oxlint et oxfmt, Vitest, Playwright, Node 24 (majeure figée par `engines.node` pour Vercel, version exacte de la CI dans `.nvmrc`). Tout est statique (SSG) sauf la route `/app`. Hébergé sur Vercel (fonctions à Paris, `cdg1`).
 
 ## Commandes
 
