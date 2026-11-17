@@ -6,6 +6,10 @@ export const SITE = {
   email: "contact@ourson.app",
   locale: "fr_FR",
   gtmId: "GTM-M4VH94M",
+  /** Identifiant de l’app, le même sur les deux plateformes (`ourson-app/app.json`). */
+  appId: "com.addedsugarsas.ourson",
+  /** Identifiant App Store (bannière Safari de `/invitation`), celui de `appStoreUrl`. */
+  appStoreId: "6822294870",
   // Liens définitifs (les mêmes que dans l’app, `ourson-app/src/lib/links.ts`).
   appStoreUrl: "https://apps.apple.com/app/id6822294870",
   playStoreUrl: "https://play.google.com/store/apps/details?id=com.addedsugarsas.ourson",

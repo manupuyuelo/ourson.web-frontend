@@ -11,9 +11,10 @@
 // Ce module ne passe pas par l’alias `@/` : Node l’exécute tel quel depuis le script.
 import { mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { SITE } from "./site.ts";
 
 /** Identifiant de l’app, le même sur les deux plateformes (`ourson-app/app.json`). */
-export const APP_ID = "com.addedsugarsas.ourson";
+export const APP_ID = SITE.appId;
 
 /** Team ID Apple de l’équipe AddedSugar (`eas credentials -p ios`, profil production). */
 export const APPLE_TEAM_ID = "6SUF3N8NZP";
