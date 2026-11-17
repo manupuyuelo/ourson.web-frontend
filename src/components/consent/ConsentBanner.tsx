@@ -2,9 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { Button, Switch } from "@/components/ds";
 import { OURS } from "@/lib/ours";
+import { PAGES_RELAIS } from "@/lib/site";
 import { enregistrer, lire, useConsentement, type Consentement } from "./consent";
 import s from "./ConsentBanner.module.css";
 
@@ -14,9 +16,12 @@ const SORTIE_MS = 350;
  * Bandeau « Miam, des cookies ! » (handoff : Cookies.dc.html).
  * Rendu dès le HTML statique ; le script du <head> le masque en CSS si un choix valide existe.
  * Tout lien href="#cookies" (pied de page, menu) ou window.oursonCookies.open() le rouvre sur le détail.
+ * Sur une page relais (`PAGES_RELAIS`), il ne s’ouvre pas d’office : il y cacherait l’appel à l’action
+ * sur un petit écran. Sans choix, tout reste refusé ; le lien « Cookies » du menu l’ouvre toujours.
  */
 export function ConsentBanner() {
   const choix = useConsentement();
+  const relais = PAGES_RELAIS.includes(usePathname());
   // Rouvert par l’utilisateur alors qu’un choix existe déjà.
   const [rouvert, setRouvert] = useState(false);
   const [sortie, setSortie] = useState(false);
@@ -106,8 +111,8 @@ export function ConsentBanner() {
     fermer();
   };
 
-  // Un choix existe et le bandeau n’est pas rouvert : rien à afficher (sauf pendant la sortie).
-  const visible = choix === undefined || choix === null || rouvert || sortie;
+  // Un choix existe (ou page relais) et le bandeau n’est pas rouvert : rien à afficher (sauf pendant la sortie).
+  const visible = ((choix === undefined || choix === null) && !relais) || rouvert || sortie;
   if (!visible) return null;
 
   const classes = [s.banner, choix !== undefined && s.hydrate, sortie && s.sortie].filter(Boolean).join(" ");

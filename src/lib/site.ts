@@ -14,6 +14,14 @@ export const SITE = {
 // TODO(stores) : passer à `true` quand les fiches sont publiques. D’ici là, badges sans lien et mention « Bientôt ».
 export const STORES_OUVERTS = false;
 
+/**
+ * Pages relais, ouvertes depuis un email de l’app : hors sitemap, `noindex`, interdites aux robots
+ * (`robots.ts`, vérifié par `partage.test.ts`). Le bandeau cookies ne s’y ouvre pas d’office : le
+ * visiteur y passe pour rejoindre l’app, rien n’y est mesuré avec cookies faute de choix, et le
+ * bandeau reste proposé sur les autres pages.
+ */
+export const PAGES_RELAIS: readonly string[] = ["/invitation"];
+
 export type Pilier = "repas" | "sommeil" | "eveil";
 
 export const PILIERS = {

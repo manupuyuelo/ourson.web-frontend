@@ -1,7 +1,9 @@
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
+import robots from "@/app/robots";
 import images from "./partage.json";
+import { PAGES_RELAIS as RELAIS } from "./site";
 
 // Images de partage (`yarn og`) : une par article, toutes présentes et assez légères pour WhatsApp.
 const RACINE = path.join(import.meta.dirname, "..", "..");
@@ -19,9 +21,7 @@ const PAGES = readdirSync(APP, { recursive: true, encoding: "utf8" })
     route: `/${path.dirname(f)}`.replace(/\/\([^)]+\)/g, "").replace(/^\/\.?$/, "/") || "/",
   }));
 const SITEMAP = readFileSync(path.join(APP, "sitemap.ts"), "utf8");
-const ROBOTS = readFileSync(path.join(APP, "robots.ts"), "utf8");
-// Pages relais, hors sitemap : jamais indexées, et interdites aux robots.
-const RELAIS = ["/invitation"];
+const INTERDITS = [robots().rules].flat().flatMap((r) => [r?.disallow ?? []].flat());
 
 describe("pages", () => {
   it.each(PAGES)("$fichier déclare son image de partage", ({ fichier }) => {
@@ -36,7 +36,7 @@ describe("pages", () => {
   );
 
   it("chaque page relais existe", () => {
-    expect(PAGES.map((p) => p.route)).toEqual(expect.arrayContaining(RELAIS));
+    expect(PAGES.map((p) => p.route)).toEqual(expect.arrayContaining([...RELAIS]));
   });
 
   it.each(PAGES.filter((p) => RELAIS.includes(p.route)))(
@@ -44,7 +44,7 @@ describe("pages", () => {
     ({ fichier, route }) => {
       expect(SITEMAP).not.toContain(`url("${route}")`);
       expect(readFileSync(path.join(APP, fichier), "utf8")).toMatch(/robots:\s*\{\s*index:\s*false/);
-      expect(ROBOTS).toContain(`"${route}"`);
+      expect(INTERDITS).toContain(route);
     },
   );
 });
