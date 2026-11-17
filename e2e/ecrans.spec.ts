@@ -57,6 +57,11 @@ const PAGES = [
   ["confidentialite", "/confidentialite"],
   ["cgu", "/cgu"],
   ["sources", "/sources"],
+  // Adresse très longue : elle doit passer à la ligne sans déborder.
+  [
+    "invitation",
+    "/invitation#email=prenom.nom.tres.long.pour.le.retour.a.la.ligne%40sous-domaine.exemple.test&lang=en",
+  ],
 ] as const;
 
 /**
@@ -162,7 +167,7 @@ function mesurer() {
 }
 
 test.describe.configure({ mode: "parallel" });
-// Long (24 formats × 9 pages) : lancé à la demande avant une modification visuelle, pas en CI.
+// Long (24 formats × 10 pages) : lancé à la demande avant une modification visuelle, pas en CI.
 test.skip(!process.env.ECRANS && !process.env.CAPTURES, "lancé seulement avec ECRANS=1 ou CAPTURES=1");
 
 for (const [format, options] of FORMATS) {
