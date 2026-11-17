@@ -12,6 +12,7 @@ const PAGES = [
   ["blog", "/blog"],
   ["article", "/blog/sommeil/importance-regularite-temps-endormissement-enfant"],
   ["confidentialite", "/confidentialite"],
+  ["invitation", "/invitation#email=sarah%40exemple.test&lang=fr"],
 ] as const;
 
 const FORMATS = [

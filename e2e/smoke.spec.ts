@@ -16,6 +16,7 @@ const PAGES = [
   "/confidentialite",
   "/cgu",
   "/sources",
+  "/invitation",
 ];
 
 for (const path of PAGES) {
@@ -95,6 +96,41 @@ test("le lien « Cookies » rouvre le détail avec le choix en cours", async ({ 
   await expect(page.getByRole("button", { name: "Valider mes choix" })).toHaveCount(0);
   const stocke = await page.evaluate(() => JSON.parse(localStorage.getItem("ourson-cookies") ?? "{}"));
   expect(stocke).toMatchObject({ audience: true, pub: false });
+});
+
+test("/invitation : le lien de l’email, sans bandeau cookies d’office", async ({ page, isMobile }) => {
+  await page.goto("/invitation#email=sarah%2Blou%40exemple.test&lang=en", { waitUntil: "domcontentloaded" });
+  await pageHydratee(page);
+  await expect(page.getByRole("heading", { name: "An invitation is waiting for you" })).toBeVisible();
+  await expect(page.getByText("sarah+lou@exemple.test")).toBeVisible();
+  const ouvrir = page.getByRole("link", { name: "Open Ourson" });
+  if (isMobile) {
+    await expect(ouvrir).toHaveAttribute("href", "ourson://compte?email=sarah%2Blou%40exemple.test");
+    await expect(ouvrir).toBeInViewport();
+  } else {
+    // Ordinateur : l’app n’y existe pas, aucun lien vers l’app, un QR du lien pour continuer sur le téléphone.
+    await expect(ouvrir).toHaveCount(0);
+    await expect(page.locator('a[href^="ourson:"]')).toHaveCount(0);
+    await expect(page.getByText("Continue on your phone")).toBeVisible();
+    await expect(page.getByRole("img", { name: "QR code for your invitation" })).toHaveAttribute(
+      "src",
+      /^data:image\/svg\+xml/,
+    );
+  }
+  // Page relais : le bandeau ne s’ouvre pas d’office, et aucun choix n’est enregistré à la place du visiteur.
+  await expect(page.getByRole("button", { name: "Miam, j’accepte" })).toHaveCount(0);
+  expect(await page.evaluate(() => localStorage.getItem("ourson-cookies"))).toBeNull();
+
+  // Le lien « Cookies » du menu l’ouvre quand même (téléphone et tablette).
+  if (isMobile) {
+    await page.getByRole("button", { name: "Menu" }).click();
+    await page.locator("dialog#menu-mobile").getByRole("link", { name: "Cookies" }).click();
+    await expect(page.getByRole("button", { name: "Valider mes choix" })).toBeVisible();
+  }
+
+  // Sur les autres pages, le choix est toujours demandé.
+  await page.goto("/", { waitUntil: "domcontentloaded" });
+  await expect(page.getByRole("button", { name: "Miam, j’accepte" })).toBeVisible();
 });
 
 test("/app renvoie vers l'accueil tant que les stores ne sont pas publics", async ({ request }) => {

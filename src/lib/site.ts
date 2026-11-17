@@ -6,6 +6,10 @@ export const SITE = {
   email: "contact@ourson.app",
   locale: "fr_FR",
   gtmId: "GTM-M4VH94M",
+  /** Identifiant de l’app, le même sur les deux plateformes (`ourson-app/app.json`). */
+  appId: "com.addedsugarsas.ourson",
+  /** Identifiant App Store (bannière Safari de `/invitation`), celui de `appStoreUrl`. */
+  appStoreId: "6822294870",
   // Liens définitifs (les mêmes que dans l’app, `ourson-app/src/lib/links.ts`).
   appStoreUrl: "https://apps.apple.com/app/id6822294870",
   playStoreUrl: "https://play.google.com/store/apps/details?id=com.addedsugarsas.ourson",
@@ -13,6 +17,14 @@ export const SITE = {
 
 // TODO(stores) : passer à `true` quand les fiches sont publiques. D’ici là, badges sans lien et mention « Bientôt ».
 export const STORES_OUVERTS = false;
+
+/**
+ * Pages relais, ouvertes depuis un email de l’app : hors sitemap, `noindex`, interdites aux robots
+ * (`robots.ts`, vérifié par `partage.test.ts`). Le bandeau cookies ne s’y ouvre pas d’office : le
+ * visiteur y passe pour rejoindre l’app, rien n’y est mesuré avec cookies faute de choix, et le
+ * bandeau reste proposé sur les autres pages.
+ */
+export const PAGES_RELAIS: readonly string[] = ["/invitation"];
 
 export type Pilier = "repas" | "sommeil" | "eveil";
 
