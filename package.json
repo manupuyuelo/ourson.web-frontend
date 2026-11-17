@@ -52,7 +52,7 @@
     "lint-staged": "^17.6.0",
     "oxfmt": "^0.78.0",
     "oxlint": "^1.93.0",
-    "oxlint-tsgolint": "^7.0.2005",
+    "oxlint-tsgolint": "^7.0.2007",
     "schema-dts": "^2.1.0",
     "sharp": "^0.35.5",
     "typescript": "^7.0.2",
