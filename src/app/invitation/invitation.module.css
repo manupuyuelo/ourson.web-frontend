@@ -59,6 +59,13 @@
   color: #fff;
 }
 
+/* Avant détection de l’appareil : pas de bouton sur un pointeur fin (ordinateur). */
+@media (hover: hover) and (pointer: fine) {
+  .boutonEnAttente {
+    display: none;
+  }
+}
+
 .repli {
   margin: 12px 0 0;
   max-width: 460px;

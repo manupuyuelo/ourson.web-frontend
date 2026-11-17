@@ -1,8 +1,12 @@
 // @vitest-environment happy-dom
 import { act, cleanup, render, screen } from "@testing-library/react";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import type { Appareil } from "@/lib/device";
 import { lienApp, lireInvitation } from "@/lib/invitation";
 import { Invitation } from "./Invitation";
+
+const appareil = vi.hoisted(() => ({ actuel: "ios" as Appareil | null }));
+vi.mock("@/lib/useAppareil", () => ({ useAppareil: () => appareil.actuel }));
 
 describe("lireInvitation", () => {
   it("lit l’adresse et la langue du fragment", () => {
@@ -29,6 +33,10 @@ describe("lireInvitation", () => {
 });
 
 describe("page /invitation", () => {
+  beforeEach(() => {
+    appareil.actuel = "ios";
+  });
+
   afterEach(() => {
     cleanup();
     history.replaceState(null, "", "/");
@@ -75,5 +83,22 @@ describe("page /invitation", () => {
     expect(screen.getByRole("link", { name: "Open Ourson" }).getAttribute("href")).toBe(
       "ourson://compte?email=sarah%40ourson.fr",
     );
+  });
+
+  it("ordinateur : pas de bouton vers l’app, renvoi vers le téléphone", () => {
+    appareil.actuel = "desktop";
+    history.replaceState(null, "", "/invitation#email=sarah%40ourson.fr&lang=fr");
+    render(<Invitation />);
+    expect(screen.queryByRole("link", { name: "Ouvrir Ourson" })).toBeNull();
+    expect(document.querySelector('a[href^="ourson:"]')).toBeNull();
+    expect(screen.getByText("sarah@ourson.fr")).toBeTruthy();
+    expect(screen.getByText(/Scannez ce code avec votre téléphone/)).toBeTruthy();
+  });
+
+  it("appareil pas encore détecté : bouton rendu, masqué en CSS sur ordinateur", () => {
+    appareil.actuel = null;
+    history.replaceState(null, "", "/invitation#lang=fr");
+    render(<Invitation />);
+    expect(screen.getByRole("link", { name: "Ouvrir Ourson" }).className).toMatch(/boutonEnAttente/);
   });
 });

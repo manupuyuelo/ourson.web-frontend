@@ -104,8 +104,15 @@ test("/invitation : le lien de l’email, sans bandeau cookies d’office", asyn
   await expect(page.getByRole("heading", { name: "An invitation is waiting for you" })).toBeVisible();
   await expect(page.getByText("sarah+lou@exemple.test")).toBeVisible();
   const ouvrir = page.getByRole("link", { name: "Open Ourson" });
-  await expect(ouvrir).toHaveAttribute("href", "ourson://compte?email=sarah%2Blou%40exemple.test");
-  await expect(ouvrir).toBeInViewport();
+  if (isMobile) {
+    await expect(ouvrir).toHaveAttribute("href", "ourson://compte?email=sarah%2Blou%40exemple.test");
+    await expect(ouvrir).toBeInViewport();
+  } else {
+    // Ordinateur : l’app n’y existe pas, aucun lien `ourson://`, renvoi vers le téléphone et le QR.
+    await expect(ouvrir).toHaveCount(0);
+    await expect(page.locator('a[href^="ourson:"]')).toHaveCount(0);
+    await expect(page.getByText("Scan this code with your phone.")).toBeVisible();
+  }
   // Page relais : le bandeau ne s’ouvre pas d’office, et aucun choix n’est enregistré à la place du visiteur.
   await expect(page.getByRole("button", { name: "Miam, j’accepte" })).toHaveCount(0);
   expect(await page.evaluate(() => localStorage.getItem("ourson-cookies"))).toBeNull();

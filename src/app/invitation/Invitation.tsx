@@ -3,19 +3,35 @@
 import Image from "next/image";
 import { useSyncExternalStore } from "react";
 import { Telecharger } from "@/components/site/Telecharger";
+import { useAppareil } from "@/lib/useAppareil";
 import { estInvitation, lienApp, lireInvitation, type Langue } from "@/lib/invitation";
 import { OURS } from "@/lib/ours";
 import s from "./invitation.module.css";
 
-const TEXTES: Record<
-  Langue,
-  { titre: string; avecAdresse: [string, string]; sansAdresse: string; bouton: string; repli: string }
-> = {
+type Textes = {
+  titre: string;
+  avecAdresse: [string, string];
+  sansAdresse: string;
+  bouton: string;
+  repli: string;
+  /** Sur ordinateur, l’app ne s’ouvre pas : on renvoie vers le téléphone, sans bouton. */
+  ordinateur: { avecAdresse: [string, string]; sansAdresse: string; repli: string };
+};
+
+const TEXTES: Record<Langue, Textes> = {
   fr: {
     titre: "Une invitation vous attend",
     avecAdresse: ["Ouvrez Ourson et inscrivez-vous avec l’adresse ", ", celle qui a reçu l’invitation."],
     sansAdresse: "Ouvrez Ourson : l’invitation vous attend sur l’accueil.",
     bouton: "Ouvrir Ourson",
+    ordinateur: {
+      avecAdresse: [
+        "Ourson s’utilise sur téléphone : ouvrez ce lien depuis votre téléphone, ou installez l’app et inscrivez-vous avec l’adresse ",
+        ", celle qui a reçu l’invitation.",
+      ],
+      sansAdresse: "Ourson s’utilise sur téléphone : ouvrez l’app, l’invitation vous attend sur l’accueil.",
+      repli: "Pas encore l’app ? Scannez ce code avec votre téléphone.",
+    },
     repli: "Pas encore l’app ? Téléchargez-la, puis revenez sur ce lien.",
   },
   en: {
@@ -24,6 +40,15 @@ const TEXTES: Record<
     sansAdresse: "Open Ourson: your invitation is waiting on the home screen.",
     bouton: "Open Ourson",
     repli: "Don’t have the app yet? Download it, then come back to this link.",
+    ordinateur: {
+      avecAdresse: [
+        "Ourson is a phone app: open this link on your phone, or install the app and sign up with ",
+        ", the address that received the invitation.",
+      ],
+      sansAdresse:
+        "Ourson is a phone app: open it on your phone, your invitation is waiting on the home screen.",
+      repli: "Don’t have the app yet? Scan this code with your phone.",
+    },
   },
 };
 
@@ -46,12 +71,16 @@ const surFragment = (rappel: () => void) => {
  * Le fragment n’existe que dans le navigateur : rendu serveur en français, sans adresse, puis
  * la langue et l’adresse du lien. La page n’ouvre jamais l’app d’elle-même : si elle s’affiche,
  * l’app manque ou le lien universel n’a pas joué (navigateur intégré, appui long), et
- * `ourson://` sans app ferait afficher « adresse non valide » à Safari.
+ * `ourson://` sans app ferait afficher « adresse non valide » à Safari. Sur ordinateur, pas de
+ * bouton du tout (l’app n’y existe pas) : la page renvoie vers le téléphone et le QR.
  */
 export function Invitation() {
   const fragment = useSyncExternalStore(surFragment, fragmentInvitation, () => "");
   const { email, langue } = lireInvitation(fragment);
+  const appareil = useAppareil();
+  const ordinateur = appareil === "desktop";
   const t = TEXTES[langue];
+  const textes = ordinateur ? t.ordinateur : t;
 
   return (
     <main id="contenu" className={s.page} lang={langue}>
@@ -67,18 +96,25 @@ export function Invitation() {
       <p className={s.texte}>
         {email ? (
           <>
-            {t.avecAdresse[0]}
+            {textes.avecAdresse[0]}
             <strong className={s.adresse}>{email}</strong>
-            {t.avecAdresse[1]}
+            {textes.avecAdresse[1]}
           </>
         ) : (
-          t.sansAdresse
+          textes.sansAdresse
         )}
       </p>
-      <a href={lienApp(email)} className={s.bouton}>
-        {t.bouton}
-      </a>
-      <p className={s.repli}>{t.repli}</p>
+      {/* Rendu statique (appareil inconnu) : le bouton est masqué en CSS sur un pointeur fin, comme
+          Telecharger réserve sa place. Une fois l’appareil détecté, il n’existe que sur téléphone. */}
+      {!ordinateur && (
+        <a
+          href={lienApp(email)}
+          className={appareil === null ? `${s.bouton} ${s.boutonEnAttente}` : s.bouton}
+        >
+          {t.bouton}
+        </a>
+      )}
+      <p className={s.repli}>{textes.repli}</p>
       {/* Badges et mentions des stores : en français, comme le reste du site. */}
       <div lang="fr" className={s.stores}>
         <Telecharger emplacement="fin" />
