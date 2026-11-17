@@ -59,6 +59,12 @@ const nextConfig: NextConfig = {
   },
   async headers() {
     return [
+      // Liens universels de l'app (fichiers générés au build, `scripts/well-known.ts`) : iOS exige
+      // du JSON servi tel quel, sans redirection ; le fichier Apple n'a pas d'extension.
+      {
+        source: "/.well-known/apple-app-site-association",
+        headers: [{ key: "Content-Type", value: "application/json" }],
+      },
       {
         source: "/:path*",
         headers: [

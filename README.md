@@ -50,6 +50,8 @@ yarn dev           # http://localhost:3000
 | `/sources`                                             | recommandations officielles par pilier                                                      |
 | `/confidentialite` (`#suppression`), `/cgu`            | règles de confidentialité, suppression de compte (lien des stores), CGU et mentions légales |
 | `/app`                                                 | cible du QR : redirige vers le store de l'appareil                                          |
+| `/invitation`                                          | relais de l’email d’invitation de l’app (hors sitemap, `noindex`)                           |
+| `/.well-known/*`                                       | liens universels de l’app, générés au build (`src/lib/liens-universels.ts`)                 |
 
 ## Choix techniques
 

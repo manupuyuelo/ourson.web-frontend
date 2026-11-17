@@ -1,0 +1,73 @@
+/* Page relais de l’invitation : même gabarit que la page introuvable (dégradé du hero, ourson centré). */
+.page {
+  min-height: 70svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 48px var(--g) 60px;
+  text-align: center;
+  background: var(--gradient-hero);
+}
+
+.ours {
+  width: 160px;
+  height: auto;
+  filter: drop-shadow(0 16px 20px rgba(42, 32, 28, 0.18));
+}
+
+.titre {
+  margin: 0;
+  max-width: 520px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 34px;
+  line-height: 1.05;
+}
+
+.texte {
+  margin: 0;
+  max-width: 460px;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+/* Une adresse longue se coupe plutôt que de déborder. */
+.adresse {
+  overflow-wrap: anywhere;
+  font-weight: 800;
+}
+
+.bouton {
+  text-decoration: none;
+  background: var(--coral);
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 16px;
+  min-height: 48px;
+  padding: 0 24px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+}
+
+.bouton:hover {
+  background: var(--coral-deep);
+  color: #fff;
+}
+
+.repli {
+  margin: 12px 0 0;
+  max-width: 460px;
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.stores {
+  width: 100%;
+}
