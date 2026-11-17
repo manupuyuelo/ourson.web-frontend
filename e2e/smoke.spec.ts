@@ -108,10 +108,14 @@ test("/invitation : le lien de l’email, sans bandeau cookies d’office", asyn
     await expect(ouvrir).toHaveAttribute("href", "ourson://compte?email=sarah%2Blou%40exemple.test");
     await expect(ouvrir).toBeInViewport();
   } else {
-    // Ordinateur : l’app n’y existe pas, aucun lien `ourson://`, renvoi vers le téléphone et le QR.
+    // Ordinateur : l’app n’y existe pas, aucun lien vers l’app, un QR du lien pour continuer sur le téléphone.
     await expect(ouvrir).toHaveCount(0);
     await expect(page.locator('a[href^="ourson:"]')).toHaveCount(0);
-    await expect(page.getByText("Scan this code with your phone.")).toBeVisible();
+    await expect(page.getByText("Continue on your phone")).toBeVisible();
+    await expect(page.getByRole("img", { name: "QR code for your invitation" })).toHaveAttribute(
+      "src",
+      /^data:image\/svg\+xml/,
+    );
   }
   // Page relais : le bandeau ne s’ouvre pas d’office, et aucun choix n’est enregistré à la place du visiteur.
   await expect(page.getByRole("button", { name: "Miam, j’accepte" })).toHaveCount(0);

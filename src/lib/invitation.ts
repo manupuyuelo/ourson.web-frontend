@@ -3,6 +3,8 @@
 // (GA4 lit l’URL sans lui). Quand l’app est installée, iOS et Android l’ouvrent directement
 // (liens universels, `liens-universels.ts`) ; la page ne s’affiche que sinon.
 
+import { SITE } from "./site";
+
 export type Langue = "fr" | "en";
 
 export type Invitation = { email: string | null; langue: Langue };
@@ -38,4 +40,22 @@ export function lireInvitation(fragment: string): Invitation {
 export function lienApp(email: string | null): string {
   if (!email) return "ourson://";
   return `ourson://compte?email=${encodeURIComponent(email)}`;
+}
+
+/**
+ * Android : un lien `intent://` ouvre l’app si elle est installée, sinon `repli` (la fiche Play
+ * Store), en un seul appui, sans page d’erreur. Sans repli (stores fermés), on garde `lienApp`.
+ */
+export function lienAndroid(email: string | null, repli: string): string {
+  const chemin = email ? `compte?email=${encodeURIComponent(email)}` : "";
+  return `intent://${chemin}#Intent;scheme=ourson;package=${SITE.appId};S.browser_fallback_url=${encodeURIComponent(repli)};end`;
+}
+
+/**
+ * Le lien d’invitation lui-même, pour le QR affiché sur ordinateur : scanné, il ouvre l’app sur
+ * le téléphone (lien universel), ou la page relais. Seul le domaine de prod ouvre l’app.
+ */
+export function lienInvitation(email: string | null, langue: Langue): string {
+  const adresse = email ? `email=${encodeURIComponent(email)}&` : "";
+  return `${SITE.url}/invitation#${adresse}lang=${langue}`;
 }

@@ -2,11 +2,21 @@
 import { act, cleanup, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { Appareil } from "@/lib/device";
-import { lienApp, lireInvitation } from "@/lib/invitation";
+import { lienAndroid, lienApp, lienInvitation, lireInvitation } from "@/lib/invitation";
+import { SITE } from "@/lib/site";
 import { Invitation } from "./Invitation";
 
 const appareil = vi.hoisted(() => ({ actuel: "ios" as Appareil | null }));
 vi.mock("@/lib/useAppareil", () => ({ useAppareil: () => appareil.actuel }));
+const qrcode = vi.hoisted(() => ({ urls: [] as string[] }));
+vi.mock("qrcode", () => ({
+  default: {
+    toString: async (url: string) => {
+      qrcode.urls.push(url);
+      return "<svg xmlns='http://www.w3.org/2000/svg'/>";
+    },
+  },
+}));
 
 describe("lireInvitation", () => {
   it("lit l’adresse et la langue du fragment", () => {
@@ -29,6 +39,25 @@ describe("lireInvitation", () => {
   it("lien de l’app : l’inscription préremplie, ou l’app seule", () => {
     expect(lienApp("sarah+lou@ourson.fr")).toBe("ourson://compte?email=sarah%2Blou%40ourson.fr");
     expect(lienApp(null)).toBe("ourson://");
+  });
+
+  it("Android : intent:// ouvre l’app, sinon la fiche Play Store", () => {
+    const repli = "https://play.google.com/store/apps/details?id=com.addedsugarsas.ourson";
+    expect(lienAndroid("sarah+lou@ourson.fr", repli)).toBe(
+      "intent://compte?email=sarah%2Blou%40ourson.fr#Intent;scheme=ourson;package=com.addedsugarsas.ourson;" +
+        `S.browser_fallback_url=${encodeURIComponent(repli)};end`,
+    );
+    expect(lienAndroid(null, repli)).toMatch(/^intent:\/\/#Intent;scheme=ourson;/);
+  });
+
+  it("le lien d’invitation du QR : domaine de prod, adresse et langue dans le fragment", () => {
+    expect(lienInvitation("a@b.fr", "en")).toBe("https://www.ourson.app/invitation#email=a%40b.fr&lang=en");
+    expect(lienInvitation(null, "fr")).toBe("https://www.ourson.app/invitation#lang=fr");
+  });
+
+  it("l’identifiant App Store de la bannière Safari est celui de la fiche", () => {
+    expect(SITE.appStoreUrl).toContain(`/id${SITE.appStoreId}`);
+    expect(SITE.playStoreUrl).toContain(`id=${SITE.appId}`);
   });
 });
 
@@ -85,20 +114,38 @@ describe("page /invitation", () => {
     );
   });
 
-  it("ordinateur : pas de bouton vers l’app, renvoi vers le téléphone", () => {
+  it("ordinateur : pas de bouton vers l’app, un QR du lien d’invitation", async () => {
     appareil.actuel = "desktop";
-    history.replaceState(null, "", "/invitation#email=sarah%40ourson.fr&lang=fr");
+    history.replaceState(null, "", "/invitation#email=sarah%2Blou%40ourson.fr&lang=fr");
     render(<Invitation />);
     expect(screen.queryByRole("link", { name: "Ouvrir Ourson" })).toBeNull();
-    expect(document.querySelector('a[href^="ourson:"]')).toBeNull();
-    expect(screen.getByText("sarah@ourson.fr")).toBeTruthy();
-    expect(screen.getByText(/Scannez ce code avec votre téléphone/)).toBeTruthy();
+    expect(document.querySelector('a[href^="ourson:"], a[href^="intent:"]')).toBeNull();
+    expect(screen.getByText("Continuez sur votre téléphone")).toBeTruthy();
+    expect(screen.getByText("sarah+lou@ourson.fr")).toBeTruthy();
+    const qr = await screen.findByRole("img", { name: "QR code de votre invitation" });
+    expect(qr.getAttribute("src")).toMatch(/^data:image\/svg\+xml/);
+    expect(qrcode.urls.at(-1)).toBe(
+      "https://www.ourson.app/invitation#email=sarah%2Blou%40ourson.fr&lang=fr",
+    );
   });
 
-  it("appareil pas encore détecté : bouton rendu, masqué en CSS sur ordinateur", () => {
+  it("Android, stores fermés : « Ouvrir Ourson » reste un lien ourson:// (pas de repli vers le store)", () => {
+    appareil.actuel = "android";
+    history.replaceState(null, "", "/invitation#email=sarah%40ourson.fr&lang=fr");
+    render(<Invitation />);
+    expect(screen.getByRole("link", { name: "Ouvrir Ourson" }).getAttribute("href")).toBe(
+      "ourson://compte?email=sarah%40ourson.fr",
+    );
+    expect(screen.queryByText("Continuez sur votre téléphone")).toBeNull();
+  });
+
+  it("appareil pas encore détecté : les deux versions, chacune masquable en CSS", () => {
     appareil.actuel = null;
     history.replaceState(null, "", "/invitation#lang=fr");
     render(<Invitation />);
-    expect(screen.getByRole("link", { name: "Ouvrir Ourson" }).className).toMatch(/boutonEnAttente/);
+    expect(screen.getByRole("link", { name: "Ouvrir Ourson" }).className).toMatch(/telephoneEnAttente/);
+    expect(screen.getByText("Continuez sur votre téléphone").parentElement?.className).toMatch(
+      /ordinateurEnAttente/,
+    );
   });
 });

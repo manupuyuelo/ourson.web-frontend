@@ -59,13 +59,6 @@
   color: #fff;
 }
 
-/* Avant détection de l’appareil : pas de bouton sur un pointeur fin (ordinateur). */
-@media (hover: hover) and (pointer: fine) {
-  .boutonEnAttente {
-    display: none;
-  }
-}
-
 .repli {
   margin: 12px 0 0;
   max-width: 460px;
@@ -77,4 +70,75 @@
 
 .stores {
   width: 100%;
+}
+
+/* Ordinateur : le QR du lien d’invitation, dans la carte des blocs de téléchargement. */
+.carte {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 22px 24px;
+  box-shadow: 0 12px 30px rgba(42, 32, 28, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: min(100%, 300px);
+  margin-top: 8px;
+}
+
+.carteTitre {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.code {
+  position: relative;
+  background: #fff;
+  padding: 10px;
+  border-radius: 12px;
+}
+
+.code > img:first-child,
+.qrVide {
+  display: block;
+  width: 180px;
+  height: 180px;
+}
+
+.icone {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 44px;
+  height: 44px;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  box-shadow: 0 0 0 4px #fff;
+}
+
+.consigne {
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+/* Avant détection de l’appareil (rendu statique) : version ordinateur sur un pointeur fin,
+   version téléphone sinon, comme Telecharger. */
+.ordinateurEnAttente {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .telephoneEnAttente {
+    display: none;
+  }
+
+  .ordinateurEnAttente {
+    display: flex;
+  }
 }
